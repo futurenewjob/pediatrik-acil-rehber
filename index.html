@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pediatrik Acil: İntern Klinik Karar Destek Rehberi</title>
+    
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#03045e">
+    <link rel="apple-touch-icon" href="./icons/icon-192.png">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
@@ -324,6 +329,20 @@
     - NO SVG graphics used. (Icons are Unicode)
     - Updated per clinical feedback: <15% triad, explicit arrest doses, max doses included, fluid reassessment cycle added.
 -->
-
+    
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function () {
+      navigator.serviceWorker.register("./service-worker.js")
+        .then(function () {
+          console.log("Service Worker kayıt edildi.");
+        })
+        .catch(function (error) {
+          console.log("Service Worker kayıt hatası:", error);
+        });
+    });
+  }
+</script>
+    
 </body>
 </html>
