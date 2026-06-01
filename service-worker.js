@@ -1,4 +1,4 @@
-const CACHE_NAME = "pediatrik-acil-rehber-v1";
+const CACHE_NAME = "pediatrik-acil-rehber-v2";
 
 const APP_ASSETS = [
   "./",
