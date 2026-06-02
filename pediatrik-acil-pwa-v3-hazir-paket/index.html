@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pediatrik Acil Klinik Rehberi</title>
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#03045e">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <style>
+    :root {
+      --navy:#03045e; --blue:#0077b6; --cyan:#00b4d8; --gold:#ffb703;
+      --bg:#f8fafc; --ink:#0f172a; --muted:#64748b; --line:#e2e8f0;
+    }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Arial, sans-serif; background:var(--bg); color:var(--ink); }
+    .hero { background: radial-gradient(circle at top right, rgba(255,183,3,.22), transparent 34%), linear-gradient(135deg, #03045e 0%, #0077b6 100%); color:white; padding:32px 18px 24px; border-bottom-left-radius:28px; border-bottom-right-radius:28px; box-shadow:0 20px 50px rgba(3,4,94,.22); }
+    .wrap { max-width:1100px; margin:0 auto; }
+    .badge { display:inline-flex; gap:8px; align-items:center; background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.22); color:white; padding:8px 11px; border-radius:999px; font-size:12px; font-weight:800; }
+    h1 { font-size:clamp(31px, 5vw, 58px); line-height:1.02; margin:18px 0 12px; letter-spacing:-.045em; }
+    .lead { max-width:760px; font-size:clamp(16px, 2vw, 21px); color:rgba(255,255,255,.88); line-height:1.55; }
+    .hero-actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:22px; }
+    .primary, .secondary { display:inline-flex; align-items:center; gap:8px; padding:13px 16px; border-radius:15px; font-weight:900; text-decoration:none; }
+    .primary { background:var(--gold); color:var(--navy); }
+    .secondary { background:rgba(255,255,255,.14); color:white; border:1px solid rgba(255,255,255,.24); }
+    .toolbar { position:sticky; top:0; z-index:10; backdrop-filter: blur(12px); background:rgba(248,250,252,.86); border-bottom:1px solid var(--line); padding:12px 14px; }
+    .toolbar-inner { max-width:1100px; margin:0 auto; display:grid; gap:10px; }
+    .search { width:100%; border:1px solid var(--line); border-radius:16px; padding:14px 15px; font-size:15px; background:white; outline:none; box-shadow:0 8px 18px rgba(15,23,42,.04); }
+    .search:focus { border-color:var(--blue); box-shadow:0 0 0 4px rgba(0,119,182,.12); }
+    .filters { display:flex; gap:8px; overflow:auto; padding-bottom:2px; }
+    .filter { border:1px solid var(--line); background:white; color:#334155; border-radius:999px; padding:9px 12px; font-weight:800; white-space:nowrap; cursor:pointer; }
+    .filter.active { background:var(--navy); border-color:var(--navy); color:white; }
+    main { max-width:1100px; margin:0 auto; padding:22px 14px 90px; }
+    .section-title { display:flex; align-items:end; justify-content:space-between; gap:16px; margin:22px 0 14px; }
+    .section-title h2 { font-size:24px; margin:0; letter-spacing:-.02em; color:var(--navy); }
+    .section-title p { margin:6px 0 0; color:var(--muted); }
+    .calculator { background:white; border:1px solid var(--line); border-radius:24px; padding:18px; box-shadow:0 16px 35px rgba(15,23,42,.06); }
+    .calc-grid { display:grid; grid-template-columns: 1fr auto auto; gap:12px; align-items:end; }
+    label { display:block; font-size:13px; color:#334155; font-weight:900; margin-bottom:7px; }
+    .weight { width:100%; padding:15px; font-size:22px; font-weight:900; border:2px solid var(--line); border-radius:16px; outline:none; }
+    .btn { border:0; border-radius:16px; padding:16px 18px; font-weight:950; cursor:pointer; }
+    .btn-calc { background:var(--navy); color:white; }
+    .btn-clear { background:#e2e8f0; color:#0f172a; }
+    .warning { display:none; margin-top:12px; color:#991b1b; background:#fee2e2; border-left:5px solid #dc2626; padding:12px; border-radius:12px; font-weight:800; }
+    .results { display:none; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:16px; }
+    .result { border:1px solid var(--line); border-radius:18px; padding:14px; background:#f8fafc; min-height:144px; }
+    .result h3 { margin:0 0 8px; color:var(--navy); font-size:14px; }
+    .result .big { font-size:25px; font-weight:950; color:var(--blue); margin:6px 0; }
+    .result p { margin:4px 0; color:#475569; font-size:12px; line-height:1.4; }
+    .cards { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+    .guide-card { background:white; border:1px solid var(--line); border-radius:24px; padding:16px; box-shadow:0 14px 30px rgba(15,23,42,.05); display:flex; flex-direction:column; min-height:260px; border-top:6px solid var(--accent); }
+    .card-top { display:flex; gap:12px; align-items:center; }
+    .card-icon { width:46px; height:46px; border-radius:16px; background:color-mix(in srgb, var(--accent) 12%, white); display:grid; place-items:center; font-size:26px; }
+    .card-kicker { margin:0; color:var(--accent); font-size:11px; font-weight:950; text-transform:uppercase; letter-spacing:.05em; }
+    .guide-card h3 { margin:2px 0 0; font-size:18px; color:#111827; line-height:1.12; letter-spacing:-.02em; }
+    .card-summary { color:#475569; line-height:1.47; font-size:13px; flex:1; }
+    .tag-row { display:flex; flex-wrap:wrap; gap:6px; margin:4px 0 14px; }
+    .tag-row span { background:#f1f5f9; color:#475569; padding:6px 8px; border-radius:999px; font-size:11px; font-weight:800; }
+    .open-link { display:flex; justify-content:space-between; align-items:center; color:white; background:var(--accent); text-decoration:none; font-weight:950; padding:12px 13px; border-radius:16px; }
+    .safety { margin-top:24px; background:#0f172a; color:white; border-radius:24px; padding:18px; line-height:1.55; }
+    .safety h2 { margin:0 0 8px; }
+    .safety p { margin:0; color:#cbd5e1; }
+    .install-note { margin-top:14px; border:1px dashed #93c5fd; background:#eff6ff; color:#1e3a8a; border-radius:18px; padding:14px; font-size:14px; line-height:1.55; }
+    .bottom-nav { position:fixed; left:50%; transform:translateX(-50%); bottom:12px; z-index:20; display:flex; gap:8px; background:rgba(255,255,255,.92); border:1px solid var(--line); border-radius:999px; padding:8px; box-shadow:0 18px 40px rgba(15,23,42,.15); backdrop-filter:blur(12px); }
+    .bottom-nav a { text-decoration:none; color:#334155; font-weight:900; font-size:12px; padding:9px 11px; border-radius:999px; }
+    .bottom-nav a.active { background:var(--navy); color:white; }
+    @media (max-width:900px) { .cards { grid-template-columns:repeat(2,1fr); } .results { grid-template-columns:repeat(2,1fr); } }
+    @media (max-width:620px) { .hero { padding-top:26px; } .calc-grid { grid-template-columns:1fr; } .cards { grid-template-columns:1fr; } .results { grid-template-columns:1fr; } .section-title { display:block; } .bottom-nav { width:calc(100% - 20px); justify-content:space-around; } .bottom-nav a { font-size:11px; padding:8px; } }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap">
+      <span class="badge">PWA v3 · 02.06.2026 · Çocuk Acil</span>
+      <h1>Pediatrik Acil Klinik Karar Destek Rehberi</h1>
+      <p class="lead">İntern hekimler ve çocuk acil ekibi için hızlı erişimli, mobil uyumlu, ana ekrana eklenebilir klinik rehber paketi.</p>
+      <div class="hero-actions">
+        <a class="primary" href="#rehberler">Rehberleri aç →</a>
+        <a class="secondary" href="#hesaplayici">Hızlı doz hesapla</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="toolbar">
+    <div class="toolbar-inner">
+      <input id="searchBox" class="search" placeholder="Rehber ara: anafilaksi, sepsis, DKA, status, travma..." aria-label="Rehber ara">
+      <div class="filters">
+<button class="filter active" data-filter="all">Tümü</button>
+<button class="filter" data-filter="resusitasyon">Resüsitasyon</button>
+<button class="filter" data-filter="solunum">Solunum</button>
+<button class="filter" data-filter="noroloji">Nöroloji</button>
+<button class="filter" data-filter="metabolik">Metabolik</button>
+<button class="filter" data-filter="toksikoloji">Toksikoloji</button>
+<button class="filter" data-filter="travma">Travma</button>
+<button class="filter" data-filter="genel">Genel</button>
+</div>
+    </div>
+  </div>
+
+  <main>
+    <section id="hesaplayici">
+      <div class="section-title">
+        <div><h2>Kilo Bazlı Hızlı Hesaplayıcı</h2><p>Epinefrin/adrenalin ve sıvı bolusu için hızlı kontrol alanı.</p></div>
+      </div>
+      <div class="calculator">
+        <div class="calc-grid">
+          <div><label for="weightInput">Çocuğun kilosu (kg)</label><input id="weightInput" class="weight" type="number" min="1" max="100" step="0.1" placeholder="Örn: 10"></div>
+          <button class="btn btn-calc" onclick="calculatePediatricDoses()">Hesapla</button>
+          <button class="btn btn-clear" onclick="clearPediatricDoses()">Temizle</button>
+        </div>
+        <div id="doseWarning" class="warning">Lütfen 1–100 kg arası geçerli bir kilo giriniz.</div>
+        <div id="doseResults" class="results">
+          <div class="result"><h3>Kardiyak arrest epinefrin IV/IO</h3><p>0.01 mg/kg · 1:10.000</p><div class="big" id="arrestMg">-</div><p id="arrestMl">-</p><p>Maksimum tek doz: 1 mg = 10 mL.</p></div>
+          <div class="result"><h3>Anafilaksi adrenalin IM</h3><p>0.01 mg/kg · 1:1.000</p><div class="big" id="anaphylaxisMg">-</div><p id="anaphylaxisMl">-</p><p>Çocuk max 0.3 mg, adolesan max 0.5 mg.</p></div>
+          <div class="result"><h3>Sıvı bolus 10 mL/kg</h3><p>İzotonik kristaloid</p><div class="big" id="fluid10">-</div><p>Bolus sonrası tekrar değerlendir.</p></div>
+          <div class="result"><h3>Sıvı bolus 20 mL/kg</h3><p>İzotonik kristaloid</p><div class="big" id="fluid20">-</div><p>DKA, kardiyojenik şok ve ağır malnütrisyonda dikkat.</p></div>
+        </div>
+        <div class="install-note"><strong>Klinik güvenlik:</strong> Hesaplayıcı eğitim/hızlı kontrol amaçlıdır. Gerçek uygulamada ilaç konsantrasyonu, hasta yaşı, klinik durum, kurum protokolü ve kıdemli hekim kararı doğrulanmalıdır.</div>
+      </div>
+    </section>
+
+    <section id="rehberler">
+      <div class="section-title">
+        <div><h2>Rehberler</h2><p>Yüklenen HTML dosyaları ayrı modüller olarak eklendi ve ana menüden erişilebilir hale getirildi.</p></div>
+      </div>
+      <div id="cards" class="cards">
+        
+      <article class="guide-card" data-title="İntern Klinik Karar Destek Hava yolu, epinefrin/adrenalin ayrımı, invajinasyon, şok ve ateşli çocuk risk yaklaşımı. Üst hava yolu obstrüksiyonu Adrenalin doz ayrımı Ateşli çocuk kırmızı bayrakları" data-category="genel" style="--accent:#03045e">
+        <div class="card-top">
+          <div class="card-icon">🩺</div>
+          <div>
+            <p class="card-kicker">Genel</p>
+            <h3>İntern Klinik Karar Destek</h3>
+          </div>
+        </div>
+        <p class="card-summary">Hava yolu, epinefrin/adrenalin ayrımı, invajinasyon, şok ve ateşli çocuk risk yaklaşımı.</p>
+        <div class="tag-row"><span>Üst hava yolu obstrüksiyonu</span><span>Adrenalin doz ayrımı</span><span>Ateşli çocuk kırmızı bayrakları</span></div>
+        <a class="open-link" href="./pages/intern-klinik-karar.html">Rehberi aç <span>→</span></a>
+      </article>
+
+      <article class="guide-card" data-title="Anafilaksi Yönetimi Anafilaksinin tanı kriterleri, IM epinefrin ve akut stabilizasyon akışı. Klinik tanı IM epinefrin Tekrarlayan doz ve gözlem" data-category="resusitasyon" style="--accent:#dc2626">
+        <div class="card-top">
+          <div class="card-icon">💉</div>
+          <div>
+            <p class="card-kicker">Resusitasyon</p>
+            <h3>Anafilaksi Yönetimi</h3>
+          </div>
+        </div>
+        <p class="card-summary">Anafilaksinin tanı kriterleri, IM epinefrin ve akut stabilizasyon akışı.</p>
+        <div class="tag-row"><span>Klinik tanı</span><span>IM epinefrin</span><span>Tekrarlayan doz ve gözlem</span></div>
+        <a class="open-link" href="./pages/anafilaksi.html">Rehberi aç <span>→</span></a>
+      </article>
+
+      <article class="guide-card" data-title="Pediatrik Sepsis Yönetimi Organ disfonksiyonu, golden hour, sıvı, vazopressör ve antibiyotik yaklaşımı. İlk 1 saat 10–20 mL/kg bolus Vazoaktif destek" data-category="resusitasyon" style="--accent:#7c3aed">
+        <div class="card-top">
+          <div class="card-icon">🦠</div>
+          <div>
+            <p class="card-kicker">Resusitasyon</p>
+            <h3>Pediatrik Sepsis Yönetimi</h3>
+          </div>
+        </div>
+        <p class="card-summary">Organ disfonksiyonu, golden hour, sıvı, vazopressör ve antibiyotik yaklaşımı.</p>
+        <div class="tag-row"><span>İlk 1 saat</span><span>10–20 mL/kg bolus</span><span>Vazoaktif destek</span></div>
+        <a class="open-link" href="./pages/sepsis.html">Rehberi aç <span>→</span></a>
+      </article>
+
+      <article class="guide-card" data-title="Nöbet ve Status Epileptikus İlk 0–5 dakika stabilizasyonu, benzodiazepin ve ikinci basamak antiepileptik tedavi. >5 dakika nöbet Glukoz kontrolü Benzodiazepin basamağı" data-category="noroloji" style="--accent:#0284c7">
+        <div class="card-top">
+          <div class="card-icon">🧠</div>
+          <div>
+            <p class="card-kicker">Noroloji</p>
+            <h3>Nöbet ve Status Epileptikus</h3>
+          </div>
+        </div>
+        <p class="card-summary">İlk 0–5 dakika stabilizasyonu, benzodiazepin ve ikinci basamak antiepileptik tedavi.</p>
+        <div class="tag-row"><span>>5 dakika nöbet</span><span>Glukoz kontrolü</span><span>Benzodiazepin basamağı</span></div>
+        <a class="open-link" href="./pages/status-epileptikus.html">Rehberi aç <span>→</span></a>
+      </article>
+
+      <article class="guide-card" data-title="Pediatrik Solunum Yetmezliği Hipoksemik/hiperkarbik yetmezlik, yaklaşan arrest bulguları ve nedene yönelik tedavi. Bradipne uyarısı Gaz değişimi Nedene yönelik tedavi" data-category="solunum" style="--accent:#0891b2">
+        <div class="card-top">
+          <div class="card-icon">🫁</div>
+          <div>
+            <p class="card-kicker">Solunum</p>
+            <h3>Pediatrik Solunum Yetmezliği</h3>
+          </div>
+        </div>
+        <p class="card-summary">Hipoksemik/hiperkarbik yetmezlik, yaklaşan arrest bulguları ve nedene yönelik tedavi.</p>
+        <div class="tag-row"><span>Bradipne uyarısı</span><span>Gaz değişimi</span><span>Nedene yönelik tedavi</span></div>
+        <a class="open-link" href="./pages/solunum-yetmezligi.html">Rehberi aç <span>→</span></a>
+      </article>
+
+      <article class="guide-card" data-title="Pediatrik DKA Yönetimi DKA tanı/şiddet sınıflaması, sıvı-elektrolit, insülin ve serebral ödem uyarıları. pH/HCO3 sınıflaması 10–20 mL/kg ilk sıvı Serebral ödem" data-category="metabolik" style="--accent:#0d9488">
+        <div class="card-top">
+          <div class="card-icon">💧</div>
+          <div>
+            <p class="card-kicker">Metabolik</p>
+            <h3>Pediatrik DKA Yönetimi</h3>
+          </div>
+        </div>
+        <p class="card-summary">DKA tanı/şiddet sınıflaması, sıvı-elektrolit, insülin ve serebral ödem uyarıları.</p>
+        <div class="tag-row"><span>pH/HCO3 sınıflaması</span><span>10–20 mL/kg ilk sıvı</span><span>Serebral ödem</span></div>
+        <a class="open-link" href="./pages/dka.html">Rehberi aç <span>→</span></a>
+      </article>
+
+      <article class="guide-card" data-title="Acil Toksikoloji ve Zehirlenme Toksidromlar, tek dozu öldürenler, rutin tetkik ve antidot yaklaşımı. 114 UZEM Toksidromlar Antidot yaklaşımı" data-category="toksikoloji" style="--accent:#10b981">
+        <div class="card-top">
+          <div class="card-icon">☠️</div>
+          <div>
+            <p class="card-kicker">Toksikoloji</p>
+            <h3>Acil Toksikoloji ve Zehirlenme</h3>
+          </div>
+        </div>
+        <p class="card-summary">Toksidromlar, tek dozu öldürenler, rutin tetkik ve antidot yaklaşımı.</p>
+        <div class="tag-row"><span>114 UZEM</span><span>Toksidromlar</span><span>Antidot yaklaşımı</span></div>
+        <a class="open-link" href="./pages/zehirlenme.html">Rehberi aç <span>→</span></a>
+      </article>
+
+      <article class="guide-card" data-title="Pediatrik Kafa Travması GKS sınıflaması, KİBAS/Cushing triadı, baziler kırık bulguları ve PECARN yaklaşımı. GKS sınıflaması PECARN BT kararı İstismar uyarısı" data-category="travma" style="--accent:#f97316">
+        <div class="card-top">
+          <div class="card-icon">🚑</div>
+          <div>
+            <p class="card-kicker">Travma</p>
+            <h3>Pediatrik Kafa Travması</h3>
+          </div>
+        </div>
+        <p class="card-summary">GKS sınıflaması, KİBAS/Cushing triadı, baziler kırık bulguları ve PECARN yaklaşımı.</p>
+        <div class="tag-row"><span>GKS sınıflaması</span><span>PECARN BT kararı</span><span>İstismar uyarısı</span></div>
+        <a class="open-link" href="./pages/kafa-travmasi.html">Rehberi aç <span>→</span></a>
+      </article>
+      </div>
+    </section>
+
+    <section class="safety" id="guvenlik">
+      <h2>🩺 Klinik güvenlik notu</h2>
+      <p>Bu materyal tıp öğrencileri ve çocuk acil ekibi için farkındalık ve hızlı başvuru amacıyla hazırlanmıştır. Klinik kararın yerine geçmez. Her vakada kurum protokolü, güncel rehber, ilaç konsantrasyonu, hasta özel durumu ve kıdemli hekim değerlendirmesi esas alınmalıdır.</p>
+    </section>
+  </main>
+
+  <nav class="bottom-nav" aria-label="Hızlı menü">
+    <a class="active" href="#rehberler">Rehberler</a>
+    <a href="#hesaplayici">Hesapla</a>
+    <a href="#guvenlik">Güvenlik</a>
+  </nav>
+
+<script>
+  const searchBox = document.getElementById('searchBox');
+  const cards = Array.from(document.querySelectorAll('.guide-card'));
+  const filters = Array.from(document.querySelectorAll('.filter'));
+  let activeFilter = 'all';
+
+  function applyFilters() {
+    const q = (searchBox.value || '').toLocaleLowerCase('tr-TR').trim();
+    cards.forEach(card => {
+      const text = card.dataset.title.toLocaleLowerCase('tr-TR');
+      const category = card.dataset.category;
+      const okSearch = !q || text.includes(q);
+      const okFilter = activeFilter === 'all' || category === activeFilter;
+      card.style.display = okSearch && okFilter ? 'flex' : 'none';
+    });
+  }
+  searchBox.addEventListener('input', applyFilters);
+  filters.forEach(btn => btn.addEventListener('click', () => {
+    filters.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeFilter = btn.dataset.filter;
+    applyFilters();
+  }));
+
+  function roundDose(value) { return Math.round(value * 100) / 100; }
+  function calculatePediatricDoses() {
+    const warning = document.getElementById('doseWarning');
+    const results = document.getElementById('doseResults');
+    const weight = parseFloat(document.getElementById('weightInput').value);
+    if (!weight || weight <= 0 || weight > 100) { warning.style.display='block'; results.style.display='none'; return; }
+    warning.style.display='none'; results.style.display='grid';
+    let arrestMg = Math.min(weight * 0.01, 1);
+    let arrestMl = arrestMg / 0.1;
+    let anaphylaxisMg = weight * 0.01;
+    let childMax = Math.min(anaphylaxisMg, 0.3);
+    let adolescentMax = Math.min(anaphylaxisMg, 0.5);
+    document.getElementById('arrestMg').textContent = roundDose(arrestMg) + ' mg';
+    document.getElementById('arrestMl').textContent = roundDose(arrestMl) + ' mL';
+    document.getElementById('anaphylaxisMg').textContent = roundDose(anaphylaxisMg) + ' mg';
+    document.getElementById('anaphylaxisMl').textContent = 'Çocuk: ' + roundDose(childMax) + ' mL · Adolesan: ' + roundDose(adolescentMax) + ' mL';
+    document.getElementById('fluid10').textContent = roundDose(weight*10) + ' mL';
+    document.getElementById('fluid20').textContent = roundDose(weight*20) + ' mL';
+  }
+  function clearPediatricDoses() {
+    document.getElementById('weightInput').value='';
+    document.getElementById('doseWarning').style.display='none';
+    document.getElementById('doseResults').style.display='none';
+  }
+  if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js').catch(console.log)); }
+</script>
+</body>
+</html>
