@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pediatrik Acil: İntern Klinik Karar Destek Rehberi</title>
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#03045e">
+    <link rel="apple-touch-icon" href="../icons/icon-192.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .chart-container { position: relative; width: 100%; max-width: 600px; margin-left: auto; margin-right: auto; height: 350px; max-height: 400px; }
+        .glass-card { background: rgba(255, 255, 255, 0.95); border-radius: 1rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); border: 1px solid #e2e8f0; }
+        .flow-line { width: 3px; background-color: #0077b6; margin: 0 auto; height: 20px; }
+        .warning-border { border-left: 6px solid #ef4444; }
+        .info-border { border-left: 6px solid #00b4d8; }
+    
+
+        .global-app-home {
+            position: fixed;
+            right: 14px;
+            bottom: 86px;
+            z-index: 80;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 13px;
+            border-radius: 999px;
+            background: #03045e;
+            color: #ffffff !important;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 12px;
+            box-shadow: 0 12px 26px rgba(3,4,94,0.28);
+        }
+        .global-app-home:hover { background: #0077b6; }
+        .global-version-ribbon {
+            position: fixed;
+            left: 12px;
+            bottom: 88px;
+            z-index: 80;
+            padding: 8px 10px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.92);
+            color: #334155;
+            border: 1px solid #e2e8f0;
+            font-size: 10px;
+            font-weight: 700;
+            box-shadow: 0 10px 20px rgba(15,23,42,0.08);
+        }
+
+    </style>
+</head>
+<body class="text-slate-900 leading-relaxed">
+
+<!-- 
+    CHOSEN PALETTE: Brilliant Blues & Professional Gold
+    HEX: #03045e, #0077b6, #00b4d8, #90e0ef, #ffb703
+-->
+
+<!-- 
+    NARRATIVE & STRUCTURE PLAN:
+    1. Introduction: Contextualizing the guide for clinical safety.
+    2. Airway: Upper airway obstruction management (Epiglotitis focus with KBB/Anesthesia call).
+    3. Resüsitasyon: Epinephrine doses (Cardiac Arrest vs. Anaphylaxis distinction).
+    4. GI Emergencies: Intussusception (Focus on early diagnosis and USG, debunking the late triad).
+    5. Shock: Fluid bolus algorithm with continuous reassessment (SCCM/RCH protocols).
+    6. Fever/Triage: Age-based risk (NICE/AAP 8-60 days guidelines).
+-->
+
+<!-- 
+    VISUALIZATION JUSTIFICATION:
+    - Epinephrine (Chart.js Bar): Visualizing weight-based arrest doses while text clarifies anaphylaxis limits. (NO SVG)
+    - Intussusception Triad (Chart.js Doughnut): Explicitly showing the <15% occurrence to emphasize diagnostic vigilance. (NO SVG)
+    - Fluid Resüsitasyon (CSS Flowchart): Step-by-step logic emphasizing YENİDEN DEĞERLENDİRME. (NO SVG/MERMAID)
+    - Triage (Plotly Radar): Visualizing risk factors (labeled as educational representation). (Canvas mode, NO SVG)
+-->
+
+<header class="bg-gradient-to-br from-[#03045e] to-[#0077b6] text-white py-16 px-8 shadow-2xl relative overflow-hidden">
+    <div class="max-w-6xl mx-auto relative z-10">
+        <div class="inline-block bg-[#ffb703] text-[#03045e] px-4 py-1 rounded-md text-sm font-bold mb-4 uppercase tracking-tighter">Klinik Güvenlik Güncellemesi v2.0</div>
+        <h1 class="text-4xl md:text-6xl font-extrabold mb-6">Pediatrik Acil Klinik Rehberi</h1>
+        <p class="text-xl md:text-2xl max-w-3xl opacity-90 leading-snug">İntern Hekimler İçin Güncel Kanıta Dayalı (RCH, AHA, NICE, AAP) Acil Yönetim Prensipleri</p>
+    </div>
+</header>
+
+<main class="max-w-6xl mx-auto px-6 py-12 space-y-20">
+
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+        <div class="space-y-6">
+            <h2 class="text-3xl font-bold text-[#03045e] flex items-center">
+                <span class="mr-3 text-4xl">🫁</span> Hava Yolu: Üst Hava Yolu Obstrüksiyonu
+            </h2>
+            <p class="text-lg text-slate-600">Epiglotit veya ağır üst hava yolu obstrüksiyonu şüphesinde (Tripod pozisyonu, drooling, stridor) intern hekimin önceliği hastayı stabilize etmek ve kıdemli desteği çağırmaktır.</p>
+            <div class="p-6 bg-red-50 rounded-xl warning-border">
+                <h3 class="font-bold text-red-700 mb-2">KRİTİK MÜDAHALE İLKELacil servisİ:</h3>
+                <ul class="space-y-3 text-red-900">
+                    <li class="flex items-start">👉 Çocuğu ajite etmeyin; ebeveyn kucağında, en rahat ettiği pozisyonda bırakın.</li>
+                    <li class="flex items-start">👉 Ağız içi travmatik muayene (abeslang) ve yatırarak muayene ASLA YAPILMAMALIDIR.</li>
+                    <li class="flex items-start">👉 Derhal kıdemli pediatrik acil uzmanı, anestezi ve KBB desteği isteyin.</li>
+                    <li class="flex items-start">👉 Hava yolu güvenliği sağlanmadan radyolojik veya laboratuvar tetkik öncelik değildir.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="glass-card p-8">
+            <h3 class="text-xl font-bold text-[#0077b6] mb-4">Ayırıcı Tanıda Unutma!</h3>
+            <div class="space-y-4 text-sm">
+                <div class="flex justify-between border-b pb-2"><span>Krup (Laringotrakeobronşit)</span><span class="font-semibold text-[#03045e]">En Sık</span></div>
+                <div class="flex justify-between border-b pb-2"><span>Bakteriyel Trakeit</span><span class="font-semibold text-orange-600">Toksik Seyir</span></div>
+                <div class="flex justify-between border-b pb-2"><span>Yabancı Cisim Aspirasyonu</span><span class="font-semibold text-red-600">Ani Başlangıç</span></div>
+                <div class="flex justify-between border-b pb-2"><span>Anafilaksi / Termal Yanık</span><span class="font-semibold">Sistemik Bulgular</span></div>
+                <div class="flex justify-between border-b pb-2"><span>Retrofaringeal / Peritonsiller Apse</span><span class="font-semibold">Trismus/Asimetri</span></div>
+            </div>
+            <p class="mt-6 text-xs text-slate-400 italic">Kaynak: RCH Upper Airway Obstruction Guideline</p>
+        </div>
+    </section>
+
+    <section class="space-y-8">
+        <div class="text-center md:text-left info-border pl-6">
+            <h2 class="text-3xl font-bold text-[#03045e]">Adrenalin (Adrenalin): Endikasyon Bazlı Dozlama</h2>
+            <p class="mt-2 text-lg text-slate-600">Kardiyak arrest (IV/IO) ve anafilaksi (IM) dozları asla karıştırılmamalıdır.</p>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2 glass-card p-6">
+                <div class="chart-container">
+                    <canvas id="arrestChart"></canvas>
+                </div>
+                <div class="mt-6 grid grid-cols-2 gap-4 text-center">
+                    <div class="p-3 bg-blue-50 rounded-lg">
+                        <span class="block text-xs uppercase font-bold text-blue-600">Tek Sefer En yüksek doz</span>
+                        <span class="text-2xl font-black text-[#03045e]">1 mg</span>
+                    </div>
+                    <div class="p-3 bg-blue-50 rounded-lg">
+                        <span class="block text-xs uppercase font-bold text-blue-600">Tekrar Süresi</span>
+                        <span class="text-2xl font-black text-[#03045e]">3-5 dk</span>
+                    </div>
+                </div>
+            </div>
+            <div class="space-y-4">
+                <div class="p-6 bg-[#03045e] text-white rounded-2xl shadow-lg">
+                    <h4 class="font-bold text-[#ffb703] border-b border-white/20 pb-2 mb-3">KARDİYAK ARREST (AHA PALS)</h4>
+                    <p class="text-sm opacity-90 mb-2">IV/IO Yol: 0.01 mg/kg</p>
+                    <p class="font-mono text-xs bg-white/10 p-2 rounded">1:10.000 (0.1 mg/mL) solüsyondan 0.1 mL/kg</p>
+                    <p class="text-[10px] mt-2 italic opacity-70">*IV/IO yol yoksa endotrakeal doz: 0.1 mg/kg (1 mg/mL solüsyon ile).</p>
+                </div>
+                <div class="p-6 bg-white border-2 border-[#0077b6] rounded-2xl">
+                    <h4 class="font-bold text-[#0077b6] border-b pb-2 mb-3">ANAFİLAKSİ (IM)</h4>
+                    <p class="text-sm text-slate-700 mb-2">Uyluk Anterolateral (IM): 0.01 mg/kg</p>
+                    <p class="font-mono text-xs bg-slate-100 p-2 rounded text-[#03045e]">1:1.000 (1 mg/mL) solüsyondan 0.01 mL/kg</p>
+                    <p class="text-[10px] mt-2 font-bold text-red-600">En yüksek doz Doz: Çocuk 0.3 mg / Adolesan 0.5 mg</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div class="order-2 md:order-1 glass-card p-8">
+            <div class="chart-container">
+                <canvas id="triadChart"></canvas>
+            </div>
+            <p class="mt-6 text-sm text-center font-semibold text-red-600 uppercase tracking-widest">Klinik Uyarı: Triadı Beklemeyin!</p>
+            <p class="mt-2 text-xs text-slate-500 text-center">İnvajinasyonda klasik triad (Ağrı + Kitle + Jöle Dışkı) vakaların %15'inden azında görülür. Kırmızı jöle dışkı geç bir bulgudur.</p>
+        </div>
+        <div class="order-1 md:order-2 space-y-6">
+            <h2 class="text-3xl font-bold text-[#03045e]">İnvajinasyon (İntususepsiyon)</h2>
+            <p class="text-lg text-slate-700 leading-relaxed">Tanı için klasik triadı beklemek vakayı cerrahi komplikasyonlara açık bırakır. 6 ay - 3 yaş arası açıklanamayan letarji bile invajinasyon habercisi olabilir.</p>
+            <ul class="space-y-4">
+                <li class="flex items-start bg-white p-4 rounded-lg shadow-sm border-l-4 border-[#00b4d8]">
+                    <div>
+                        <span class="font-bold text-[#03045e] block">Erken Şüphe:</span>
+                        <span class="text-sm">Epizodik solukluk, açıklanamayan letarji, beslenememe veya aralıklı kusma.</span>
+                    </div>
+                </li>
+                <li class="flex items-start bg-white p-4 rounded-lg shadow-sm border-l-4 border-[#00b4d8]">
+                    <div>
+                        <span class="font-bold text-[#03045e] block">Görüntüleme:</span>
+                        <span class="text-sm">İlk tercih her zaman abdominal ultrasonografidir (Hedef belirtisi/Doughnut sign).</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="bg-[#03045e] text-white p-12 rounded-3xl shadow-2xl">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-[#ffb703]">Hipovolemik Şok ve Sıvı Resüsitasyonu</h2>
+            <p class="mt-2 text-slate-300">Bolus sonrası mutlaka yeniden değerlendirme yapılmalıdır (SCCM/RCH).</p>
+        </div>
+        <div class="flex flex-col items-center space-y-4 max-w-3xl mx-auto">
+            <div class="w-full p-5 bg-white/10 backdrop-blur rounded-xl border border-white/20 text-center">
+                <span class="font-bold text-[#90e0ef]">BAŞLANGIÇ:</span> Şok bulgusu (KTA ↑, Bilinç ↓, Perfüzyon Bozuk)
+            </div>
+            <div class="flow-line !bg-[#ffb703]"></div>
+            <div class="w-full p-5 bg-[#0077b6] rounded-xl text-center font-bold">
+                10 - 20 mL/kg İzotonik Kristaloid Bolus (Hızlı)
+            </div>
+            <div class="flow-line !bg-[#ffb703]"></div>
+            <div class="w-full p-6 bg-white text-[#03045e] rounded-xl text-center font-bold shadow-inner">
+                <span class="text-xs uppercase block text-blue-600 mb-2">DÖNGÜ: YENİDEN DEĞERLENDİRME</span>
+                KTA, KB, Kapiller Dolum, Bilinç, Solunum İş yükü, Hepatomegali ve Raller
+            </div>
+            <div class="flow-line !bg-[#ffb703]"></div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+                <div class="p-4 bg-orange-600/20 border border-orange-500 rounded-xl text-xs">
+                    <span class="font-bold block mb-1">≥ 20 mL/kg Sıvı:</span> Kıdemli hekim değerlendirmesi şart.
+                </div>
+                <div class="p-4 bg-red-600/20 border border-red-500 rounded-xl text-xs">
+                    <span class="font-bold block mb-1">≥ 40 mL/kg ve Yanıtsızlık:</span> Sepsis, Kardiyojenik Şok veya Kanama? İnotrop/Vazopressör gereksinimi?
+                </div>
+            </div>
+        </div>
+        <p class="mt-8 text-center text-xs opacity-60">*Not: Kardiyojenik şok, DKA ve ağır malnütrisyonda sıvı bolusu çok daha kısıtlı ve yavaş yapılmalıdır.</p>
+    </section>
+
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+        <div class="space-y-6">
+            <h2 class="text-3xl font-bold text-[#03045e]">Ateşli Çocuk: Risk Stratifikasyonu</h2>
+            <p class="text-lg text-slate-600">Ateşin derecesinden ziyade çocuğun genel görünümü ve yaşı kritiktir.</p>
+            <div class="space-y-4">
+                <div class="p-4 bg-red-100 rounded-lg text-sm border-l-4 border-red-600">
+                    <span class="font-bold text-red-800">YÜKSEK RİSK (Kırmızı Bayrak):</span> < 3 Ay ve ≥ 38°C ateş, toksik görünüm, peteşiyal döküntü, meningeal bulgular, inilti.
+                </div>
+                <div class="p-4 bg-blue-100 rounded-lg text-sm border-l-4 border-blue-600">
+                    <span class="font-bold text-blue-800">AAP 8-60 GÜN REHBERİ:</span> İyi görünen term bebeklerde; 8-21 gün, 22-28 gün ve 29-60 gün algoritmaları izlenmelidir.
+                </div>
+            </div>
+            <p class="text-xs text-slate-400 italic">Kaynak: NICE Fever Under 5 (NG143) & AAP Febrile Infant Guidelines</p>
+        </div>
+        <div class="glass-card p-6">
+            <div id="triageRadarChart" class="w-full h-[400px]"></div>
+            <p class="mt-2 text-[10px] text-center text-slate-500 italic uppercase">Bu grafik istatistiksel skor değildir; risk faktörlerini temsil eden eğitim materyalidir.</p>
+        </div>
+    </section>
+
+</main>
+
+<footer class="bg-[#03045e] text-white py-16 px-8 text-center">
+    <div class="max-w-4xl mx-auto space-y-6">
+        <p class="text-2xl font-bold">🩺 Klinik Güvenlik Notu</p>
+        <p class="opacity-75">Bu materyal tıp öğrencileri (intern hekimler) için farkındalık amaçlı hazırlanmıştır. Klinik uygulamada daima kurumunuzun güncel protokollerini, kıdemli hekim tavsiyelerini ve hastaya özel durumları esas alınız.</p>
+        <div class="pt-8 border-t border-white/10 text-xs opacity-50">
+            &copy; 2024 Pediatrik Acil Eğitim SPA | AHA PALS & RCH Guidelines baz alınmıştır.
+        </div>
+    </div>
+</footer>
+
+<script>
+    function wrapLabel(label) {
+        if (typeof label !== 'string') return label;
+        if (label.length <= 16) return label;
+        const words = label.split(' ');
+        const lines = [];
+        let currentLine = '';
+        words.forEach(word => {
+            if ((currentLine + word).length > 16) {
+                lines.yavaş/kontrollü uygulama(currentLine.trim());
+                currentLine = word + ' ';
+            } else {
+                currentLine += word + ' ';
+            }
+        });
+        lines.yavaş/kontrollü uygulama(currentLine.trim());
+        return lines;
+    }
+
+    const tooltipConfig = {
+        callbacks: {
+            title: function(tooltipItems) {
+                const item = tooltipItems[0];
+                let label = item.chart.data.labels[item.dataIndex];
+                return Array.isArray(label) ? label.join(' ') : label;
+            }
+        }
+    };
+
+    const arrestCtx = document.getElementById('arrestChart').getContext('2d');
+    new Chart(arrestCtx, {
+        type: 'bar',
+        data: {
+            labels: ['5 kg', '10 kg', '20 kg', '30 kg', '50 kg+ (En yüksek doz)'].map(wrapLabel),
+            datasets: [{
+                label: 'Arrest Dozu (mL - 1:10.000)',
+                data: [0.5, 1.0, 2.0, 3.0, 10.0],
+                backgroundColor: '#0077b6',
+                borderRadius: 5
+            }]
+        },
+        options: {
+            maintainAspectRatio: false,
+            responsive: true,
+            plugins: {
+                legend: { display: false },
+                tooltip: tooltipConfig,
+                title: { display: true, text: 'Kardiyak Arrest IV/IO Adrenalin Dozu', color: '#03045e' }
+            },
+            scales: {
+                y: { beginAtZero: true, title: { display: true, text: 'mL (0.1 mg/mL solüsyon)' } }
+            }
+        }
+    });
+
+    const triadCtx = document.getElementById('triadChart').getContext('2d');
+    new Chart(triadCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Triad Mevcut (<15%)', 'Eksik Triad/Atipik (>85%)'].map(wrapLabel),
+            datasets: [{
+                data: [14, 86],
+                backgroundColor: ['#ef4444', '#e2e8f0'],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            maintainAspectRatio: false,
+            responsive: true,
+            plugins: {
+                tooltip: tooltipConfig,
+                legend: { position: 'bottom' },
+                title: { display: true, text: 'İnvajinasyonda Klasik Triad Görülme Sıklığı', color: '#03045e' }
+            },
+            cutout: '80%'
+        }
+    });
+
+    const triageData = [
+        {
+            type: 'scatterpolar',
+            r: [9, 9, 8, 9, 7, 9],
+            theta: ['Genel Görünüm', 'Solunum İş Yükü', 'Bilinç/Mental', 'Perfüzyon', 'Beslenme/İdrar', 'Genel Görünüm'],
+            fill: 'toself',
+            name: 'Toksik/Yüksek Risk',
+            line: { color: '#ef4444', width: 3 }
+        },
+        {
+            type: 'scatterpolar',
+            r: [2, 1, 2, 2, 2, 2],
+            theta: ['Genel Görünüm', 'Solunum İş Yükü', 'Bilinç/Mental', 'Perfüzyon', 'Beslenme/İdrar', 'Genel Görünüm'],
+            fill: 'toself',
+            name: 'Stabil/Düşük Risk',
+            line: { color: '#0077b6', width: 3 }
+        }
+    ];
+
+    const triageLayout = {
+        polar: { radialaxis: { visible: true, range: [0, 10] } },
+        showlegend: true,
+        margin: { l: 30, r: 30, t: 30, b: 30 },
+        paper_bgcolor: 'rgba(0,0,0,0)',
+        plot_bgcolor: 'rgba(0,0,0,0)'
+    };
+
+    Plotly.newPlot('triageRadarChart', triageData, triageLayout, {responsive: true, displayModeBar: false});
+</script>
+
+<!-- 
+    CONFIRMATION:
+    - NO Mermaid JS used.
+    - NO SVG graphics used. (Icons are Unicode)
+    - Updated per clinical feedback: <15% triad, explicit arrest doses, max doses included, fluid reassessment cycle added.
+-->
+
+
+
+<a class="global-app-home" href="../index.html" aria-label="Ana menüye dön">⌂ Ana Menü</a>
+<div class="global-version-ribbon">PWA v3 · 02.06.2026</div>
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function () {
+      navigator.serviceWorker.register("../service-worker.js").catch(function(error){
+        console.log("Service Worker kayıt hatası:", error);
+      });
+    });
+  }
+</script>
+
+</body>
+</html>

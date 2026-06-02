@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StatusRehber - Acil Nöbet Yönetimi</title>
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#03045e">
+    <link rel="apple-touch-icon" href="../icons/icon-192.png">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts (Inter) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome İkonları -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        neuroPrimary: '#0284C7', /* Nöroloji için Mavi-Gri tonları */
+                        neuroDark: '#0F172A',
+                        neuroAlert: '#E11D48',
+                        neuroBg: '#F0F9FF',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #F0F9FF; color: #0F172A; }
+        .glass-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(2, 132, 199, 0.2);
+        }
+        .fade-in { animation: fadeIn 0.25s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .timer-pulse {
+            animation: pulse-red 2s infinite;
+        }
+        @keyframes pulse-red {
+            0% { box-shadow: 0 0 0 0 rgba(225, 29, 72, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(225, 29, 72, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(225, 29, 72, 0); }
+        }
+        /* Özel Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #7DD3FC; border-radius: 10px; }
+    
+
+        .global-app-home {
+            position: fixed;
+            right: 14px;
+            bottom: 86px;
+            z-index: 80;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 13px;
+            border-radius: 999px;
+            background: #03045e;
+            color: #ffffff !important;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 12px;
+            box-shadow: 0 12px 26px rgba(3,4,94,0.28);
+        }
+        .global-app-home:hover { background: #0077b6; }
+        .global-version-ribbon {
+            position: fixed;
+            left: 12px;
+            bottom: 88px;
+            z-index: 80;
+            padding: 8px 10px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.92);
+            color: #334155;
+            border: 1px solid #e2e8f0;
+            font-size: 10px;
+            font-weight: 700;
+            box-shadow: 0 10px 20px rgba(15,23,42,0.08);
+        }
+
+    </style>
+</head>
+<body class="antialiased font-sans pb-24 text-[15px]">
+
+    <header class="fixed top-0 w-full z-50 glass-header">
+        <div class="max-w-lg mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-lg bg-neuroPrimary flex items-center justify-center text-white shadow-sm">
+                    <i class="fa-solid fa-brain"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight text-neuroDark tracking-tight">Status<span class="text-neuroPrimary">Rehber</span></h1>
+                    <p class="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Pediatrik Acil Algoritması</p>
+                </div>
+            </div>
+            <!-- Status Epileptikus Süre Uyarısı -->
+            <div class="bg-red-50 text-red-700 px-3 py-1.5 rounded-md text-xs font-bold border border-red-200 timer-pulse flex items-center gap-1">
+                <i class="fa-solid fa-stopwatch"></i> >5 Dk
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-lg mx-auto pt-20 px-4">
+
+        <!-- GÖRÜNÜM 1: İLK DEĞERLENDİRME VE STABİLİZASYON -->
+        <section id="tani-view" class="fade-in space-y-4">
+            
+            <div class="bg-indigo-50 border-l-4 border-neuroPrimary p-3 rounded-r-lg shadow-sm">
+                <h3 class="text-indigo-900 font-bold text-sm mb-1">
+                    <i class="fa-solid fa-bolt text-neuroPrimary mr-1"></i> Status Epileptikus Tanımı
+                </h3>
+                <p class="text-indigo-800 text-xs">
+                    <strong>>5 dakika</strong> süren sürekli nöbet aktivitesi VEYA nöbetler arasında bilincin tam olarak açılmadığı <strong>>30 dakika</strong> süren tekrarlayan nöbetler.
+                </p>
+            </div>
+
+            <h2 class="font-bold text-lg text-neuroDark border-b border-gray-200 pb-2 mt-4">İlk Değerlendirme (İlk 0-5 Dk)</h2>
+            
+            <div class="space-y-3">
+                <!-- CAB ve Oksijen -->
+                <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-200 border-l-4 border-l-blue-500">
+                    <div class="flex items-center gap-2 mb-1">
+                        <i class="fa-solid fa-lungs text-blue-500"></i>
+                        <h3 class="font-bold text-sm text-neuroDark">Hava Yolu ve Oksijenasyon</h3>
+                    </div>
+                    <ul class="list-disc pl-5 text-xs text-gray-600 space-y-1">
+                        <li>Hava yolunu açın, aspirasyon hazırlığı yapın.</li>
+                        <li>Gerekirse <strong>%100 Oksijen</strong> desteği (maske/balon-valf).</li>
+                        <li>Sürekli SpO2 ve kardiyak monitörizasyon bağlayın.</li>
+                    </ul>
+                </div>
+
+                <!-- Metabolik Kontrol (Kan Şekeri) -->
+                <div class="bg-red-50 p-3 rounded-xl shadow-sm border border-red-100 border-l-4 border-l-red-500">
+                    <div class="flex justify-between items-center mb-1">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-vial text-red-500"></i>
+                            <h3 class="font-bold text-sm text-neuroDark">Acil Metabolik Kontrol</h3>
+                        </div>
+                        <span class="text-[10px] font-bold bg-red-100 text-red-600 px-1.5 py-0.5 rounded">KRİTİK</span>
+                    </div>
+                    <p class="text-xs text-gray-700 font-medium mb-1">Kan şekerine (Glukometri) <strong>anında</strong> bakın.</p>
+                    <p class="text-[11px] text-gray-500 italic">Hipoglisemi, hiponatremi veya hipokalsemi varsa benzodiazepin veya antiepileptik ilaçlar işe yaramaz. Altta yatan nedeni hemen tedavi edin.</p>
+                </div>
+            </div>
+
+            <button onclick="showView('benzodiazepin-view')" class="w-full bg-neuroPrimary text-white py-3.5 rounded-xl font-bold shadow-md hover:bg-blue-700 transition flex items-center justify-center gap-2 mt-4">
+                1. Basamak Tedaviye (Benzo) Geç <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </section>
+
+        <!-- GÖRÜNÜM 2: 1. BASAMAK TEDAVİ (Benzodiazepinler) -->
+        <section id="benzodiazepin-view" class="fade-in hidden space-y-4">
+            <div class="flex justify-between items-end border-b border-gray-200 pb-2">
+                <div>
+                    <h2 class="font-bold text-lg text-neuroDark">1. Basamak: Benzodiazepinler</h2>
+                    <p class="text-[11px] text-gray-500">Nöbet >5 dk sürüyorsa hemen başla. Gecikme mortaliteyi artırır.</p>
+                </div>
+            </div>
+
+            <div class="space-y-4 mt-2">
+                <!-- Midazolam / Diazepam benzodiazepin yaklaşımı -->
+                <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm relative overflow-hidden border-l-4 border-l-neuroPrimary">
+                    <div class="flex justify-between items-start mb-2">
+                        <h4 class="font-bold text-neuroDark text-sm">Midazolam veya Diazepam</h4>
+                        <span class="text-[10px] bg-blue-50 text-blue-600 px-2 py-1 rounded font-bold border border-blue-100">İlk basamak</span>
+                    </div>
+                    <div class="bg-blue-50 p-2 rounded border border-blue-100 mb-2 text-[11px] text-blue-900">
+                        <strong>Önemli:</strong> Gereksiz tekrar benzodiazepin dozlarından kaçının; hava yolu, solunum ve dolaşım monitörizasyonunu sürdürün.
+                    </div>
+                    <ul class="text-[11px] text-gray-700 space-y-1 list-disc pl-4">
+                        <li><strong>Midazolam:</strong> damar içi/kemik içi 0.1 mg/kg veya kas içi/intranazal/bukkal 0.2 mg/kg.</li>
+                        <li><strong>Diazepam:</strong> damar içi 0.2–0.3 mg/kg veya rektal 0.5 mg/kg.</li>
+                        <li>Aynı basamakta gereksiz tekrar dozlardan kaçının; solunum depresyonu açısından monitörizasyon yapın.</li>
+                        <li>Nöbet sürüyorsa zaman kaybetmeden ikinci basamak antiepileptik tedaviye geçin.</li>
+                    </ul>
+                </div>
+
+                <!-- Midazolam -->
+                <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm border-l-4 border-l-purple-500">
+                    <div class="flex justify-between items-start mb-2">
+                        <h4 class="font-bold text-neuroDark text-sm">Midazolam (Damar Yolu Yoksa)</h4>
+                        <span class="text-[10px] bg-purple-50 text-purple-600 px-2 py-1 rounded font-bold border border-purple-100">IM / IN / Bukkal / IV</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 text-[11px] text-gray-700 font-mono mb-2">
+                        <div class="bg-gray-50 p-1.5 rounded border border-gray-100"><span class="font-sans font-semibold">IM/IN (İğne):</span> 0.2 mg/kg <span class="block text-[9px] text-gray-400 font-sans mt-0.5">(En yüksek doz: 10mg)</span></div>
+                        <div class="bg-gray-50 p-1.5 rounded border border-gray-100"><span class="font-sans font-semibold">IV:</span> 0.2 mg/kg</div>
+                    </div>
+                    <p class="text-[11px] text-gray-600 border-t border-gray-100 pt-2">
+                        <strong>Klinik İnci:</strong> Çok hızlı etki eder ancak yarı ömrü kısadır, nöbet tekrarlama riski yüksektir. İntranazal (IN) kullanımda dozu iki burun deliğine paylaştırın (atomizer ile).
+                    </p>
+                </div>
+
+                <!-- Diazepam (Rektal) -->
+                <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm border-l-4 border-l-yellow-500">
+                    <div class="flex justify-between items-center mb-1">
+                        <h4 class="font-bold text-neuroDark text-sm">Diazepam</h4>
+                        <span class="text-[10px] bg-yellow-50 text-yellow-700 px-2 py-0.5 rounded font-bold border border-yellow-200">PR (Rektal) / IV</span>
+                    </div>
+                    <p class="text-[11px] text-gray-600 mb-1">Rektal Jel (Damar yolu açılamayan ve Midazolam olmayan durumda):</p>
+                    <ul class="text-[11px] font-mono text-gray-800 list-none space-y-0.5">
+                        <li>• 2-5 Yaş: <span class="font-bold">0.5 mg/kg</span></li>
+                        <li>• 6-11 Yaş: <span class="font-bold">0.3 mg/kg</span> (En yüksek doz: 20mg)</li>
+                        <li>• ≥12 Yaş: <span class="font-bold">0.2 mg/kg</span> (En yüksek doz: 20mg)</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <button onclick="showView('antiepileptik-view')" class="w-full bg-gray-100 text-gray-700 py-3 rounded-xl font-bold border border-gray-300 hover:bg-gray-200 transition mt-4">
+                Nöbet Durmazsa: 2. Basamağa Geç
+            </button>
+        </section>
+
+        <!-- GÖRÜNÜM 3: 2. BASAMAK (Antiepileptik İlaçlar) -->
+        <section id="antiepileptik-view" class="fade-in hidden space-y-4">
+            <div class="border-b border-gray-200 pb-2">
+                <h2 class="font-bold text-lg text-neuroDark text-red-600">2. Basamak: Antiepileptikler</h2>
+                <p class="text-[11px] text-gray-600">Benzodiazepinlere rağmen nöbet devam ediyorsa yükleme dozu (Loading Dose) verin.</p>
+            </div>
+
+            <div class="space-y-3">
+                <!-- Levetirasetam -->
+                <div class="bg-green-50 p-4 rounded-xl border border-green-200 shadow-sm relative overflow-hidden">
+                    <div class="absolute right-0 top-0 text-3xl opacity-10 m-2"><i class="fa-solid fa-star"></i></div>
+                    <h4 class="font-bold text-green-900 text-sm mb-1">Levetirasetam (Keppra) - TERCİH EDİLEN</h4>
+                    <p class="text-[11px] text-green-800 mb-2">Sedasyon yapmaz, uygulanması kolay ve hızlıdır.</p>
+                    
+                    <div class="bg-white p-2 rounded flex justify-between items-center border border-green-100">
+                        <span class="text-xs font-semibold text-gray-700">IV Yükleme:</span>
+                        <span class="text-sm font-mono font-bold text-green-700">20 - 60 mg/kg/doz</span>
+                    </div>
+                    <p class="text-[10px] text-gray-500 mt-1">Maksimum: 4,500 mg. Tek doz 60mg/kg verilebilir veya 20mg/kg ile başlanıp nöbet kontrolüne göre (En yüksek doz 60'a kadar) tekrarlanabilir.</p>
+                </div>
+
+                <!-- Fosphenytoin / Phenytoin -->
+                <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm border-l-4 border-l-orange-500">
+                    <h4 class="font-bold text-neuroDark text-sm mb-1">Fosfenitoin (Fosphenytoin)</h4>
+                    <p class="text-[11px] text-gray-600 mb-1">Kardiyak toksisite ve doku hasarı riski (Fenitoin'e göre) daha düşüktür.</p>
+                    <div class="bg-gray-50 p-1.5 rounded inline-block border border-gray-100 mb-1">
+                        <span class="text-xs font-mono font-bold text-orange-600">IV Yükleme: 15-20 mg PE/kg</span> <span class="text-[10px] text-gray-400">(En yüksek doz: 1500mg PE)</span>
+                    </div>
+                    <p class="text-[10px] text-red-500 font-bold"><i class="fa-solid fa-triangle-exclamation"></i> Toksin kaynaklı nöbetlerde Fenitoin/Fosfenitoin KULLANMAYIN.</p>
+                </div>
+
+                <!-- Valproik Asit -->
+                <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm">
+                    <h4 class="font-bold text-neuroDark text-sm mb-1">Valproik Asit</h4>
+                    <div class="bg-gray-50 p-1.5 rounded flex justify-between items-center border border-gray-100">
+                        <span class="text-xs font-semibold text-gray-700">IV Yükleme:</span>
+                        <span class="text-sm font-mono font-bold text-gray-800">40 mg/kg (Tek Doz)</span>
+                    </div>
+                    <p class="text-[10px] text-gray-400 mt-1 text-right">Maksimum: 3,000 mg</p>
+                </div>
+
+                <!-- Fenobarbital -->
+                <div class="bg-rose-50 p-3 rounded-xl border border-rose-200 shadow-sm">
+                    <h4 class="font-bold text-rose-900 text-sm mb-1">Fenobarbital (Phenobarbital)</h4>
+                    <p class="text-[11px] text-gray-800 font-mono font-bold">IV Yükleme: 10 - 20 mg/kg <span class="font-sans font-normal text-[10px] text-gray-500">(En yüksek doz 1000mg)</span></p>
+                    <p class="text-[10px] text-red-600 mt-1 leading-tight">
+                        <strong>DİKKAT:</strong> Benzodiazepin almış hastaya Fenobarbital verirken <strong>solunum depresyonu ve apne</strong> riski çok yüksektir. Çok yakın monitörizasyon şarttır.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="bg-gray-800 text-white p-3 rounded-xl shadow-sm text-xs mt-3">
+                <span class="font-bold text-red-400">3. Basamak / Refrakter Statüs (Yoğun bakım):</span>
+                <p class="text-gray-300 mt-1">Sürekli EEG eşliğinde; önceden kullanılan ilacın <strong>farklı bir mekanizmasına</strong> sahip (GABA agonisti vs NMDA antagonisti) ajan seçin (örn: Pentobarbital inf., Ketamin, Midazolam inf.).</p>
+            </div>
+        </section>
+        
+        <!-- GÖRÜNÜM 4: ÖZEL DURUMLAR VE YATIŞ -->
+        <section id="karar-view" class="fade-in hidden space-y-4">
+            <h2 class="font-bold text-lg text-neuroDark border-b border-gray-200 pb-2">Özellikli Durumlar & Yatış / taburculuk kararı</h2>
+
+            <!-- Toksin ve Yenidoğan -->
+            <div class="grid grid-cols-1 gap-3">
+                <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm border-l-4 border-l-teal-500">
+                    <h3 class="font-bold text-sm text-neuroDark mb-1">Toksin İndüklü Nöbetler</h3>
+                    <p class="text-[11px] text-gray-600 mb-1">İzoniazid (INH) veya diğer hidrazin zehirlenmelerinde Antidoti:</p>
+                    <p class="text-xs font-mono font-bold text-teal-700">Piridoksin (B6 Vitamini): IV 70 mg/kg <span class="font-sans font-normal text-[10px] text-gray-400">(En yüksek doz 5g)</span></p>
+                </div>
+                
+                <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm border-l-4 border-l-pink-500">
+                    <h3 class="font-bold text-sm text-neuroDark mb-1">İnfantlarda (Bebeklerde)</h3>
+                    <p class="text-[11px] text-gray-600">Piridoksin bağımlı nöbet şüphesi varsa (klasik ilaçlara dirençli):</p>
+                    <p class="text-xs font-mono font-bold text-pink-700">Piridoksin: IV 100 mg (Düşünülmeli)</p>
+                </div>
+            </div>
+
+            <!-- Yatış Kriterleri -->
+            <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wider mt-4">Servis veya Yoğun bakım Yatışı</h3>
+            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+                <ul class="text-[12px] text-gray-700 space-y-2">
+                    <li class="flex gap-2 items-start"><i class="fa-solid fa-xmark text-red-500 mt-0.5"></i> Nörolojik defisitin devam etmesi (Örn: Geçmeyen Todd paralizisi).</li>
+                    <li class="flex gap-2 items-start"><i class="fa-solid fa-xmark text-red-500 mt-0.5"></i> Bazal (normal) mental statüye dönülememesi.</li>
+                    <li class="flex gap-2 items-start"><i class="fa-solid fa-xmark text-red-500 mt-0.5"></i> <span class="font-semibold text-neuroDark">Refrakter statüs epileptikus (Dirençli nöbet) - yoğun bakım endikasyonudur.</span></li>
+                    <li class="flex gap-2 items-start"><i class="fa-solid fa-xmark text-red-500 mt-0.5"></i> Altta yatan ciddi neden (Kafa travması, solunum yetmezliği, zehirlenme).</li>
+                </ul>
+            </div>
+            
+            <!-- Taburculuk -->
+            <div class="bg-green-50 p-3 rounded-xl border border-green-200 shadow-sm">
+                <h3 class="font-bold text-sm text-green-900 mb-1"><i class="fa-solid fa-check-circle mr-1"></i> Taburculuk Şartları</h3>
+                <p class="text-[11px] text-green-800">
+                    Nörolojik defisit olmadan tam derlenme, yatış gerektiren altta yatan bir etiyolojinin olmaması ve nöbeti tekrarlatacak aktif bir tetikleyicinin (örn. toksin) bulunmaması durumunda taburcu edilebilir.
+                </p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Alt Navigasyon (Bottom Navigation) -->
+    <nav class="fixed bottom-0 w-full glass-header z-50 pb-safe">
+        <div class="max-w-lg mx-auto px-2 sm:px-6 h-16 flex justify-between items-center text-[10px] font-bold text-gray-400 uppercase tracking-wide">
+            
+            <button onclick="showView('tani-view')" id="btn-tani-view" class="nav-btn flex flex-col items-center gap-1 w-[22%] text-neuroPrimary transition-colors">
+                <i class="fa-solid fa-stopwatch text-xl mb-0.5"></i>
+                <span class="truncate w-full text-center">0-5 Dk</span>
+            </button>
+            
+            <button onclick="showView('benzodiazepin-view')" id="btn-benzodiazepin-view" class="nav-btn flex flex-col items-center gap-1 w-[22%] transition-colors hover:text-gray-600">
+                <i class="fa-solid fa-syringe text-xl mb-0.5"></i>
+                <span class="truncate w-full text-center">1. Basamak</span>
+            </button>
+            
+            <button onclick="showView('antiepileptik-view')" id="btn-antiepileptik-view" class="nav-btn flex flex-col items-center gap-1 w-[22%] transition-colors hover:text-gray-600">
+                <i class="fa-solid fa-pills text-xl mb-0.5"></i>
+                <span class="truncate w-full text-center">2. Basamak</span>
+            </button>
+            
+            <button onclick="showView('karar-view')" id="btn-karar-view" class="nav-btn flex flex-col items-center gap-1 w-[22%] transition-colors hover:text-gray-600">
+                <i class="fa-solid fa-hospital-user text-xl mb-0.5"></i>
+                <span class="truncate w-full text-center">Karar</span>
+            </button>
+
+        </div>
+    </nav>
+
+    <script>
+        // Görünümler arası geçiş sağlayan fonksiyon
+        function showView(viewId) {
+            const views = ['tani-view', 'benzodiazepin-view', 'antiepileptik-view', 'karar-view'];
+            views.forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+            
+            const selectedView = document.getElementById(viewId);
+            selectedView.classList.remove('hidden');
+            
+            // Animasyonu tetikle
+            void selectedView.offsetWidth; 
+            
+            updateNavColors(viewId);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Alt menü durumunu güncelleyen fonksiyon
+        function updateNavColors(activeViewId) {
+            const btns = document.querySelectorAll('.nav-btn');
+            btns.forEach(btn => {
+                btn.classList.remove('text-neuroPrimary');
+                btn.classList.add('text-gray-400');
+            });
+            
+            const activeBtn = document.getElementById(`btn-${activeViewId}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('text-gray-400');
+                activeBtn.classList.add('text-neuroPrimary');
+            }
+        }
+    </script>
+
+
+<a class="global-app-home" href="../index.html" aria-label="Ana menüye dön">⌂ Ana Menü</a>
+<div class="global-version-ribbon">PWA v3 · 02.06.2026</div>
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function () {
+      navigator.serviceWorker.register("../service-worker.js").catch(function(error){
+        console.log("Service Worker kayıt hatası:", error);
+      });
+    });
+  }
+</script>
+
+</body>
+</html>

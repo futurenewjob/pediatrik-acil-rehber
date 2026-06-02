@@ -1,15 +1,15 @@
-# Pediatrik Acil PWA v7
+# Pediatrik Acil PWA v8
 
 Bu paket, GitHub Pages üzerinde çalışan Pediatrik Acil Klinik Rehberi için hazırlanmıştır.
 
-## v7 ile gelenler
+## v8 ile gelenler
 - Sınav ve Öğrenme Modülü: TUS/YDUS tarzına benzer, özgün, açıklamalı soru bankası
 - Ana menüye “Sınav ve Öğrenme Modülü” kartı eklendi
 - Kurumsal renkler güncellendi: Edirne Kırmızısı `#A91101`, Kurumsal Lacivert `#002F65`, Altın/Sarı `#FFD700`
 - Trakya Çocuk Acil logosu ana sayfa ve soru modülüne eklendi
 - İngilizce klinik yer adları Türkçeleştirildi
 - Benzodiazepin yaklaşımı sadeleştirildi; midazolam/diazepam temel seçenekler olarak düzenlendi
-- Service worker sürümü `v7` yapıldı
+- Service worker sürümü `v8` yapıldı
 
 ## Kök dizinde kalması gereken yapı
 - `index.html`
@@ -31,8 +31,8 @@ Bu paket, GitHub Pages üzerinde çalışan Pediatrik Acil Klinik Rehberi için 
 Bu materyal eğitim ve hızlı başvuru amaçlıdır. Klinik uygulamada kurum protokolü, güncel rehberler, ilaç konsantrasyonu ve kıdemli hekim değerlendirmesi esas alınmalıdır.
 
 
-## v7 ile gelenler
+## v8 ile gelenler
 - Soru modülünde yanlış cevapta doğru seçenek hemen gösterilmez.
 - Önce ipucu ve tekrar deneme verilir.
 - Kullanıcı isterse “Çözümü göster” ile doğru seçeneği ve açıklamayı açar.
-- Service worker sürümü v7 yapıldı.
+- Service worker sürümü v8 yapıldı.

@@ -13,33 +13,322 @@
   </style>
 </head>
 <body>
-<header class="hero"><div class="wrap"><div class="brand"><img src="../assets/trakya-cocuk-acil-logo.png" alt="Trakya Çocuk Acil logosu"><div><span class="badge">PWA v7 · Sınav ve Öğrenme Modülü</span><h1>TUS / YDUS Tarzı Özgün Soru Modülü</h1></div></div><p class="lead">İntern hekimler ve çocuk hekimleri için vaka temelli, açıklamalı, aktif hatırlama odaklı pediatrik acil soruları. ÖSYM soruları birebir kullanılmamıştır; soru yapısı sınav mantığına benzer şekilde özgün hazırlanmıştır.</p></div></header>
+<header class="hero"><div class="wrap"><div class="brand"><img src="../assets/trakya-cocuk-acil-logo.png" alt="Trakya Çocuk Acil logosu"><div><span class="badge">PWA v8 · Sınav ve Öğrenme Modülü</span><h1>TUS / YDUS Tarzı Özgün Soru Modülü</h1></div></div><p class="lead">İntern hekimler ve çocuk hekimleri için vaka temelli, açıklamalı, aktif hatırlama odaklı pediatrik acil soruları. ÖSYM soruları birebir kullanılmamıştır; soru yapısı sınav mantığına benzer şekilde özgün hazırlanmıştır.</p></div></header>
 <a class="home" href="../index.html">← Ana Menü</a>
 <main>
 <section class="panel"><div class="controls"><select id="level"><option value="all">Tüm düzeyler</option><option value="TUS">TUS / intern</option><option value="YDUS">YDUS / çocuk hekimi</option></select><select id="topic"><option value="all">Tüm konular</option><option>Anafilaksi</option><option>Sepsis</option><option>Status epileptikus</option><option>DKA</option><option>Zehirlenme</option><option>Kafa travması</option><option>Solunum yetmezliği</option><option>Genel yaklaşım</option></select><button onclick="newQuiz()">Yeni soru getir</button></div><div class="score"><div><span class="small">Çözülen</span><b id="solved">0</b></div><div><span class="small">Doğru</span><b id="correct">0</b></div><div><span class="small">Başarı</span><b id="rate">0%</b></div><div><span class="small">Seri</span><b id="streak">0</b></div></div></section>
 <section class="panel question-card" id="questionBox"><div class="meta"><span class="pill red" id="qLevel">TUS</span><span class="pill navy" id="qTopic">Anafilaksi</span><span class="pill" id="qStyle">Vaka temelli</span></div><div class="stem" id="stem"></div><div class="choices" id="choices"></div><div class="explanation" id="feedback"><h3 id="feedbackTitle"></h3><div id="feedbackText"></div><div class="actions"><button class="btn primary" onclick="retryQuestion()">Tekrar dene</button><button class="btn secondary" onclick="showSolution()">Çözümü göster</button></div></div><div class="explanation" id="explanation"><h3 id="expTitle"></h3><div id="expText"></div><div class="why"><div><strong>Doğru düşünme yolu</strong><p id="whyCorrect" class="small"></p></div><div><strong>Sınav tuzağı</strong><p id="trap" class="small"></p></div></div><div class="learning"><strong>Aktif hatırlama görevi:</strong> <span id="recall"></span></div><div class="actions"><button class="btn primary" onclick="nextQuestion()">Sonraki soru</button><button class="btn secondary" onclick="repeatWrong()">Yanlışları tekrar et</button></div></div></section>
-<section class="panel"><h2 style="margin:0;color:var(--navy)">Öğrenme modeli</h2><div class="list" style="margin-top:12px"><div><strong>1. Vaka ile başlar</strong><p class="small">Soru kökü gerçek nöbet ortamında karar vermeyi simüle eder.</p></div><div><strong>2. Anında geri bildirim</strong><p class="small">Yanlış cevapta doğru seçenek hemen gösterilmez; önce ipucu verilir, tekrar deneme ve ardından çözümü görme yolu kullanılır.</p></div><div><strong>3. Yanlışlardan öğrenme</strong><p class="small">Yanlış yapılan sorular ayrı havuza alınır; tekrar düğmesiyle geri getirilir.</p></div><div><strong>4. Klinik güvenlik</strong><p class="small">İlaç ve yatış ifadelerinde Türkçe klinik terim, hasta güvenliği ve kurum protokolü vurgusu kullanılır.</p></div></div></section>
+<section class="panel"><h2 style="margin:0;color:var(--navy)">Öğrenme modeli</h2><div class="list" style="margin-top:12px"><div><strong>1. Vaka ile başlar</strong><p class="small">Soru kökü gerçek nöbet ortamında karar vermeyi simüle eder.</p></div><div><strong>2. Anında geri bildirim</strong><p class="small">Yanlış cevapta doğru seçenek otomatik gösterilmez; kullanıcı ipucuyla tekrar dener veya kendi isteğiyle çözümü açar.</p></div><div><strong>3. Yanlışlardan öğrenme</strong><p class="small">Yanlış yapılan sorular ayrı havuza alınır; tekrar düğmesiyle geri getirilir.</p></div><div><strong>4. Klinik güvenlik</strong><p class="small">İlaç ve yatış ifadelerinde Türkçe klinik terim, hasta güvenliği ve kurum protokolü vurgusu kullanılır.</p></div></div></section>
 <section class="footer-note"><p><strong>Klinik güvenlik notu:</strong> Bu modül sınav hazırlığı ve eğitim amaçlıdır. Klinik kararın, güncel rehberlerin, kurum protokolünün ve kıdemli hekim değerlendirmesinin yerine geçmez. Dozlar uygulanmadan önce ilaç konsantrasyonu ve hastanın klinik durumu doğrulanmalıdır.</p></section>
 </main>
 <script>
 const QUESTIONS = [
-{level:'TUS',topic:'Anafilaksi',style:'Klinik tanı',stem:'8 yaşında çocuk fıstık yedikten 10 dakika sonra yaygın ürtiker, dudak şişliği ve hışıltı ile acil servise getiriliyor. İlk ve en doğru tedavi hangisidir?',choices:['Antihistaminik verip gözlemek','Nebül salbutamol ile başlayıp yanıtı beklemek','Uyluk anterolateraline kas içi adrenalin uygulamak','Damar içi steroid verip laboratuvar sonucu beklemek','Triptaz sonucuna göre karar vermek'],answer:2,explain:'Anafilaksi klinik tanıdır. Solunum bulgusu eşlik eden akut mukokütanöz tablo varlığında ilk tedavi kas içi adrenalindir.',why:'Önce yaşamı tehdit eden havayolu/solunum-dolaşım riski tedavi edilir. Yardımcı ilaçlar adrenalinin yerine geçmez.',trap:'Antihistaminik ve steroid semptom kontrolüne katkı sağlayabilir ama ilk basamak tedavi değildir.',recall:'Anafilakside kas içi adrenalin dozunu ve uygulanacağı anatomik bölgeyi ezberden söyle.'},
-{level:'TUS',topic:'Genel yaklaşım',style:'Hava yolu',stem:'Stridoru, salyası ve tripod pozisyonu olan 4 yaş çocukta epiglotit/ağır üst hava yolu obstrüksiyonu düşünülüyor. İntern hekimin kaçınması gereken en kritik davranış hangisidir?',choices:['Çocuğu ebeveyn kucağında bırakmak','Kıdemli hekim, anestezi ve kulak burun boğaz desteği istemek','Ağız içine abeslang ile bakmak','Oksijeni tolere ettiği şekilde vermek','Hastayı ajite etmemek'],answer:2,explain:'Ağır üst hava yolu obstrüksiyonu şüphesinde ağız içi travmatik muayene laringospazm ve ani kötüleşme riski taşır.',why:'Bu hastada doğru yaklaşım minimal ajitasyon, pozisyonu koruma ve kıdemli ekip çağırmadır.',trap:'Tanı koyma isteğiyle ağız içine bakmak en tehlikeli sınav tuzağıdır.',recall:'Tripod + salya + stridor gördüğünde ilk üç güvenli adımı yaz.'},
-{level:'TUS',topic:'Status epileptikus',style:'İlk 5 dakika',stem:'6 yaşında çocuk 7 dakikadır jeneralize nöbet geçiriyor. Damar yolu henüz yok. İlk benzodiazepin yaklaşımı hangisidir?',choices:['Nöbetin 30 dakika dolmasını beklemek','İntranazal veya kas içi midazolam uygulamak','Fenitoini ilk ilaç olarak vermek','Levetirasetamı ilk 30 saniyede vermek','Sadece ateş düşürücü vermek'],answer:1,explain:'5 dakikayı geçen nöbet status epileptikus gibi yönetilir. Damar yolu yoksa intranazal, bukkal veya kas içi midazolam uygun bir ilk basamak seçenektir.',why:'İlk amaç nöbeti hızla durdururken hava yolu, oksijenasyon ve glukozu eş zamanlı değerlendirmektir.',trap:'Damar yolu yok diye benzodiazepin tedavisini geciktirmek en önemli tuzaktır.',recall:'Damar yolu yokken midazolam uygulama yollarını say.'},
-{level:'TUS',topic:'DKA',style:'Tedavi sıralaması',stem:'DKA tanılı 11 yaş çocuk acile getiriliyor. Dehidrate, kusuyor, bilinç açık. İlk tedavi yaklaşımı için en doğru ifade hangisidir?',choices:['İnsülin bolusu ile başlanır','Bikarbonat rutin verilmelidir','İlk 30–60 dakikada izotonik sıvı ile dolaşım desteklenir','Potasyum sonucu beklenmeden yüksek doz insülin verilir','Sıvı verilmez, sadece insülin infüzyonu yapılır'],answer:2,explain:'DKA’da ilk basamak dolaşımı desteklemek için izotonik sıvıdır. İnsülin genellikle ilk sıvı tedavisinden sonra başlanır; insülin bolusu rutin değildir.',why:'Sıvı, perfüzyon ve böbrek kan akımını düzeltir; elektrolitler ve serebral ödem riski dikkatle izlenir.',trap:'DKA’da “hemen insülin bolusu” çocuk hastada klasik yanlış seçenektir.',recall:'DKA’da insüline başlamadan önce kontrol edeceğin iki parametreyi yaz.'},
-{level:'TUS',topic:'Zehirlenme',style:'Toksidrom',stem:'Bilinç bulanıklığı, iğne ucu pupiller ve bradipne ile gelen çocukta en olası toksidrom ve acil öncelik hangisidir?',choices:['Antikolinerjik toksidrom; soğutma','Opioid toksisitesi; solunum desteği ve nalokson','Sempatomimetik toksidrom; beta bloker','Kolinerjik toksidrom; sadece gözlem','Serotonin sendromu; antibiyotik'],answer:1,explain:'Miyozis, koma ve solunum depresyonu opioid toksisitesi için klasik üçlüdür. Öncelik hava yolu-solunum desteği ve naloksondur.',why:'Bradipne klinik olarak yaşamı tehdit eden bulgudur; antidot solunum desteğinin yerine değil, onunla birlikte düşünülür.',trap:'Pupilla bulgusuna odaklanıp solunum depresyonunu atlamak ölümcül hatadır.',recall:'Opioid toksisitesinin üç klasik bulgusunu say.'},
-{level:'TUS',topic:'Kafa travması',style:'Kırmızı bayrak',stem:'Minör kafa travması sonrası kusması olan 18 aylık çocukta hangi bulgu yüksek risk lehine daha güçlüdür?',choices:['Tek sefer kusma','Saçlı deride küçük çizik','Palpe edilebilir kafatası kırığı','Ağlama ile sakinleşme','Normal davranış ve normal muayene'],answer:2,explain:'İki yaş altı çocukta palpe edilebilir kafatası kırığı klinik önemli beyin hasarı açısından yüksek risk bulgusudur.',why:'Risk değerlendirmesinde yaşa özgü kurallar ve fizik muayene bulguları birlikte yorumlanır.',trap:'Tek başına kusma yerine kırık bulgusu ve bilinç değişikliği gibi yüksek risk bulgularına odaklan.',recall:'İki yaş altı kafa travmasında yüksek risk bulgularından üçünü yaz.'},
-{level:'TUS',topic:'Sepsis',style:'İlk 1 saat',stem:'Şüpheli enfeksiyon, soğuk ekstremite, kapiller dolumda uzama ve hipotansiyonu olan çocukta ilk 1 saatte yapılması gereken temel yaklaşım hangisidir?',choices:['Sadece ateş düşürücü verip gözlem','Antibiyotiği kan kültürü çıkana kadar saatlerce ertelemek','Oksijen, damar/kemik içi yol, uygun kültür, erken antibiyotik, 10–20 mL/kg sıvı bolusu ve yeniden değerlendirme','Sıvıyı her çocukta sınırsız vermek','Sadece laktat sonucuna göre tedavi başlamak'],answer:2,explain:'Septik şok şüphesinde ilk 1 saat yaklaşımı eş zamanlı yürütülür: oksijen, erişim, kültür geciktirmeyecekse, antibiyotik, sıvı bolusu ve sık yeniden değerlendirme.',why:'Amaç perfüzyonu hızla düzeltmek ve enfeksiyon odağına erken müdahaledir.',trap:'Kültür almak antibiyotiği anlamlı geciktirmemelidir.',recall:'Sepsiste her sıvı bolusundan sonra bakacağın beş klinik bulguyu yaz.'},
-{level:'TUS',topic:'Solunum yetmezliği',style:'Yaklaşan arrest',stem:'Ağır solunum sıkıntısı ile izlenen çocukta hangi bulgu yaklaşan solunum yetmezliği ve arrest açısından en kaygı vericidir?',choices:['Takipne','Hafif burun akıntısı','Bradipne ve bilinç değişikliği','Ateş','Öksürük'],answer:2,explain:'Bradipne ve bilinç değişikliği solunum kas yorgunluğu ve yaklaşan kardiyorespiratuvar arrestin kritik bulgularıdır.',why:'Çocuklarda takipne erken kompansasyon olabilir; yavaş soluma geç ve tehlikeli bulgudur.',trap:'Sadece oksijen satürasyonuna bakıp mental durum ve solunum hızındaki kötüleşmeyi kaçırma.',recall:'Yaklaşan solunum yetmezliği için üç klinik alarm bulgusu say.'},
-{level:'YDUS',topic:'Anafilaksi',style:'Tedavi dirençli olgu',stem:'Kas içi adrenalin ve uygun sıvı desteğine rağmen hipotansiyonu süren anafilaksi olgusunda en doğru yaklaşım hangisidir?',choices:['Antihistamini tekrarlamak yeterlidir','Steroid etkisi beklenir','Kıdemli hekim eşliğinde damar içi adrenalin infüzyonu ve yoğun izlem düşünülür','Hastaya oral sıvı verilir','Tedavi kesilip gözlem yapılır'],answer:2,explain:'Kas içi adrenalin ilk basamaktır. Dirençli dolaşım bozukluğunda deneyimli ekip eşliğinde damar içi adrenalin infüzyonu ve yakın monitörizasyon gerekir.',why:'Dirençli anafilaksi dolaşım desteği ve resüsitasyon alanında izlem gerektirir.',trap:'Steroid geç etkilidir; şok tedavisinin yerini almaz.',recall:'Dirençli anafilakside ekibin hazırlaması gereken monitörizasyon ve damar yolu önlemlerini listele.'},
-{level:'YDUS',topic:'Sepsis',style:'Organ disfonksiyonu',stem:'Güncel pediatrik sepsis yaklaşımında SIRS odaklı eski düşünce yerine hangi vurgu daha önemlidir?',choices:['Yalnız ateş yüksekliği','Şüpheli/kanıtlanmış enfeksiyona eşlik eden organ disfonksiyonu','Sadece lökositoz','Sadece CRP yüksekliği','Sadece taşikardi'],answer:1,explain:'Modern yaklaşımda sepsisin klinik ağırlığını belirleyen ana unsur enfeksiyona eşlik eden organ disfonksiyonudur.',why:'Dolaşım, solunum, nörolojik ve hematolojik disfonksiyon bulguları mortaliteyle daha yakından ilişkilidir.',trap:'Tek başına ateş veya laboratuvar yüksekliği sepsis ağırlığını yeterince göstermez.',recall:'Sepsiste organ disfonksiyonunu düşündüren dört sistem bulgusunu yaz.'},
-{level:'YDUS',topic:'Status epileptikus',style:'İkinci basamak',stem:'Midazolam/diazepam sonrası nöbeti süren çocukta ikinci basamak için uygun seçeneklerden biri hangisidir?',choices:['Bekleyip üçüncü benzodiazepini vermek','Levetirasetam yükleme dozu','Antihistaminik','Oral antibiyotik','Sadece ateş düşürücü'],answer:1,explain:'Benzodiazepine dirençli nöbette ikinci basamak antiepileptik tedaviye geçilir. Levetirasetam, valproat veya fenitoin kurum protokolüne göre seçilebilir.',why:'Gereksiz benzodiazepin tekrarları solunum depresyonu riskini artırır ve zaman kaybettirir.',trap:'Aynı basamakta tekrarlayan sedatif dozlara saplanmak sınav ve klinik tuzağıdır.',recall:'İkinci basamak antiepileptik seçeneklerden üçünü yaz.'},
-{level:'YDUS',topic:'DKA',style:'Serebral ödem',stem:'DKA tedavisi sırasında baş ağrısı, bradikardi, bilinç kötüleşmesi ve hipertansiyon gelişen çocukta en doğru yaklaşım hangisidir?',choices:['Rutin BT için tedaviyi bekletmek','Serebral ödem düşünerek acil tedavi başlamak ve çocuk yoğun bakım desteği istemek','İnsülin dozunu iki katına çıkarmak','Bikarbonatı rutin vermek','Oral su içirmek'],answer:1,explain:'DKA’da nörolojik kötüleşme serebral ödem açısından acildir. Görüntüleme tedaviyi geciktirmemelidir.',why:'Klinik şüphe tedavi için yeterlidir; solunum, dolaşım ve osmoterapi hazırlığı yapılır.',trap:'BT beklemek tedaviyi geciktirebilir.',recall:'DKA’da serebral ödemi düşündüren dört bulgu yaz.'},
-{level:'YDUS',topic:'Zehirlenme',style:'Kardiyotoksisite',stem:'Trisiklik antidepresan zehirlenmesi düşünülen çocukta geniş QRS ve hipotansiyon var. En uygun özgül tedavi hangisidir?',choices:['Sodyum bikarbonat','Kalsiyum glukonat','Aktif kömür tek başına yeterlidir','Nalokson','Antibiyotik'],answer:0,explain:'Trisiklik antidepresan kardiyotoksisitesinde geniş QRS ve hipotansiyonda sodyum bikarbonat temel tedavidir.',why:'Amaç serum alkalinizasyonu ve sodyum yükü ile kardiyak sodyum kanal blokajını azaltmaktır.',trap:'Aktif kömür kardiyotoksisite tedavisinin yerine geçmez.',recall:'TCA zehirlenmesinde EKG’de beklenen iki kritik bulguyu yaz.'},
-{level:'YDUS',topic:'Kafa travması',style:'İstismar',stem:'Travma öyküsü belirsiz, fizik muayene ile uyumsuz morlukları olan 5 aylık bebekte retinal kanama saptanıyor. En doğru yaklaşım hangisidir?',choices:['Sadece aileye öneri verip taburcu etmek','Çocuk istismarı/ihmali açısından değerlendirme ve ilgili birimleri bilgilendirme','Sadece ağrı kesici vermek','Travma öyküsü yoksa görüntüleme yapmamak','İstismar olasılığını dışlamak'],answer:1,explain:'Öykü-muayene uyumsuzluğu, küçük bebek ve retinal kanama istismar açısından kritik bulgulardır. Çocuk koruma yaklaşımı gerekir.',why:'Tıbbi stabilizasyonla birlikte adli/sosyal süreçler kurum protokolüne uygun yürütülmelidir.',trap:'Ailenin açıklamasına aşırı güvenip uyumsuz fizik bulguları atlamak tehlikelidir.',recall:'İstismar düşündüren beş klinik uyarı işaretini yaz.'},
-{level:'YDUS',topic:'Solunum yetmezliği',style:'Kan gazı yorumu',stem:'Oksijen desteğine rağmen PaO₂ düşük, pCO₂ normal olan çocukta solunum yetmezliği tipi en olası hangisidir?',choices:['Tip 1 hipoksemik solunum yetmezliği','Tip 2 hiperkarbik solunum yetmezliği','Metabolik alkaloz','Normal kan gazı','Sadece anemi'],answer:0,explain:'Tip 1 solunum yetmezliği esas olarak oksijenlenme bozukluğu ile seyreder; pCO₂ normal veya düşük olabilir.',why:'Gaz değişimi problemi ile ventilasyon pompa yetmezliğini ayırmak tedaviyi yönlendirir.',trap:'Her solunum yetmezliğinde pCO₂ yüksek olacak sanmak yanlıştır.',recall:'Tip 1 ve Tip 2 solunum yetmezliği arasındaki temel farkı tek cümleyle yaz.'},
-{level:'TUS',topic:'Anafilaksi',style:'Doz',stem:'20 kg çocukta anafilaksi için 1 mg/mL adrenalin solüsyonundan kas içi hesaplanan doz kaç mL’dir?',choices:['0.02 mL','0.2 mL','2 mL','0.01 mL','1 mL'],answer:1,explain:'Anafilakside adrenalin dozu 0.01 mg/kg kas içidir. 20 kg için 0.2 mg gerekir. 1 mg/mL solüsyonda bu 0.2 mL’dir.',why:'mg ve mL dönüşümünü konsantrasyona göre yapmalısın.',trap:'Kardiyak arrestte kullanılan 0.1 mg/mL solüsyon ile karıştırma.',recall:'10 kg, 20 kg ve 30 kg için kas içi adrenalin mL karşılığını hesapla.'},
-{level:'TUS',topic:'Genel yaklaşım',style:'İnvajinasyon',stem:'9 aylık bebek aralıklı ağlama, kusma ve ataklar arasında solukluk ile geliyor. Dışkıda kırmızı jöle görünümü yok. En doğru yaklaşım hangisidir?',choices:['Kırmızı jöle dışkı çıkana kadar beklemek','İnvajinasyonu dışlamak','İnvajinasyondan şüphelenip abdominal ultrasonografi istemek','Sadece gastroenterit tedavisi vermek','Taburcu etmek'],answer:2,explain:'İnvajinasyonda klasik triad sık değildir; kırmızı jöle dışkı geç bulgudur. Aralıklı ağlama, kusma, solukluk ve letarji erken ipuçlarıdır.',why:'Tanı için triadı beklemek komplikasyonu artırır.',trap:'Klasik triad yok diye tanıyı dışlamak sık yapılan hatadır.',recall:'İnvajinasyonun erken klinik ipuçlarından dördünü yaz.'}
+  {
+    "level": "TUS",
+    "topic": "Anafilaksi",
+    "style": "Klinik tanı ve ilk tedavi",
+    "stem": "8 yaşında çocuk fıstık yedikten 10 dakika sonra yaygın ürtiker, dudak şişliği, ses kısıklığı ve hışıltı ile acil servise getiriliyor. İlk ve en doğru tedavi hangisidir?",
+    "choices": [
+      "Antihistaminik verip gözlemek",
+      "Nebül salbutamol ile başlayıp yanıtı beklemek",
+      "Uyluk anterolateraline kas içi adrenalin uygulamak",
+      "Damar içi steroid verip laboratuvar sonucu beklemek",
+      "Triptaz sonucuna göre karar vermek"
+    ],
+    "answer": 2,
+    "explain": "Bu olguda akut alerjen maruziyeti sonrası deri/mukoza bulgularına solunum sistemi bulguları eşlik ediyor. Bu, anafilaksi için yeterlidir ve tanı kliniktir. İlk tedavi kas içi adrenalindir; laboratuvar, triptaz, antihistaminik veya steroid yanıtı beklenmez. Uygulama yeri uyluk anterolateral kasıdır. Doz 0.01 mg/kg kas içidir; 1 mg/mL solüsyon kullanılır. Klinik yanıt yetersizse yakın izlem altında tekrarlama ve dolaşım desteği planlanır. Hışıltı varsa salbutamol yardımcı tedavi olabilir, ancak adrenalinin yerine geçmez.",
+    "why": "Soruda \"ürtiker + dudak şişliği + hışıltı\" birlikteliği var. Bu, sadece deri bulgusu değil, hava yolu/solunum tutulumu olan sistemik reaksiyondur. Sınav mantığında önce yaşamı tehdit eden mekanizmayı tedavi etmelisin: hava yolu, solunum ve dolaşım riski. Bu nedenle ilk karar kas içi adrenalindir.",
+    "trap": "En sık tuzak, deri bulgularını görünce antihistaminik veya steroid ile başlamaktır. Antihistaminik kaşıntı/ürtiker için yardımcıdır; steroid geç etkilidir. Nebül salbutamol bronkospazma yardım edebilir ama anafilaksinin temel tedavisi değildir.",
+    "recall": "Anafilakside 1) tanıyı koyduran sistem bulgularını, 2) kas içi adrenalin dozunu, 3) uygulanacak anatomik bölgeyi yüksek sesle tekrar et."
+  },
+  {
+    "level": "TUS",
+    "topic": "Genel yaklaşım",
+    "style": "Hava yolu güvenliği",
+    "stem": "Stridoru, salyası ve tripod pozisyonu olan 4 yaş çocukta epiglotit/ağır üst hava yolu obstrüksiyonu düşünülüyor. İntern hekimin kaçınması gereken en kritik davranış hangisidir?",
+    "choices": [
+      "Çocuğu ebeveyn kucağında bırakmak",
+      "Kıdemli hekim, anestezi ve kulak burun boğaz desteği istemek",
+      "Ağız içine abeslang ile bakmak",
+      "Oksijeni tolere ettiği şekilde vermek",
+      "Hastayı ajite etmemek"
+    ],
+    "answer": 2,
+    "explain": "Tripod pozisyonu, salya akması ve stridor ağır üst hava yolu obstrüksiyonu açısından alarm bulgularıdır. Bu tabloda intern hekimin görevi çocuğu ajite etmeden, mevcut pozisyonunu bozmadan, kıdemli hekim ve hava yolu ekibini çağırmaktır. Ağız içine abeslang ile bakmak, ağlatmak veya yatırarak muayene etmek hava yolu spazmını ve ani kötüleşmeyi tetikleyebilir. Tetkik, görüntüleme veya ayrıntılı muayene hava yolu güvenliği sağlanmadan öncelik olmamalıdır.",
+    "why": "Soruda tanıdan çok davranış güvenliği soruluyor. Bu tip sorularda doğru yaklaşım \"az temas, az ajitasyon, hızlı kıdemli destek\"tir. En tehlikeli seçenek tanıyı görmek için farinkse bakmaya çalışmaktır.",
+    "trap": "Sınavda \"tanı koymak için ağız içine bakmak\" cazip görünür. Ancak bu olguda tanısal merak hastayı kötüleştirebilir. Ağır üst hava yolu obstrüksiyonunda güvenli hava yolu planı tanıdan önce gelir.",
+    "recall": "Tripod + salya + stridor gördüğünde yapılacak üç güvenli adımı yaz: pozisyonu koru, ajite etme, kıdemli/hava yolu desteği çağır."
+  },
+  {
+    "level": "TUS",
+    "topic": "Status epileptikus",
+    "style": "İlk 5 dakika",
+    "stem": "6 yaşında çocuk 7 dakikadır jeneralize nöbet geçiriyor. Damar yolu henüz yok. İlk benzodiazepin yaklaşımı hangisidir?",
+    "choices": [
+      "Nöbetin 30 dakika dolmasını beklemek",
+      "İntranazal veya kas içi midazolam uygulamak",
+      "Fenitoini ilk ilaç olarak vermek",
+      "Levetirasetamı ilk 30 saniyede vermek",
+      "Sadece ateş düşürücü vermek"
+    ],
+    "answer": 1,
+    "explain": "Beş dakikayı geçen jeneralize nöbet status epileptikus gibi yönetilir. İlk dakikalarda hava yolu açıklığı, oksijenasyon, aspirasyon hazırlığı, monitörizasyon ve parmak ucu kan şekeri eş zamanlı yapılır. Damar yolu henüz yoksa tedavi geciktirilmez; intranazal, bukkal veya kas içi midazolam uygun ilk benzodiazepin yaklaşımıdır. Damar yolu varsa diazepam veya midazolam seçenekleri kurum protokolüne göre kullanılabilir. İkinci basamak antiepileptiklere geçmek için ilk benzodiazepin geciktirilmemelidir.",
+    "why": "Soruda süre 7 dakika ve damar yolu yok. Kritik ipuçları bunlardır. Damar yolu yok diye beklemek nöbet süresini uzatır. İlk basamak hızlı uygulanabilen benzodiazepindir.",
+    "trap": "Fenitoin/levetirasetam ikinci basamakta değerlidir; ancak ilk benzodiazepin basamağını atlatmaz. Ateş düşürücü nöbeti durdurmaz. 30 dakika beklemek eski ve tehlikeli bir yaklaşımdır.",
+    "recall": "Damar yolu yokken kullanılabilecek midazolam yollarını ve status epileptikusun 5 dakika eşiğini tekrar et."
+  },
+  {
+    "level": "TUS",
+    "topic": "DKA",
+    "style": "Tedavi sıralaması",
+    "stem": "DKA tanılı 11 yaş çocuk acile getiriliyor. Dehidrate, kusuyor, bilinç açık. İlk tedavi yaklaşımı için en doğru ifade hangisidir?",
+    "choices": [
+      "İnsülin bolusu ile başlanır",
+      "Bikarbonat rutin verilmelidir",
+      "İlk 30–60 dakikada izotonik sıvı ile dolaşım desteklenir",
+      "Potasyum sonucu beklenmeden yüksek doz insülin verilir",
+      "Sıvı verilmez, sadece insülin infüzyonu yapılır"
+    ],
+    "answer": 2,
+    "explain": "DKA tedavisinde ilk basamak dolaşımı ve perfüzyonu güvenli şekilde düzeltmektir. İlk 30–60 dakikada izotonik sıvı verilir ve hasta sık değerlendirilir. İnsülin genellikle ilk sıvı tedavisinden sonra düşük doz sürekli infüzyon şeklinde başlanır; insülin bolusu rutin değildir. Potasyum düzeyi ve idrar çıkışı değerlendirilmeden tedavi hızlandırılmamalıdır. Bikarbonat rutin verilmez; özel ve ağır durumlar dışında zararlı olabilir.",
+    "why": "Soruda bilinç açık, dehidratasyon var ve DKA tanılı. İlk soru \"insülin mi sıvı mı?\" şeklindedir. Çocuk DKA yönetiminde sıvı ve elektrolit güvenliği önce gelir; insülin tedavisi planlı ve kontrollü başlatılır.",
+    "trap": "\"Hiperglisemi var, hemen insülin bolusu ver\" düşüncesi çocuk DKA’da önemli tuzaktır. Hızlı osmolar değişiklik ve potasyum sorunları gözden kaçabilir.",
+    "recall": "DKA’da insüline başlamadan önce kontrol edeceğin üç şeyi yaz: potasyum, idrar çıkışı/perfüzyon ve nörolojik durum."
+  },
+  {
+    "level": "TUS",
+    "topic": "Zehirlenme",
+    "style": "Toksidrom",
+    "stem": "Bilinç bulanıklığı, iğne ucu pupiller ve bradipne ile gelen çocukta en olası toksidrom ve acil öncelik hangisidir?",
+    "choices": [
+      "Antikolinerjik toksidrom; soğutma",
+      "Opioid toksisitesi; solunum desteği ve nalokson",
+      "Sempatomimetik toksidrom; beta bloker",
+      "Kolinerjik toksidrom; sadece gözlem",
+      "Serotonin sendromu; antibiyotik"
+    ],
+    "answer": 1,
+    "explain": "Miyozis, bilinç baskılanması ve solunum depresyonu opioid toksisitesi için klasik üçlüdür. En acil sorun bradipne/apnedir; bu nedenle hava yolu açıklığı, oksijenasyon ve ventilasyon desteği birinci önceliktir. Nalokson antidot olarak solunum depresyonunu geri çevirmek için kullanılır, ancak ventilasyon desteğinin yerine geçmez. Klinik düzelme sonrası yeniden sedasyon açısından izlem gerekir.",
+    "why": "Bu soruda pupilla bulgusu tanıyı düşündürür; bradipne ise aciliyeti belirler. Zehirlenme sorularında önce ABCDE ve yaşamı tehdit eden fizyoloji yönetilir.",
+    "trap": "Sadece \"miyozis\" bulgusuna odaklanıp solunum depresyonunu gözden kaçırmak tehlikelidir. Antidot verilse bile balon-maske ve hava yolu hazırlığı geciktirilmemelidir.",
+    "recall": "Opioid toksisitesinin üç klasik bulgusunu ve ilk iki acil müdahaleyi say."
+  },
+  {
+    "level": "TUS",
+    "topic": "Kafa travması",
+    "style": "Kırmızı bayrak",
+    "stem": "Minör kafa travması sonrası kusması olan 18 aylık çocukta hangi bulgu yüksek risk lehine daha güçlüdür?",
+    "choices": [
+      "Tek sefer kusma",
+      "Saçlı deride küçük çizik",
+      "Palpe edilebilir kafatası kırığı",
+      "Ağlama ile sakinleşme",
+      "Normal davranış ve normal muayene"
+    ],
+    "answer": 2,
+    "explain": "İki yaş altındaki çocuklarda palpe edilebilir kafatası kırığı klinik önemli beyin hasarı açısından güçlü bir yüksek risk bulgusudur. Tek sefer kusma tek başına daha düşük özgüllükte olabilir; yaş, bilinç durumu, travma mekanizması ve muayene bulguları birlikte değerlendirilir. Kafa travmasında amaç gereksiz görüntülemeden kaçınırken yüksek riskli çocuğu atlamamaktır.",
+    "why": "Soruda \"18 aylık\" ifadesi yaşa özgü karar kuralı düşünmen için verilir. Fizik muayenede kırık şüphesi, tek kusmadan daha yüksek risk taşır.",
+    "trap": "Her kusmayı doğrudan yüksek risk saymak veya tam tersine kusma yoksa ciddi yaralanma yok demek yanlıştır. Yaşa özgü yüksek risk bulguları ayırt edilmelidir.",
+    "recall": "İki yaş altı kafa travmasında yüksek risk düşündüren üç muayene/öykü bulgusunu yaz."
+  },
+  {
+    "level": "TUS",
+    "topic": "Sepsis",
+    "style": "İlk 1 saat",
+    "stem": "Şüpheli enfeksiyon, soğuk ekstremite, kapiller dolumda uzama ve hipotansiyonu olan çocukta ilk 1 saatte yapılması gereken temel yaklaşım hangisidir?",
+    "choices": [
+      "Sadece ateş düşürücü verip gözlem",
+      "Antibiyotiği kan kültürü çıkana kadar saatlerce ertelemek",
+      "Oksijen, damar/kemik içi yol, uygun kültür, erken antibiyotik, 10–20 mL/kg sıvı bolusu ve yeniden değerlendirme",
+      "Sıvıyı her çocukta sınırsız vermek",
+      "Sadece laktat sonucuna göre tedavi başlamak"
+    ],
+    "answer": 2,
+    "explain": "Şüpheli enfeksiyona eşlik eden dolaşım bozukluğu septik şok açısından acildir. İlk 1 saatte oksijen, monitörizasyon, damar yolu veya kemik içi yol, uygun kültürlerin tedaviyi geciktirmeden alınması, erken antibiyotik, 10–20 mL/kg izotonik kristaloid bolus ve her bolus sonrası yeniden değerlendirme yapılır. Değerlendirme; kalp hızı, kan basıncı, kapiller dolum, bilinç, solunum işi, akciğer oskültasyonu, hepatomegali ve idrar çıkışını içermelidir.",
+    "why": "Bu soru \"tek işlem\" değil, eş zamanlı sepsis paketi mantığını ölçer. Hipotansiyon ve perfüzyon bozukluğu varsa zaman kaybı mortaliteyi artırır.",
+    "trap": "Kan kültürü almak doğrudur ama antibiyotiği saatlerce geciktirmek yanlıştır. Sıvı da sınırsız değildir; her bolus sonrası sıvı yüklenmesi ve yanıt değerlendirilir.",
+    "recall": "Septik şokta her sıvı bolusundan sonra kontrol edeceğin en az beş klinik bulguyu yaz."
+  },
+  {
+    "level": "TUS",
+    "topic": "Solunum yetmezliği",
+    "style": "Yaklaşan arrest",
+    "stem": "Ağır solunum sıkıntısı ile izlenen çocukta hangi bulgu yaklaşan solunum yetmezliği ve arrest açısından en kaygı vericidir?",
+    "choices": [
+      "Takipne",
+      "Hafif burun akıntısı",
+      "Bradipne ve bilinç değişikliği",
+      "Ateş",
+      "Öksürük"
+    ],
+    "answer": 2,
+    "explain": "Takipne çocukta erken kompansasyon bulgusu olabilir. Buna karşılık bradipne, düzensiz solunum, apne eğilimi, bilinç değişikliği, siyanoz ve azalan solunum sesi geç ve tehlikeli bulgulardır. Bradipne ve bilinç değişikliği birlikteyse solunum kas yorgunluğu ve yaklaşan kardiyorespiratuvar arrest düşünülmelidir. Bu durumda yalnız oksijen vermek yetmeyebilir; balon-maske ventilasyonu ve ileri hava yolu hazırlığı gerekebilir.",
+    "why": "Soruda en kaygı verici bulgu soruluyor. Takipne sık ve erken bir bulgu iken bradipne + bilinç değişikliği geç dönem alarmdır.",
+    "trap": "Sadece satürasyona odaklanmak ve solunum işinin azalmasını iyileşme sanmak büyük hatadır. Yorulan çocuk daha sessizleşebilir.",
+    "recall": "Yaklaşan solunum yetmezliği için beş alarm bulgusunu yaz."
+  },
+  {
+    "level": "YDUS",
+    "topic": "Anafilaksi",
+    "style": "Tedavi dirençli olgu",
+    "stem": "Kas içi adrenalin ve uygun sıvı desteğine rağmen hipotansiyonu süren anafilaksi olgusunda en doğru yaklaşım hangisidir?",
+    "choices": [
+      "Antihistamini tekrarlamak yeterlidir",
+      "Steroid etkisi beklenir",
+      "Kıdemli hekim eşliğinde damar içi adrenalin infüzyonu ve yoğun izlem düşünülür",
+      "Hastaya oral sıvı verilir",
+      "Tedavi kesilip gözlem yapılır"
+    ],
+    "answer": 2,
+    "explain": "Kas içi adrenalin anafilaksinin ilk basamak tedavisidir. Buna rağmen hipotansiyon ve dolaşım bozukluğu sürüyorsa olgu dirençli anafilaksi olarak değerlendirilir. Bu durumda resüsitasyon alanında sürekli monitörizasyon, damar yolu/kemik içi yol güvenliği, tekrarlayan klinik değerlendirme, sıvı desteği ve kıdemli hekim eşliğinde damar içi adrenalin infüzyonu düşünülür. Antihistaminik ve steroid şok tedavisinin yerine geçmez.",
+    "why": "YDUS düzeyinde soru, ilk tedaviyi değil dirençli olguda basamak yükseltmeyi ölçer. Hipotansiyon sürüyorsa yardımcı ilaçları beklemek yerine dolaşım desteği artırılır.",
+    "trap": "Steroidin geç etki edeceğini unutmak ve hipotansiyon sürerken \"ilaç etkisini beklemek\" en tehlikeli seçenektir.",
+    "recall": "Dirençli anafilakside izlem, damar yolu, sıvı ve adrenalin infüzyonu açısından hazırlık listesini oluştur."
+  },
+  {
+    "level": "YDUS",
+    "topic": "Sepsis",
+    "style": "Organ disfonksiyonu",
+    "stem": "Güncel pediatrik sepsis yaklaşımında SIRS odaklı eski düşünce yerine hangi vurgu daha önemlidir?",
+    "choices": [
+      "Yalnız ateş yüksekliği",
+      "Şüpheli/kanıtlanmış enfeksiyona eşlik eden organ disfonksiyonu",
+      "Sadece lökositoz",
+      "Sadece CRP yüksekliği",
+      "Sadece taşikardi"
+    ],
+    "answer": 1,
+    "explain": "Güncel yaklaşımda pediatrik sepsis, şüpheli veya kanıtlanmış enfeksiyona eşlik eden organ disfonksiyonu ile düşünülür. Organ disfonksiyonu; dolaşım bozukluğu, solunum desteği ihtiyacı, bilinç değişikliği, koagülopati, böbrek etkilenimi veya laktat yüksekliği gibi bulgularla ortaya çıkabilir. Ateş, taşikardi, lökositoz veya CRP yüksekliği tek başına hastalığın ağırlığını güvenilir şekilde göstermez.",
+    "why": "Sepsis sorularında artık sadece enflamatuvar yanıtı değil, organ fonksiyonunu sorgula. Çocuğun dolaşımı, bilinci, solunumu ve laboratuvar destekli organ etkilenimi birlikte değerlendirilir.",
+    "trap": "\"Ateşi var + CRP yüksek = ağır sepsis\" şeklindeki kaba yaklaşım eksiktir. Aynı şekilde ateşi düşük ya da normotermik ağır hasta da sepsis olabilir.",
+    "recall": "Sepsiste organ disfonksiyonunu düşündüren dört sistem bulgusunu yaz."
+  },
+  {
+    "level": "YDUS",
+    "topic": "Status epileptikus",
+    "style": "İkinci basamak",
+    "stem": "Midazolam/diazepam sonrası nöbeti süren çocukta ikinci basamak için uygun seçeneklerden biri hangisidir?",
+    "choices": [
+      "Bekleyip üçüncü benzodiazepini vermek",
+      "Levetirasetam yükleme dozu",
+      "Antihistaminik",
+      "Oral antibiyotik",
+      "Sadece ateş düşürücü"
+    ],
+    "answer": 1,
+    "explain": "Uygun benzodiazepin dozlarına rağmen nöbet sürüyorsa ikinci basamak antiepileptik tedaviye geçilir. Levetirasetam yükleme dozu bu basamakta kullanılabilecek seçeneklerden biridir; valproat veya fenitoin de hasta özellikleri ve kurum protokolüne göre değerlendirilebilir. Gereksiz benzodiazepin tekrarları solunum depresyonu ve entübasyon gereksinimini artırabilir. Tedavi basamakları gecikmeden ilerlemelidir.",
+    "why": "Soru \"benzodiazepin sonrası devam eden nöbet\" diyor. Bu, ikinci basamak antiepileptik aşamasına geçme zamanıdır.",
+    "trap": "Üçüncü, dördüncü benzodiazepin dozlarına saplanmak hem sınavda hem klinikte hatadır. Her yeni benzodiazepin dozu solunum baskılanması riskini artırır.",
+    "recall": "İkinci basamak antiepileptik seçenekleri ve hangi hasta özelliklerinde dikkat edeceğini yaz."
+  },
+  {
+    "level": "YDUS",
+    "topic": "DKA",
+    "style": "Serebral ödem",
+    "stem": "DKA tedavisi sırasında baş ağrısı, bradikardi, bilinç kötüleşmesi ve hipertansiyon gelişen çocukta en doğru yaklaşım hangisidir?",
+    "choices": [
+      "Rutin BT için tedaviyi bekletmek",
+      "Serebral ödem düşünerek acil tedavi başlamak ve çocuk yoğun bakım desteği istemek",
+      "İnsülin dozunu iki katına çıkarmak",
+      "Bikarbonatı rutin vermek",
+      "Oral su içirmek"
+    ],
+    "answer": 1,
+    "explain": "DKA tedavisi sırasında baş ağrısı, bradikardi, hipertansiyon, bilinç değişikliği, irritabilite, kusmanın artması veya kraniyal sinir bulguları serebral ödem açısından uyarıcıdır. Bu klinik bir acildir. Görüntüleme tedaviyi geciktirmemelidir. Hava yolu, solunum ve dolaşım güvenliği sağlanır; hipertonik salin veya mannitol gibi osmoterapi seçenekleri kurum protokolüne göre hazırlanır ve çocuk yoğun bakım desteği istenir.",
+    "why": "Soruda Cushing yanıtını düşündüren bradikardi + hipertansiyon ve bilinç kötüleşmesi var. DKA’da bu kombinasyon serebral ödem sorusudur.",
+    "trap": "BT beklemek veya insülini artırmak yanlıştır. Nörolojik kötüleşmede tedaviyi geciktirmek en büyük hatadır.",
+    "recall": "DKA’da serebral ödemi düşündüren altı klinik bulguyu yaz."
+  },
+  {
+    "level": "YDUS",
+    "topic": "Zehirlenme",
+    "style": "Kardiyotoksisite",
+    "stem": "Trisiklik antidepresan zehirlenmesi düşünülen çocukta geniş QRS ve hipotansiyon var. En uygun özgül tedavi hangisidir?",
+    "choices": [
+      "Sodyum bikarbonat",
+      "Kalsiyum glukonat",
+      "Aktif kömür tek başına yeterlidir",
+      "Nalokson",
+      "Antibiyotik"
+    ],
+    "answer": 0,
+    "explain": "Trisiklik antidepresan zehirlenmesinde kardiyak sodyum kanal blokajı QRS genişlemesi, aritmi ve hipotansiyona yol açabilir. Geniş QRS ve hemodinamik bozukluk varsa sodyum bikarbonat temel özgül tedavidir. Amaç sodyum yükü ve alkalinizasyon ile iletim bozukluğunu azaltmaktır. EKG monitörizasyonu, dolaşım desteği ve nöbet kontrolü eş zamanlı planlanır. Aktif kömür uygun zamanda düşünülebilir ama kardiyotoksisite tedavisinin yerine geçmez.",
+    "why": "Zehirlenme sorularında EKG bulgusu çok belirleyicidir. Geniş QRS + hipotansiyon = kardiyotoksisite ve sodyum bikarbonat düşün.",
+    "trap": "Antidot/tedavi sorusunda \"aktif kömür\" cazip gelebilir; ancak hasta kardiyotoksikse öncelik EKG ve dolaşımı düzeltmektir.",
+    "recall": "TCA zehirlenmesinde EKG’de arayacağın iki kritik bulguyu ve sodyum bikarbonat endikasyonunu yaz."
+  },
+  {
+    "level": "YDUS",
+    "topic": "Kafa travması",
+    "style": "İstismar",
+    "stem": "Travma öyküsü belirsiz, fizik muayene ile uyumsuz morlukları olan 5 aylık bebekte retinal kanama saptanıyor. En doğru yaklaşım hangisidir?",
+    "choices": [
+      "Sadece aileye öneri verip taburcu etmek",
+      "Çocuk istismarı/ihmali açısından değerlendirme ve ilgili birimleri bilgilendirme",
+      "Sadece ağrı kesici vermek",
+      "Travma öyküsü yoksa görüntüleme yapmamak",
+      "İstismar olasılığını dışlamak"
+    ],
+    "answer": 1,
+    "explain": "Küçük bebekte açıklanamayan veya öyküyle uyumsuz travma bulguları, farklı yaşta morluklar, retinal kanama, nörolojik bulgular veya tekrarlayan başvurular çocuk istismarı/ihmali açısından güçlü uyarılardır. Tıbbi stabilizasyon önceliklidir; ardından kurumun çocuk koruma süreci, adli bildirim ve ilgili birimlerle koordinasyon gerekir. Bu değerlendirme suçlama diliyle değil, çocuğun güvenliğini önceleyen klinik yaklaşım olarak yürütülmelidir.",
+    "why": "Soru öykü-muayene uyumsuzluğu + 5 aylık bebek + retinal kanama ipuçlarını veriyor. Bu kombinasyon basit travma olarak geçiştirilemez.",
+    "trap": "Ailenin açıklamasına aşırı güvenmek veya travma öyküsü net değil diye değerlendirmeyi azaltmak tehlikelidir. Küçük bebekte muayene bulguları daha belirleyicidir.",
+    "recall": "Çocuk istismarını düşündüren beş klinik uyarı işaretini yaz."
+  },
+  {
+    "level": "YDUS",
+    "topic": "Solunum yetmezliği",
+    "style": "Kan gazı yorumu",
+    "stem": "Oksijen desteğine rağmen PaO₂ düşük, pCO₂ normal olan çocukta solunum yetmezliği tipi en olası hangisidir?",
+    "choices": [
+      "Tip 1 hipoksemik solunum yetmezliği",
+      "Tip 2 hiperkarbik solunum yetmezliği",
+      "Metabolik alkaloz",
+      "Normal kan gazı",
+      "Sadece anemi"
+    ],
+    "answer": 0,
+    "explain": "Tip 1 hipoksemik solunum yetmezliğinde temel sorun oksijenlenmedir; PaO₂ düşüktür, pCO₂ normal veya düşük olabilir. Tip 2 hiperkarbik solunum yetmezliğinde ise ventilasyon yetersizliği ön plandadır ve pCO₂ yükselir. Bu ayrım oksijen tedavisi, yüksek akımlı oksijen, noninvaziv destek veya entübasyon kararını yönlendirir.",
+    "why": "Soruda pCO₂ normal deniyor. Bu, ventilasyon pompasının henüz belirgin bozulmadığını; ana sorunun oksijenlenme olduğunu düşündürür.",
+    "trap": "Her solunum yetmezliğinde pCO₂ yüksek olacak sanmak yanlıştır. Erken hipoksemik yetmezlikte pCO₂ normal/düşük olabilir.",
+    "recall": "Tip 1 ve Tip 2 solunum yetmezliği arasındaki farkı PaO₂ ve pCO₂ üzerinden tek cümleyle yaz."
+  },
+  {
+    "level": "TUS",
+    "topic": "Anafilaksi",
+    "style": "Doz hesabı",
+    "stem": "20 kg çocukta anafilaksi için 1 mg/mL adrenalin solüsyonundan kas içi hesaplanan doz kaç mL’dir?",
+    "choices": [
+      "0.02 mL",
+      "0.2 mL",
+      "2 mL",
+      "0.01 mL",
+      "1 mL"
+    ],
+    "answer": 1,
+    "explain": "Anafilakside kas içi adrenalin dozu 0.01 mg/kg’dır. 20 kg çocukta hesaplanan doz 20 × 0.01 = 0.2 mg’dır. Kullanılan solüsyon 1 mg/mL ise 0.2 mg = 0.2 mL eder. Bu hesapta önce mg dozu bulunur, sonra solüsyon konsantrasyonuna göre mL’ye çevrilir.",
+    "why": "Doz sorularında üç adım kullan: kilo × mg/kg = mg; sonra mg ÷ konsantrasyon = mL; son olarak maksimum dozu kontrol et.",
+    "recall": "10 kg, 20 kg ve 30 kg için kas içi adrenalin mL karşılığını hesapla.",
+    "trap": "Kardiyak arrestte kullanılan 0.1 mg/mL epinefrin solüsyonu ile anafilaksideki 1 mg/mL adrenalin solüsyonunu karıştırmak klasik sınav tuzağıdır."
+  },
+  {
+    "level": "TUS",
+    "topic": "Genel yaklaşım",
+    "style": "İnvajinasyon",
+    "stem": "9 aylık bebek aralıklı ağlama, kusma ve ataklar arasında solukluk ile geliyor. Dışkıda kırmızı jöle görünümü yok. En doğru yaklaşım hangisidir?",
+    "choices": [
+      "Kırmızı jöle dışkı çıkana kadar beklemek",
+      "İnvajinasyonu dışlamak",
+      "İnvajinasyondan şüphelenip abdominal ultrasonografi istemek",
+      "Sadece gastroenterit tedavisi vermek",
+      "Taburcu etmek"
+    ],
+    "answer": 2,
+    "explain": "İnvajinasyonda klasik triad her hastada görülmez; kırmızı jöle dışkı geç bulgudur. Özellikle 6 ay–3 yaş aralığında aralıklı ağlama, ataklar arasında solukluk/letarji, kusma ve beslenememe invajinasyonu düşündürmelidir. Stabil hastada ve perforasyon/peritonit bulgusu yoksa ilk tercih abdominal ultrasonografidir. Tanı gecikirse bağırsak iskemi ve perforasyon riski artar.",
+    "why": "Soru klasik triadın olmadığını özellikle söylüyor. Ama yaş ve epizodik klinik invajinasyon için çok tipiktir. Bu yüzden triadı beklemeden görüntüleme gerekir.",
+    "trap": "\"Kırmızı jöle dışkı yoksa invajinasyon yoktur\" düşüncesi yanlıştır. Bu bulgu geç olabilir ve beklemek komplikasyonu artırır.",
+    "recall": "İnvajinasyonun erken klinik ipuçlarından dördünü yaz: aralıklı ağlama, solukluk, kusma, letarji/beslenememe."
+  }
 ];
 let pool=[...QUESTIONS], current=null, solved=0, correct=0, streak=0, wrongPool=[], attempts=0;
 function filtered(){const l=document.getElementById('level').value;const t=document.getElementById('topic').value;return QUESTIONS.filter(q=>(l==='all'||q.level===l)&&(t==='all'||q.topic===t));}
@@ -49,9 +338,31 @@ function render(q){current=q;attempts=0;document.getElementById('qLevel').textCo
 function newQuiz(){const arr=filtered();render(pick(arr.length?arr:QUESTIONS));}
 function nextQuestion(){newQuiz();}
 function updateScore(){document.getElementById('solved').textContent=solved;document.getElementById('correct').textContent=correct;document.getElementById('rate').textContent=solved?Math.round(correct/solved*100)+'%':'0%';document.getElementById('streak').textContent=streak;}
-function showExplanation(){document.getElementById('expText').textContent=current.explain;document.getElementById('whyCorrect').textContent=current.why;document.getElementById('trap').textContent=current.trap;document.getElementById('recall').textContent=current.recall;document.getElementById('explanation').classList.add('show');}
-function answer(i,btn){if(btn.parentElement.dataset.done==='1')return;attempts++;if(i===current.answer){btn.classList.add('correct');btn.parentElement.dataset.done='1';setChoicesDisabled(true);solved++;correct++;streak++;document.getElementById('feedback').classList.remove('show');document.getElementById('expTitle').textContent='Doğru cevap: '+String.fromCharCode(65+current.answer);showExplanation();updateScore();return;}btn.classList.add('wrong');streak=0;if(!wrongPool.includes(current)) wrongPool.push(current);if(attempts===1){document.getElementById('feedbackTitle').textContent='Yanıt uygun değil. Bir kez daha dene.';document.getElementById('feedbackText').textContent='İpucu: '+current.why+' Sınav tuzağı: '+current.trap;document.getElementById('feedback').classList.add('show');updateScore();return;}btn.parentElement.dataset.done='1';setChoicesDisabled(true);solved++;document.getElementById('feedback').classList.remove('show');document.getElementById('expTitle').textContent='Çözüm';showSolution(false);updateScore();}
-function retryQuestion(){document.getElementById('feedback').classList.remove('show');document.querySelectorAll('.choice.wrong').forEach(b=>b.classList.remove('wrong'));}
+function formatText(text){return String(text||'').replace(/[&<>]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[ch])).replace(/\n/g,'<br>');}
+function showExplanation(){document.getElementById('expText').innerHTML=formatText(current.explain);document.getElementById('whyCorrect').innerHTML=formatText(current.why);document.getElementById('trap').innerHTML=formatText(current.trap);document.getElementById('recall').innerHTML=formatText(current.recall);document.getElementById('explanation').classList.add('show');}
+function answer(i,btn){
+  if(btn.parentElement.dataset.done==='1')return;
+  attempts++;
+  if(i===current.answer){
+    btn.classList.add('correct');
+    btn.parentElement.dataset.done='1';
+    setChoicesDisabled(true);
+    solved++; correct++; streak++;
+    document.getElementById('feedback').classList.remove('show');
+    document.getElementById('expTitle').textContent='Doğru cevap: '+String.fromCharCode(65+current.answer);
+    showExplanation(); updateScore(); return;
+  }
+  btn.classList.add('wrong');
+  btn.disabled=true;
+  btn.style.cursor='not-allowed';
+  streak=0;
+  if(!wrongPool.includes(current)) wrongPool.push(current);
+  document.getElementById('feedbackTitle').textContent = attempts===1 ? 'Yanıt uygun değil. Bir kez daha düşün.' : 'Hâlâ uygun değil. İstersen çözümü açabilirsin.';
+  document.getElementById('feedbackText').innerHTML = formatText('İpucu: '+current.why+'\n\nSınav tuzağı: '+current.trap+'\n\nDoğru cevap otomatik gösterilmedi. Tekrar dene veya çözümü kendi isteğinle aç.');
+  document.getElementById('feedback').classList.add('show');
+  updateScore();
+}
+function retryQuestion(){document.getElementById('feedback').classList.remove('show');document.getElementById('explanation').classList.remove('show');}
 function showSolution(countAsSolved=true){const buttons=[...document.querySelectorAll('.choice')];buttons[current.answer].classList.add('correct');document.getElementById('choices').dataset.done='1';setChoicesDisabled(true);if(countAsSolved){solved++;streak=0;if(!wrongPool.includes(current)) wrongPool.push(current);}document.getElementById('feedback').classList.remove('show');document.getElementById('expTitle').textContent='Çözüm';showExplanation();updateScore();}
 function repeatWrong(){if(!wrongPool.length){alert('Henüz yanlış yapılan soru yok.');return;}render(pick(wrongPool));}
 document.getElementById('level').addEventListener('change',newQuiz);document.getElementById('topic').addEventListener('change',newQuiz);newQuiz();

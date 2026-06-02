@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AnafiRehber - Çocuk Acil Klinik Rehberi</title>
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#03045e">
+    <link rel="apple-touch-icon" href="../icons/icon-192.png">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts (Inter) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome İkonları -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        clinicalBlue: '#0369A1', /* Tıbbi güven veren mavi */
+                        clinicalRed: '#DC2626',
+                        clinicalDark: '#0F172A',
+                        clinicalBg: '#F1F5F9',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #F1F5F9; color: #0F172A; }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            border-bottom: 1px solid rgba(226, 232, 240, 1);
+        }
+        .fade-in { animation: fadeIn 0.2s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        /* Özel scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; }
+    
+
+        .global-app-home {
+            position: fixed;
+            right: 14px;
+            bottom: 86px;
+            z-index: 80;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 13px;
+            border-radius: 999px;
+            background: #03045e;
+            color: #ffffff !important;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 12px;
+            box-shadow: 0 12px 26px rgba(3,4,94,0.28);
+        }
+        .global-app-home:hover { background: #0077b6; }
+        .global-version-ribbon {
+            position: fixed;
+            left: 12px;
+            bottom: 88px;
+            z-index: 80;
+            padding: 8px 10px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.92);
+            color: #334155;
+            border: 1px solid #e2e8f0;
+            font-size: 10px;
+            font-weight: 700;
+            box-shadow: 0 10px 20px rgba(15,23,42,0.08);
+        }
+
+    </style>
+</head>
+<body class="antialiased font-sans pb-24 text-[15px]">
+
+    <header class="fixed top-0 w-full z-50 glass-panel">
+        <div class="max-w-lg mx-auto px-4 h-14 flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded bg-clinicalBlue flex items-center justify-center text-white shadow-sm">
+                    <i class="fa-solid fa-notes-medical"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight text-clinicalDark tracking-tight">Anafilaksi<span class="text-clinicalBlue font-semibold">Kılavuzu</span></h1>
+                    <p class="text-[10px] text-gray-500 font-medium uppercase tracking-wider">Çocuk Acil Karar Destek</p>
+                </div>
+            </div>
+            <div class="bg-blue-50 text-clinicalBlue px-3 py-1 rounded-md text-xs font-bold border border-blue-100">
+                2025 Rehberi
+            </div>
+        </div>
+    </header>
+
+    <!-- Ana İçerik -->
+    <main class="max-w-lg mx-auto pt-20 px-4">
+
+        <!-- GÖRÜNÜM: TANI (Diagnosis) -->
+        <section id="tani-view" class="fade-in space-y-4">
+            
+            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-3 rounded-r-lg">
+                <p class="text-yellow-800 text-sm font-medium">
+                    <i class="fa-solid fa-triangle-exclamation mr-1"></i> Anafilaksi <strong>klinik bir tanıdır</strong>; akut başvuruda laboratuvar (örn. triptaz) beklenmez.
+                </p>
+            </div>
+
+            <h2 class="font-bold text-lg text-clinicalDark border-b border-gray-200 pb-2">Tanı Kriterleri</h2>
+            <p class="text-xs text-gray-500 mb-3">Aşağıdaki 3 senaryodan <strong>herhangi birinin</strong> varlığı tanıyı koydurur:</p>
+
+            <div class="space-y-3">
+                <!-- Kriter 1 -->
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="w-6 h-6 rounded-full bg-clinicalBlue text-white flex items-center justify-center text-xs font-bold">1</span>
+                        <h3 class="font-bold text-sm text-clinicalDark">Akut Mukokütanöz Bulgular</h3>
+                    </div>
+                    <p class="text-sm text-gray-600">Akut ürtiker veya anjiyoödem varlığına <strong>EK OLARAK</strong> aşağıdakilerden en az biri:</p>
+                    <ul class="list-disc pl-5 mt-2 text-sm text-clinicalRed font-medium space-y-1">
+                        <li>Solunumsal semptomlar (Stridor, wheezing, hipoksemi)</li>
+                        <li>Hipotansiyon veya uç organ disfonksiyonu (Senkop, hipotoni)</li>
+                    </ul>
+                </div>
+
+                <!-- Kriter 2 -->
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="w-6 h-6 rounded-full bg-clinicalBlue text-white flex items-center justify-center text-xs font-bold">2</span>
+                        <h3 class="font-bold text-sm text-clinicalDark">Olası Alerjene Maruziyet</h3>
+                    </div>
+                    <p class="text-sm text-gray-600">Maruziyet sonrası dakikalar/saatler içinde aşağıdaki sistemlerden <strong>≥2'sinin</strong> tutulması:</p>
+                    <div class="grid grid-cols-2 gap-2 mt-3 text-xs">
+                        <div class="bg-gray-50 p-2 rounded border border-gray-100"><i class="fa-solid fa-allergies text-orange-500 mr-1"></i> Dermatolojik (Ürtiker/Ödem)</div>
+                        <div class="bg-gray-50 p-2 rounded border border-gray-100"><i class="fa-solid fa-lungs text-blue-500 mr-1"></i> Solunumsal</div>
+                        <div class="bg-gray-50 p-2 rounded border border-gray-100"><i class="fa-solid fa-heart-crack text-red-500 mr-1"></i> Kardiyovasküler (Hipotansiyon)</div>
+                        <div class="bg-gray-50 p-2 rounded border border-gray-100"><i class="fa-solid fa-stomach text-green-500 mr-1"></i> Gastrointestinal (Kusma/Kramp)</div>
+                    </div>
+                </div>
+
+                <!-- Kriter 3 -->
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="w-6 h-6 rounded-full bg-clinicalBlue text-white flex items-center justify-center text-xs font-bold">3</span>
+                        <h3 class="font-bold text-sm text-clinicalDark">Bilinen Alerjene Maruziyet</h3>
+                    </div>
+                    <p class="text-sm text-gray-600">Hasta için <strong>bilinen</strong> bir alerjene maruziyet sonrası izole <strong>Hipotansiyon</strong> gelişmesi.</p>
+                </div>
+            </div>
+            
+            <!-- Hızlı Geçiş -->
+            <button onclick="showView('tedavi-view')" class="w-full bg-clinicalBlue text-white py-3.5 rounded-xl font-bold shadow-md hover:bg-blue-700 transition flex items-center justify-center gap-2 mt-2">
+                Akut Tedavi Algoritmasına Geç <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </section>
+
+
+        <!-- GÖRÜNÜM: TEDAVİ (Treatment & Dosages) -->
+        <section id="tedavi-view" class="fade-in hidden space-y-5">
+            <h2 class="font-bold text-lg text-clinicalDark border-b border-gray-200 pb-2">Acil Stabilizasyon & İlaçlar</h2>
+
+            <!-- BİRİNCİ BASAMAK -->
+            <div class="space-y-3">
+                <h3 class="text-sm font-bold text-clinicalRed uppercase tracking-wider flex items-center gap-1">
+                    <i class="fa-solid fa-syringe"></i> BİRİNCİ BASAMAK TEDAVİ
+                </h3>
+                
+                <!-- Adrenalin -->
+                <div class="bg-red-50 p-4 rounded-xl border border-red-200 shadow-sm relative overflow-hidden">
+                    <div class="absolute right-0 top-0 w-16 h-16 bg-red-100 rounded-bl-full -z-10"></div>
+                    <h4 class="font-bold text-red-900 text-lg mb-1">Adrenalin (İntramüsküler)</h4>
+                    <p class="text-xs text-red-700 font-medium mb-3">Uyluk anterolateraline (IM). Gerekirse 5-15 dk'da bir tekrarla.</p>
+                    
+                    <div class="bg-white p-3 rounded-lg border border-red-100">
+                        <div class="flex justify-between items-center border-b border-gray-100 pb-2 mb-2">
+                            <span class="text-sm text-gray-600 font-semibold">Doz (1 mg/mL ampul):</span>
+                            <span class="text-lg font-bold text-clinicalDark">0.01 mg/kg</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-500">Prepubertal En yüksek doz Doz:</span>
+                            <span class="font-bold text-red-600">0.3 mg (0.3 mL)</span>
+                        </div>
+                        <div class="flex justify-between text-sm mt-1">
+                            <span class="text-gray-500">Adölesan En yüksek doz Doz:</span>
+                            <span class="font-bold text-red-600">0.5 mg (0.5 mL)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Destek Tedavisi -->
+                <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm grid grid-cols-2 gap-4">
+                    <div>
+                        <h4 class="font-bold text-sm text-clinicalDark"><i class="fa-solid fa-droplet text-blue-500"></i> Sıvı Resüsitasyonu</h4>
+                        <p class="text-xs text-gray-600 mt-1">Hemodinamik instabilitede <strong>İzotonik sıvı bolusu</strong>.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-sm text-clinicalDark"><i class="fa-solid fa-lungs-virus text-teal-500"></i> Albuterol</h4>
+                        <p class="text-xs text-gray-600 mt-1">Bronkospazm/Wheezing varsa: <strong>2.5 - 5 mg nebül.</strong></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- İKİNCİ BASAMAK / YARDIMCI -->
+            <div class="space-y-3 pt-2 border-t border-gray-200">
+                <h3 class="text-sm font-bold text-gray-600 uppercase tracking-wider">İKİNCİ BASAMAK (Yardımcı)</h3>
+                <p class="text-[11px] text-gray-500 -mt-2 leading-tight">Bu ilaçlar asla Adrenalin'in yerine veya öncesinde kullanılmamalıdır.</p>
+                
+                <!-- Steroidler -->
+                <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm">
+                    <h4 class="font-bold text-sm text-clinicalDark mb-2">Kortikosteroidler</h4>
+                    <ul class="text-sm text-gray-700 space-y-2">
+                        <li class="flex justify-between"><span class="font-medium">Metilprednizolon (IV)</span> <span>1-2 mg/kg <span class="text-xs text-gray-400">(En yüksek doz: 60mg)</span></span></li>
+                        <li class="flex justify-between"><span class="font-medium">Deksametazon (PO/IV)</span> <span>0.6 mg/kg <span class="text-xs text-gray-400">(En yüksek doz: 16mg)</span></span></li>
+                    </ul>
+                </div>
+
+                <!-- Antihistaminikler -->
+                <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm">
+                    <h4 class="font-bold text-sm text-clinicalDark mb-2">Antihistaminikler (H1 ve H2)</h4>
+                    <div class="text-xs text-blue-700 bg-blue-50 p-2 rounded mb-2">
+                        Setirizin, daha uzun etki süresi nedeniyle difenhidramine tercih edilir.
+                    </div>
+                    <ul class="text-sm text-gray-700 space-y-2">
+                        <li class="flex flex-col border-b border-gray-100 pb-2">
+                            <span class="font-medium">H1: Setirizin (PO)</span> 
+                            <span class="text-xs text-gray-500 mt-0.5">6ay-2yaş: 2.5mg | 2-5yaş: 2.5-5mg | >6yaş: 5-10mg</span>
+                        </li>
+                        <li class="flex flex-col border-b border-gray-100 pb-2">
+                            <span class="font-medium">H1: Difenhidramin (IV/IM)</span> 
+                            <span class="text-xs text-gray-500 mt-0.5">1 mg/kg (En yüksek doz: 50mg)</span>
+                        </li>
+                        <li class="flex flex-col">
+                            <span class="font-medium">H2: Famotidin (IV)</span> 
+                            <span class="text-xs text-gray-500 mt-0.5">0.25 mg/kg (En yüksek doz: 20mg)</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Refrakter Şok -->
+                <div class="bg-gray-800 p-3 rounded-xl border border-gray-700 text-white shadow-sm">
+                    <h4 class="font-bold text-sm mb-1 text-red-400">Refrakter Şok / İnfüzyon</h4>
+                    <p class="text-xs text-gray-300">Sıvı resüsitasyonu ve kas içi adrenaline dirençli hipotansiyon:</p>
+                    <ul class="text-sm space-y-1 mt-2">
+                        <li class="flex justify-between"><span class="font-medium">Adrenalin İnfüzyonu</span> <span class="font-mono text-xs">0.05-0.1 mcg/kg/dk</span></li>
+                        <li class="flex justify-between"><span class="font-medium">Noradrenalin İnfüzyonu</span> <span class="font-mono text-xs">0.05-0.1 mcg/kg/dk</span></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- GÖRÜNÜM: YATIŞ & İZLEM (Yatış / taburculuk kararı) -->
+        <section id="yatis-view" class="fade-in hidden space-y-4">
+            <h2 class="font-bold text-lg text-clinicalDark border-b border-gray-200 pb-2">Sonlandırma & Taburculuk</h2>
+            
+            <div class="bg-blue-50 p-3 rounded-xl border border-blue-200 text-sm text-clinicalBlue flex gap-3 items-start">
+                <i class="fa-solid fa-clock mt-1 text-lg"></i>
+                <p>Semptomları düzelen hastalar <strong>4-6 saatlik gözlem</strong> sonrasında güvenle taburcu edilebilir.</p>
+            </div>
+
+            <!-- Bifazik Risk -->
+            <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+                <h3 class="font-bold text-sm text-clinicalDark mb-2 flex items-center gap-2">
+                    <i class="fa-solid fa-chart-line text-orange-500"></i> Bifazik Reaksiyon Risk Faktörleri
+                </h3>
+                <ul class="list-disc pl-5 text-sm text-gray-600 space-y-1">
+                    <li>Bilinmeyen tetikleyici</li>
+                    <li>Kardiyovasküler tutulum (Hipotansiyon)</li>
+                    <li>Persistan wheezing (hışıltı)</li>
+                    <li><strong>≥2 doz</strong> kas içi adrenalin gereksinimi</li>
+                </ul>
+                <p class="text-xs text-orange-600 mt-2 font-medium">Bu hastalarda yatış veya uzatılmış gözlem (örn. 24 saat) planlanmalıdır.</p>
+            </div>
+
+            <!-- Yatış Kriterleri -->
+            <div class="grid grid-cols-1 gap-3">
+                <div class="bg-white p-3 rounded-xl border-l-4 border-yellow-400 shadow-sm">
+                    <h3 class="font-bold text-sm text-clinicalDark mb-1">Servise Yatış</h3>
+                    <ul class="text-xs text-gray-600 space-y-1 list-disc pl-4">
+                        <li>Adrenalin/Albuterol ile açıklanamayan anormal vital bulgular.</li>
+                        <li>Persistan hışıltı / Çoklu albuterol dozu.</li>
+                        <li>Öyküde ağır anafilaksi veya ciddi komorbidite.</li>
+                    </ul>
+                </div>
+                
+                <div class="bg-white p-3 rounded-xl border-l-4 border-red-500 shadow-sm">
+                    <h3 class="font-bold text-sm text-clinicalDark mb-1">Yoğun bakım (YBÜ) Yatış</h3>
+                    <ul class="text-xs text-gray-600 space-y-1 list-disc pl-4">
+                        <li>Entübasyon veya NIV (HFNC, BPAP) gereksinimi.</li>
+                        <li>Sürekli veya >2 saatte bir albuterol gereksinimi.</li>
+                        <li>Persistan kardiyovasküler tutulum (Şok).</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Taburculuk -->
+            <div class="bg-green-50 p-4 rounded-xl border border-green-200 shadow-sm mt-4">
+                <h3 class="font-bold text-sm text-green-900 mb-2">Taburculuk Önerileri</h3>
+                <ul class="text-sm text-green-800 space-y-2">
+                    <li class="flex items-start gap-2">
+                        <i class="fa-solid fa-check-circle mt-0.5"></i>
+                        <span>Hastaya mutlaka <strong>Adrenalin Oto-Enjektörü (Epipen vb.)</strong> reçete edilmeli ve eğitimi verilmelidir.</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <i class="fa-solid fa-check-circle mt-0.5"></i>
+                        <span>Alerji testi ve desensitizasyon için <strong>Pediatrik İmmünoloji/Alerji</strong> polikliniğine yönlendirilmelidir.</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Alt Navigasyon (Bottom Navigation) -->
+    <nav class="fixed bottom-0 w-full glass-panel z-50 pb-safe">
+        <div class="max-w-lg mx-auto px-6 h-16 flex justify-between items-center text-[10px] font-bold text-gray-400 uppercase tracking-wide">
+            
+            <button onclick="showView('tani-view')" id="btn-tani-view" class="nav-btn flex flex-col items-center gap-1 w-20 text-clinicalBlue transition-colors">
+                <i class="fa-solid fa-stethoscope text-xl mb-0.5"></i>
+                <span>Tanı</span>
+            </button>
+            
+            <button onclick="showView('tedavi-view')" id="btn-tedavi-view" class="nav-btn flex flex-col items-center gap-1 w-20 transition-colors hover:text-gray-600">
+                <i class="fa-solid fa-syringe text-xl mb-0.5"></i>
+                <span>Tedavi</span>
+            </button>
+            
+            <button onclick="showView('yatis-view')" id="btn-yatis-view" class="nav-btn flex flex-col items-center gap-1 w-20 transition-colors hover:text-gray-600">
+                <i class="fa-solid fa-clipboard-user text-xl mb-0.5"></i>
+                <span>Yatış/İzlem</span>
+            </button>
+
+        </div>
+    </nav>
+
+    <script>
+        // Görünümler arası geçiş
+        function showView(viewId) {
+            const views = ['tani-view', 'tedavi-view', 'yatis-view'];
+            views.forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+            
+            const selectedView = document.getElementById(viewId);
+            selectedView.classList.remove('hidden');
+            
+            // Animasyon tetikleyici
+            void selectedView.offsetWidth; 
+            
+            updateNavColors(viewId);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Alt menü durumunu güncelleme
+        function updateNavColors(activeViewId) {
+            const btns = document.querySelectorAll('.nav-btn');
+            btns.forEach(btn => {
+                btn.classList.remove('text-clinicalBlue');
+                btn.classList.add('text-gray-400');
+            });
+            
+            const activeBtn = document.getElementById(`btn-${activeViewId}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('text-gray-400');
+                activeBtn.classList.add('text-clinicalBlue');
+            }
+        }
+    </script>
+
+
+<a class="global-app-home" href="../index.html" aria-label="Ana menüye dön">⌂ Ana Menü</a>
+<div class="global-version-ribbon">PWA v3 · 02.06.2026</div>
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function () {
+      navigator.serviceWorker.register("../service-worker.js").catch(function(error){
+        console.log("Service Worker kayıt hatası:", error);
+      });
+    });
+  }
+</script>
+
+</body>
+</html>

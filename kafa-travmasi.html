@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravmaRehber - Pediatrik Kafa Travması</title>
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#03045e">
+    <link rel="apple-touch-icon" href="../icons/icon-192.png">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts (Inter) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome İkonları -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        traumaPrimary: '#F97316', /* Orange 500 - Travma/Uyarı Rengi */
+                        traumaDark: '#1E293B', /* Slate 800 */
+                        traumaAlert: '#E11D48', /* Rose 600 */
+                        traumaBg: '#FFF7ED', /* Orange 50 */
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #FFF7ED; color: #1E293B; }
+        .glass-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(249, 115, 22, 0.2);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+        .fade-in { animation: fadeIn 0.25s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .cushing-pulse {
+            animation: pulse-cushing 2s infinite;
+        }
+        @keyframes pulse-cushing {
+            0% { box-shadow: 0 0 0 0 rgba(225, 29, 72, 0.5); }
+            70% { box-shadow: 0 0 0 10px rgba(225, 29, 72, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(225, 29, 72, 0); }
+        }
+        /* Özel Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #FDBA74; border-radius: 10px; }
+    
+
+        .global-app-home {
+            position: fixed;
+            right: 14px;
+            bottom: 86px;
+            z-index: 80;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 13px;
+            border-radius: 999px;
+            background: #03045e;
+            color: #ffffff !important;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 12px;
+            box-shadow: 0 12px 26px rgba(3,4,94,0.28);
+        }
+        .global-app-home:hover { background: #0077b6; }
+        .global-version-ribbon {
+            position: fixed;
+            left: 12px;
+            bottom: 88px;
+            z-index: 80;
+            padding: 8px 10px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.92);
+            color: #334155;
+            border: 1px solid #e2e8f0;
+            font-size: 10px;
+            font-weight: 700;
+            box-shadow: 0 10px 20px rgba(15,23,42,0.08);
+        }
+
+    </style>
+</head>
+<body class="antialiased font-sans pb-24 text-[15px]">
+
+    <!-- Üst Bar (Header) -->
+    <header class="fixed top-0 w-full z-50 glass-header">
+        <div class="max-w-lg mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-lg bg-traumaPrimary flex items-center justify-center text-white shadow-sm">
+                    <i class="fa-solid fa-truck-medical"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight text-traumaDark tracking-tight">Travma<span class="text-traumaPrimary">Rehber</span></h1>
+                    <p class="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Kafa Travması Yönetimi</p>
+                </div>
+            </div>
+            <!-- Cushing Triadı Uyarısı -->
+            <div class="bg-red-50 text-red-700 px-3 py-1.5 rounded-md text-xs font-bold border border-red-200 cushing-pulse flex items-center gap-1 cursor-pointer" onclick="showView('kibas-view')">
+                <i class="fa-solid fa-brain"></i> GKS < 8!
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-lg mx-auto pt-20 px-4">
+
+        <!-- GÖRÜNÜM 1: İLK DEĞERLENDİRME (Primary Exam) -->
+        <section id="degerlendirme-view" class="fade-in space-y-4">
+            
+            <div class="bg-orange-50 border-l-4 border-traumaPrimary p-3 rounded-r-lg shadow-sm">
+                <h3 class="text-orange-900 font-bold text-sm mb-1">
+                    <i class="fa-solid fa-circle-info mr-1"></i> Şiddet Sınıflandırması
+                </h3>
+                <p class="text-orange-800 text-xs font-medium">
+                    Glasgow Koma Skalası (GKS): <strong>Hafif:</strong> >12 | <strong>Orta:</strong> 9-12 | <strong>Ağır:</strong> <9 (RSI ile Entübasyon endikasyonudur).
+                </p>
+            </div>
+
+            <h2 class="font-bold text-lg text-traumaDark border-b border-gray-200 pb-2 mt-4">Kritik Fizik Muayene Bulguları</h2>
+            
+            <div class="space-y-3">
+                <!-- Cushing Triadı -->
+                <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-200 border-l-4 border-l-red-600">
+                    <div class="flex items-center gap-2 mb-2">
+                        <i class="fa-solid fa-heart-pulse text-red-600"></i>
+                        <h3 class="font-bold text-sm text-traumaDark">Cushing Triadı (Herniasyon)</h3>
+                    </div>
+                    <p class="text-xs text-gray-600 mb-2">Kafa içi basıncın (KİBAS) ölümcül seviyeye ulaştığını gösterir. Acil müdahale gerektirir.</p>
+                    <div class="grid grid-cols-3 gap-2 text-center text-xs font-bold text-red-800">
+                        <div class="bg-red-50 py-2 rounded border border-red-100">Bradikardi</div>
+                        <div class="bg-red-50 py-2 rounded border border-red-100">Hipertansiyon</div>
+                        <div class="bg-red-50 py-2 rounded border border-red-100">Düzensiz Sol.</div>
+                    </div>
+                </div>
+
+                <!-- Baziler Kafatası Kırığı -->
+                <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-200 border-l-4 border-l-blue-500">
+                    <div class="flex items-center gap-2 mb-1">
+                        <i class="fa-solid fa-skull text-blue-500"></i>
+                        <h3 class="font-bold text-sm text-traumaDark">Baziler Kafatası Kırığı Bulguları</h3>
+                    </div>
+                    <ul class="list-disc pl-5 text-xs text-gray-600 space-y-1">
+                        <li><strong>Battle Belirtisi:</strong> Kulak arkasında (mastoid) ekimoz.</li>
+                        <li><strong>Rakun Gözü:</strong> Periorbital ekimoz.</li>
+                        <li>Hemotimpanum, rinore (BOS), otore (BOS).</li>
+                        <li>Anosmi veya Kafa Çifti felçleri (örn: CN VII paralizisi).</li>
+                    </ul>
+                </div>
+
+                <!-- İhmal ve İstismar -->
+                <div class="bg-gray-800 p-3 rounded-xl shadow-sm border border-gray-700">
+                    <div class="flex items-center gap-2 mb-1">
+                        <i class="fa-solid fa-child-reaching text-yellow-400"></i>
+                        <h3 class="font-bold text-sm text-white">Abusive Head Trauma (Sarsılmış Bebek)</h3>
+                    </div>
+                    <p class="text-[11px] text-gray-300">
+                        Travma öyküsü net değilse, fizik muayeneyle uyumsuzsa veya <span class="text-red-400 font-bold">Retinal Kanamalar</span> (fundoskopi) saptanırsa mutlaka çocuk istismarı düşünülmeli ve Sosyal Hizmetler haberdar edilmelidir.
+                    </p>
+                </div>
+            </div>
+
+            <button onclick="showView('pecarn-view')" class="w-full bg-traumaPrimary text-white py-3.5 rounded-xl font-bold shadow-md hover:bg-orange-600 transition flex items-center justify-center gap-2 mt-4">
+                Tomografi (PECARN) Kararına Geç <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </section>
+
+        <!-- GÖRÜNÜM 2: TOMOGRAFİ (PECARN Kriterleri) -->
+        <section id="pecarn-view" class="fade-in hidden space-y-4">
+            <h2 class="font-bold text-lg text-traumaDark border-b border-gray-200 pb-2">PECARN BT Karar Kuralları</h2>
+            <p class="text-xs text-gray-500 mb-2">GKS 14-15 olan minör künt kafa travmalı hastalar için geçerlidir.</p>
+
+            <!-- Şiddetli Mekanizma Tanımı -->
+            <div class="bg-yellow-50 border border-yellow-200 p-3 rounded-xl shadow-sm mb-4">
+                <h3 class="text-yellow-800 font-bold text-xs mb-1 uppercase tracking-wide">Şiddetli Mekanizma Nedir?</h3>
+                <ul class="text-[11px] text-yellow-900 space-y-0.5 list-disc pl-4">
+                    <li>Araçtan fırlama, araçta ölüm, takla atma.</li>
+                    <li>Kasksız yaya veya bisikletliye motorlu araç çarpması.</li>
+                    <li>Kafaya yüksek hızlı/sert cisim çarpması.</li>
+                    <li><strong>Düşme:</strong> <2 yaş için >90cm (3ft) | >2 yaş için >1.5m (5ft).</li>
+                </ul>
+            </div>
+
+            <div class="space-y-4">
+                <!-- 2 YAŞ ALTI -->
+                <div class="bg-white p-1 rounded-xl border border-gray-200 shadow-sm">
+                    <div class="bg-slate-100 p-2 rounded-t-lg font-bold text-sm text-traumaDark text-center">Çocuklar < 2 Yaş</div>
+                    
+                    <div class="p-3 space-y-2">
+                        <!-- Yüksek Risk -->
+                        <div class="border-l-4 border-red-500 pl-2">
+                            <span class="text-xs font-bold text-red-600 block mb-1">YÜKSEK RİSK (BT Çekilmeli)</span>
+                            <p class="text-[11px] text-gray-700">GKS < 15, Bilinç değişikliği (AMS) VEYA Palpe edilebilen kafatası kırığı.</p>
+                        </div>
+                        <!-- Orta Risk -->
+                        <div class="border-l-4 border-orange-400 pl-2">
+                            <span class="text-xs font-bold text-orange-600 block mb-1">ORTA RİSK (BT veya 4-6 Saat Gözlem)</span>
+                            <p class="text-[11px] text-gray-700">Frontal <u>olmayan</u> (oksipital, paryetal, temporal) hematom, >5 sn bilinç kaybı, Aileye göre anormal davranış VEYA Şiddetli mekanizma.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2 YAŞ ÜSTÜ -->
+                <div class="bg-white p-1 rounded-xl border border-gray-200 shadow-sm">
+                    <div class="bg-slate-100 p-2 rounded-t-lg font-bold text-sm text-traumaDark text-center">Çocuklar ≥ 2 Yaş</div>
+                    
+                    <div class="p-3 space-y-2">
+                        <!-- Yüksek Risk -->
+                        <div class="border-l-4 border-red-500 pl-2">
+                            <span class="text-xs font-bold text-red-600 block mb-1">YÜKSEK RİSK (BT Çekilmeli)</span>
+                            <p class="text-[11px] text-gray-700">GKS < 15, Bilinç değişikliği (AMS) VEYA Baziler kafatası kırığı bulguları.</p>
+                        </div>
+                        <!-- Orta Risk -->
+                        <div class="border-l-4 border-orange-400 pl-2">
+                            <span class="text-xs font-bold text-orange-600 block mb-1">ORTA RİSK (BT veya 4-6 Saat Gözlem)</span>
+                            <p class="text-[11px] text-gray-700">Bilinç kaybı (herhangi bir süre), Kusma, Şiddetli baş ağrısı VEYA Şiddetli mekanizma.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-green-50 p-3 rounded-xl border border-green-200 text-[11px] text-green-800 mt-2 shadow-sm">
+                <i class="fa-solid fa-check-circle mr-1"></i> Yukarıdaki bulguların <strong>HİÇBİRİ YOKSA</strong> risk çok düşüktür (NPV ~%100). Rutin tomografi <u>çekilmez</u>.
+            </div>
+        </section>
+
+        <!-- GÖRÜNÜM 3: KİBAS VE MEDİKAL TEDAVİ (ICP Management) -->
+        <section id="kibas-view" class="fade-in hidden space-y-4">
+            <h2 class="font-bold text-lg text-traumaDark border-b border-gray-200 pb-2 text-red-700">KİBAS ve Medikal Yönetim</h2>
+            
+            <!-- Temel Korunma (Sekonder Hasar) -->
+            <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm border-l-4 border-l-blue-500">
+                <h3 class="font-bold text-sm text-traumaDark mb-2">Sekonder Beyin Hasarını Önle!</h3>
+                <ul class="text-xs text-gray-600 space-y-1.5">
+                    <li><i class="fa-solid fa-bed text-blue-400 w-4"></i> Yatak başını <strong>30 derece</strong> yükseltin.</li>
+                    <li><i class="fa-solid fa-droplet text-blue-400 w-4"></i> Hipotansiyonu önleyin (Gerekirse agresif IV sıvı).</li>
+                    <li><i class="fa-solid fa-temperature-arrow-down text-blue-400 w-4"></i> Hipertermiyi önleyin (Ateş, beyin metabolizmasını artırır).</li>
+                    <li><i class="fa-solid fa-lungs text-blue-400 w-4"></i> <strong>PaCO2: 35-40 mmHg</strong> arasında tutun.</li>
+                </ul>
+                <div class="bg-red-50 p-2 mt-2 rounded border border-red-100 text-[10px] text-red-700 font-bold">
+                    DİKKAT: Hiperventilasyon RUTİN DEĞİLDİR. Sadece dirençli KİBAS veya herniasyon bulgularında geçici olarak kullanılır. İskemiyi artırabilir!
+                </div>
+            </div>
+
+            <!-- Hiperosmolar Tedavi -->
+            <div class="space-y-3 mt-4">
+                <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wider">Hiperosmolar Tedavi (Herniasyonda)</h3>
+                
+                <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm flex flex-col gap-1">
+                    <div class="flex justify-between items-center border-b border-gray-100 pb-1">
+                        <span class="font-bold text-sm text-gray-800">%3 Sodyum Klorür (Hipertonik Salin)</span>
+                        <span class="text-xs font-mono font-bold text-traumaPrimary">2 - 5 mL/kg/doz</span>
+                    </div>
+                    <span class="text-[10px] text-gray-500 text-right">IV, 20 dakika içinde infüzyon.</span>
+                </div>
+
+                <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm flex flex-col gap-1">
+                    <div class="flex justify-between items-center border-b border-gray-100 pb-1">
+                        <span class="font-bold text-sm text-gray-800">Mannitol</span>
+                        <span class="text-xs font-mono font-bold text-traumaPrimary">0.25 - 1 g/kg/doz</span>
+                    </div>
+                    <span class="text-[10px] text-gray-500 text-right">IV, 20-30 dakika içinde infüzyon.</span>
+                </div>
+            </div>
+
+            <!-- Nöbet Profilaksisi -->
+            <div class="space-y-3 mt-4 border-t border-gray-200 pt-3">
+                <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wider">Antikonvülzan Profilaksi</h3>
+                <p class="text-[10px] text-gray-500 -mt-1">Ağır TBI, intrakraniyal kanama veya penetran travmada.</p>
+                
+                <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm flex flex-col gap-1">
+                    <div class="flex justify-between items-center border-b border-gray-100 pb-1">
+                        <span class="font-bold text-sm text-gray-800">Levetirasetam (Keppra)</span>
+                        <span class="text-xs font-mono font-bold text-traumaDark">10 - 25 mg/kg/doz</span>
+                    </div>
+                    <span class="text-[10px] text-gray-500 text-right">IV, q12h (En yüksek doz: 1000 mg/doz).</span>
+                </div>
+                
+                <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm flex flex-col gap-1">
+                    <div class="flex justify-between items-center border-b border-gray-100 pb-1">
+                        <span class="font-bold text-sm text-gray-800">Fosfenitoin (Yükleme)</span>
+                        <span class="text-xs font-mono font-bold text-traumaDark">18 mg PE/kg</span>
+                    </div>
+                    <span class="text-[10px] text-gray-500 text-right">Fenitoin yerine tercih edilir. (En yüksek doz: 1500mg PE).</span>
+                </div>
+            </div>
+            
+            <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm mt-3">
+                <h3 class="font-bold text-sm text-gray-800 mb-1">Analjezi (Ağrı Yönetimi)</h3>
+                <ul class="text-[11px] text-gray-600 space-y-1 font-mono">
+                    <li><span class="font-bold font-sans">Fentanil:</span> 0.5 - 2 mcg/kg/doz IV veya IN</li>
+                    <li><span class="font-bold font-sans">Morfin:</span> 0.05 - 0.1 mg/kg/doz IV</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- GÖRÜNÜM 4: YATIŞ VE KARAR (Yatış / taburculuk kararı) -->
+        <section id="karar-view" class="fade-in hidden space-y-4">
+            <h2 class="font-bold text-lg text-traumaDark border-b border-gray-200 pb-2">Yatış, Taburculuk ve Karar</h2>
+
+            <!-- Sevk / Konsültasyon -->
+            <div class="bg-red-50 border border-red-200 p-4 rounded-xl shadow-sm mb-4">
+                <h3 class="text-red-900 font-bold text-sm mb-1 flex items-center gap-2">
+                    <i class="fa-solid fa-phone-volume text-red-600"></i> Acil Nöroşirürji (Beyin Cerrahi)
+                </h3>
+                <p class="text-xs text-red-800">
+                    İntrakraniyal kanama (epidural/subdural/SAK vb.), fokal nörolojik bulgu, çökme kırığı (depressed skull fracture), penetran travma veya herniasyon bulguları varsa anında konsülte edilmelidir.
+                </p>
+            </div>
+
+            <!-- Yatış Kriterleri -->
+            <div class="grid grid-cols-1 gap-3">
+                <div class="bg-white p-3 rounded-xl border-l-4 border-yellow-400 shadow-sm">
+                    <h3 class="font-bold text-sm text-traumaDark mb-2">Servise Yatış (Gözlem)</h3>
+                    <ul class="text-[11px] text-gray-600 space-y-1 list-disc pl-4">
+                        <li>Normal BT'ye rağmen anormal nörolojik muayene veya vital bulgu.</li>
+                        <li>Dirençli / Persistan kusma.</li>
+                        <li>Şiddetli baş ağrısı olan hastalar.</li>
+                        <li>Güvenilmeyen aile / Bakım veren veya istismar şüphesi.</li>
+                    </ul>
+                </div>
+                
+                <div class="bg-white p-3 rounded-xl border-l-4 border-red-500 shadow-sm">
+                    <h3 class="font-bold text-sm text-traumaDark mb-2">çocuk yoğun bakım</h3>
+                    <ul class="text-[11px] text-gray-600 space-y-1 list-disc pl-4">
+                        <li>Komadaki hastalar (GKS < 9).</li>
+                        <li>Mekanik ventilatör ihtiyacı olanlar.</li>
+                        <li>Ağır çoklu sistem travması eşlik edenler.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Taburculuk -->
+            <div class="bg-green-50 p-4 rounded-xl border border-green-200 shadow-sm mt-4">
+                <h3 class="font-bold text-sm text-green-900 mb-2"><i class="fa-solid fa-house-medical"></i> Taburculuk Kriterleri</h3>
+                <ul class="text-[11px] text-green-800 space-y-1 list-disc pl-4">
+                    <li>Nörolojik muayene tamamen normal.</li>
+                    <li>Dirençli kusma veya şiddetli baş ağrısı yok.</li>
+                    <li>Normal nörogörüntüleme (BT çekildiyse).</li>
+                    <li>İstismar (Child maltreatment) şüphesi yok.</li>
+                    <li class="font-semibold">* İzole lineer kafatası kırığı olanlar, başka bir sorun yoksa yakın takiple taburcu edilebilir.</li>
+                </ul>
+                <div class="mt-3 text-[10px] font-bold text-gray-500 uppercase">AİLEYE UYARI VERİLMELİ:</div>
+                <p class="text-[10px] text-green-700">Mental durumda değişiklik, uykuya meyil (somnolans), dengesiz yürüme, kusmanın tekrarlaması durumunda acile dönmeleri tembihlenmelidir.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Alt Navigasyon (Bottom Navigation) -->
+    <nav class="fixed bottom-0 w-full glass-header z-50 pb-safe">
+        <div class="max-w-lg mx-auto px-2 sm:px-4 h-16 flex justify-between items-center text-[9px] font-bold text-gray-400 uppercase tracking-wider">
+            
+            <button onclick="showView('degerlendirme-view')" id="btn-degerlendirme-view" class="nav-btn flex flex-col items-center gap-1 w-[24%] text-traumaPrimary transition-colors">
+                <i class="fa-solid fa-stethoscope text-xl mb-0.5"></i>
+                <span class="truncate w-full text-center">Değerlendirme</span>
+            </button>
+            
+            <button onclick="showView('pecarn-view')" id="btn-pecarn-view" class="nav-btn flex flex-col items-center gap-1 w-[24%] transition-colors hover:text-gray-600">
+                <i class="fa-solid fa-brain text-xl mb-0.5"></i>
+                <span class="truncate w-full text-center">PECARN BT</span>
+            </button>
+            
+            <button onclick="showView('kibas-view')" id="btn-kibas-view" class="nav-btn flex flex-col items-center gap-1 w-[24%] transition-colors hover:text-gray-600">
+                <i class="fa-solid fa-syringe text-xl mb-0.5"></i>
+                <span class="truncate w-full text-center">KİBAS/İlaç</span>
+            </button>
+            
+            <button onclick="showView('karar-view')" id="btn-karar-view" class="nav-btn flex flex-col items-center gap-1 w-[24%] transition-colors hover:text-gray-600">
+                <i class="fa-solid fa-clipboard-check text-xl mb-0.5"></i>
+                <span class="truncate w-full text-center">Yatış/Karar</span>
+            </button>
+
+        </div>
+    </nav>
+
+    <script>
+        // Görünümler arası geçiş sağlayan fonksiyon
+        function showView(viewId) {
+            const views = ['degerlendirme-view', 'pecarn-view', 'kibas-view', 'karar-view'];
+            views.forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+            
+            const selectedView = document.getElementById(viewId);
+            selectedView.classList.remove('hidden');
+            
+            // Animasyonu tetikle
+            void selectedView.offsetWidth; 
+            
+            updateNavColors(viewId);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Alt menü durumunu güncelleyen fonksiyon
+        function updateNavColors(activeViewId) {
+            const btns = document.querySelectorAll('.nav-btn');
+            btns.forEach(btn => {
+                btn.classList.remove('text-traumaPrimary');
+                btn.classList.add('text-gray-400');
+            });
+            
+            const activeBtn = document.getElementById(`btn-${activeViewId}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('text-gray-400');
+                activeBtn.classList.add('text-traumaPrimary');
+            }
+        }
+    </script>
+
+
+<a class="global-app-home" href="../index.html" aria-label="Ana menüye dön">⌂ Ana Menü</a>
+<div class="global-version-ribbon">PWA v3 · 02.06.2026</div>
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function () {
+      navigator.serviceWorker.register("../service-worker.js").catch(function(error){
+        console.log("Service Worker kayıt hatası:", error);
+      });
+    });
+  }
+</script>
+
+</body>
+</html>
