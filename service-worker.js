@@ -1,4 +1,4 @@
-const CACHE_NAME = "pediatrik-acil-rehber-v8";
+const CACHE_NAME = "pediatrik-acil-rehber-v10";
 const APP_ASSETS = [
   "./",
   "./index.html",
@@ -16,6 +16,7 @@ const APP_ASSETS = [
   "./pages/zehirlenme.html",
   "./pages/kafa-travmasi.html",
   "./pages/soru-bankasi.html",
+  "./pages/hemsirelik-prosedurleri.html",
   "./assets/trakya-cocuk-acil-logo.png"
 ];
 

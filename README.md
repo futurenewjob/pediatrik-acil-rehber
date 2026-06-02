@@ -1,15 +1,14 @@
-# Pediatrik Acil PWA v8
+# Pediatrik Acil PWA v10
 
 Bu paket, GitHub Pages üzerinde çalışan Pediatrik Acil Klinik Rehberi için hazırlanmıştır.
 
-## v8 ile gelenler
-- Sınav ve Öğrenme Modülü: TUS/YDUS tarzına benzer, özgün, açıklamalı soru bankası
-- Ana menüye “Sınav ve Öğrenme Modülü” kartı eklendi
-- Kurumsal renkler güncellendi: Edirne Kırmızısı `#A91101`, Kurumsal Lacivert `#002F65`, Altın/Sarı `#FFD700`
-- Trakya Çocuk Acil logosu ana sayfa ve soru modülüne eklendi
-- İngilizce klinik yer adları Türkçeleştirildi
-- Benzodiazepin yaklaşımı sadeleştirildi; midazolam/diazepam temel seçenekler olarak düzenlendi
-- Service worker sürümü `v8` yapıldı
+## v10 ile gelenler
+- Yeni modül: `pages/hemsirelik-prosedurleri.html`
+- Ana menüye “Hemşirelik Prosedürleri” kartı eklendi.
+- Modül hedefi: Acil serviste ekip desteği sınırlı olduğunda genç hekimin ilaç hazırlama, damar yolu/kemik içi erişim, oksijen cihazları, aspirasyon, nebülizasyon, monitörizasyon ve hastalık bazlı hazırlık akışlarını güvenli kontrol etmesi.
+- Hızlı hazırlama hesaplayıcısı eklendi.
+- Ana sayfadaki hesaplayıcı JavaScript değişken hatası düzeltildi.
+- Service worker sürümü `v10` yapıldı.
 
 ## Kök dizinde kalması gereken yapı
 - `index.html`
@@ -22,17 +21,11 @@ Bu paket, GitHub Pages üzerinde çalışan Pediatrik Acil Klinik Rehberi için 
 - `pages/`
 
 ## Test
-- Ana sayfada arama, filtre ve hesaplayıcı çalışmalı.
-- “Sınav ve Öğrenme Modülü” kartı `pages/soru-bankasi.html` sayfasını açmalı.
-- Hesaplayıcıda 10 kg için arrest adrenalin 0.1 mg / 1 mL, anafilaksi 0.1 mg / 0.1 mL, sıvı 100/200 mL görünmeli.
+- Ana sayfada “Hemşirelik Prosedürleri” kartı görünmeli.
+- Kart `pages/hemsirelik-prosedurleri.html` sayfasını açmalı.
+- Ana sayfa hesaplayıcısında 10 kg için sonuçlar görünmeli.
+- Hemşirelik Prosedürleri sayfasında hızlı hesaplayıcı çalışmalı.
 - Mobilde Safari/Chrome ile Ana Ekrana Ekle yapılabilir.
 
 ## Klinik güvenlik
-Bu materyal eğitim ve hızlı başvuru amaçlıdır. Klinik uygulamada kurum protokolü, güncel rehberler, ilaç konsantrasyonu ve kıdemli hekim değerlendirmesi esas alınmalıdır.
-
-
-## v8 ile gelenler
-- Soru modülünde yanlış cevapta doğru seçenek hemen gösterilmez.
-- Önce ipucu ve tekrar deneme verilir.
-- Kullanıcı isterse “Çözümü göster” ile doğru seçeneği ve açıklamayı açar.
-- Service worker sürümü v8 yapıldı.
+Bu materyal eğitim ve hızlı başvuru amaçlıdır. Klinik uygulamada kurum protokolü, güncel rehberler, ilaç konsantrasyonu, hasta özel durumu ve kıdemli hekim değerlendirmesi esas alınmalıdır.
