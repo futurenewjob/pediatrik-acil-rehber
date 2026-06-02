@@ -87,6 +87,94 @@
     </section>
 
     <section class="space-y-8">
+    <div class="text-center md:text-left warning-border pl-6">
+        <h2 class="text-3xl font-bold text-[#03045e]">Kilo Bazlı Hızlı Doz Hesaplayıcı</h2>
+        <p class="mt-2 text-lg text-slate-600">
+            Kardiyak arrest epinefrini, anafilaksi IM adrenalini ve sıvı bolusu için hızlı hesaplama aracı.
+        </p>
+    </div>
+
+    <div class="glass-card p-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
+            <div class="md:col-span-1">
+                <label for="weightInput" class="block text-sm font-bold text-slate-700 mb-2">
+                    Çocuğun kilosu (kg)
+                </label>
+                <input 
+                    id="weightInput" 
+                    type="number" 
+                    min="1" 
+                    max="100" 
+                    step="0.1"
+                    placeholder="Örn: 10"
+                    class="w-full p-4 border-2 border-slate-300 rounded-xl text-2xl font-bold focus:outline-none focus:border-[#0077b6]"
+                >
+            </div>
+
+            <div>
+                <button 
+                    onclick="calculatePediatricDoses()"
+                    class="w-full bg-[#03045e] text-white p-4 rounded-xl font-bold shadow-lg hover:bg-[#0077b6] transition"
+                >
+                    Hesapla
+                </button>
+            </div>
+
+            <div>
+                <button 
+                    onclick="clearPediatricDoses()"
+                    class="w-full bg-slate-200 text-slate-800 p-4 rounded-xl font-bold hover:bg-slate-300 transition"
+                >
+                    Temizle
+                </button>
+            </div>
+        </div>
+
+        <div id="doseWarning" class="hidden mt-6 p-4 bg-red-100 border-l-4 border-red-600 text-red-800 rounded-lg text-sm font-semibold">
+            Lütfen geçerli bir kilo giriniz.
+        </div>
+
+        <div id="doseResults" class="hidden mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="p-5 bg-blue-50 rounded-xl border border-blue-200">
+                <h3 class="font-bold text-[#03045e] mb-2">Kardiyak Arrest Epinefrin IV/IO</h3>
+                <p class="text-sm text-slate-600">0.01 mg/kg</p>
+                <p class="mt-2 text-2xl font-black text-[#0077b6]" id="arrestMg">-</p>
+                <p class="text-sm font-mono text-slate-700" id="arrestMl">-</p>
+                <p class="mt-2 text-xs text-slate-500">1:10.000, 0.1 mg/mL</p>
+                <p class="text-xs text-red-600 font-bold">Maksimum tek doz: 1 mg = 10 mL</p>
+            </div>
+
+            <div class="p-5 bg-red-50 rounded-xl border border-red-200">
+                <h3 class="font-bold text-red-800 mb-2">Anafilaksi Adrenalin IM</h3>
+                <p class="text-sm text-slate-600">0.01 mg/kg IM</p>
+                <p class="mt-2 text-2xl font-black text-red-600" id="anaphylaxisMg">-</p>
+                <p class="text-sm font-mono text-slate-700" id="anaphylaxisMl">-</p>
+                <p class="mt-2 text-xs text-slate-500">1:1.000, 1 mg/mL</p>
+                <p class="text-xs text-red-600 font-bold">Çocuk max 0.3 mg, adolesan max 0.5 mg</p>
+            </div>
+
+            <div class="p-5 bg-cyan-50 rounded-xl border border-cyan-200">
+                <h3 class="font-bold text-[#03045e] mb-2">Sıvı Bolus 10 mL/kg</h3>
+                <p class="text-sm text-slate-600">İzotonik kristaloid</p>
+                <p class="mt-2 text-2xl font-black text-[#0077b6]" id="fluid10">-</p>
+                <p class="mt-2 text-xs text-slate-500">Bolus sonrası yeniden değerlendirme şarttır.</p>
+            </div>
+
+            <div class="p-5 bg-amber-50 rounded-xl border border-amber-200">
+                <h3 class="font-bold text-[#03045e] mb-2">Sıvı Bolus 20 mL/kg</h3>
+                <p class="text-sm text-slate-600">İzotonik kristaloid</p>
+                <p class="mt-2 text-2xl font-black text-amber-600" id="fluid20">-</p>
+                <p class="mt-2 text-xs text-slate-500">Kardiyojenik şok, DKA ve ağır malnütrisyonda dikkat.</p>
+            </div>
+        </div>
+
+        <div class="mt-6 p-4 bg-slate-100 rounded-xl text-xs text-slate-600 leading-relaxed">
+            <strong>Klinik güvenlik uyarısı:</strong> Bu hesaplayıcı eğitim ve hızlı kontrol amaçlıdır. Klinik uygulamada hastanın yaşı, klinik durumu, kurum protokolü, kıdemli hekim kararı ve ilaç konsantrasyonu mutlaka doğrulanmalıdır.
+        </div>
+    </div>
+</section>
+    
+    <section class="space-y-8">
         <div class="text-center md:text-left info-border pl-6">
             <h2 class="text-3xl font-bold text-[#03045e]">Epinefrin (Adrenalin): Endikasyon Bazlı Dozlama</h2>
             <p class="mt-2 text-lg text-slate-600">Kardiyak arrest (IV/IO) ve anafilaksi (IM) dozları asla karıştırılmamalıdır.</p>
@@ -341,6 +429,58 @@
           console.log("Service Worker kayıt hatası:", error);
         });
     });
+  }
+</script>
+
+    <script>
+  function roundDose(value) {
+    return Math.round(value * 100) / 100;
+  }
+
+  function calculatePediatricDoses() {
+    const weightInput = document.getElementById("weightInput");
+    const warning = document.getElementById("doseWarning");
+    const results = document.getElementById("doseResults");
+
+    const weight = parseFloat(weightInput.value);
+
+    if (!weight || weight <= 0 || weight > 100) {
+      warning.classList.remove("hidden");
+      results.classList.add("hidden");
+      return;
+    }
+
+    warning.classList.add("hidden");
+    results.classList.remove("hidden");
+
+    let arrestMg = weight * 0.01;
+    if (arrestMg > 1) arrestMg = 1;
+    const arrestMl = arrestMg / 0.1;
+
+    let anaphylaxisMg = weight * 0.01;
+    const anaphylaxisChildMaxMg = Math.min(anaphylaxisMg, 0.3);
+    const anaphylaxisAdolescentMaxMg = Math.min(anaphylaxisMg, 0.5);
+
+    const fluid10 = weight * 10;
+    const fluid20 = weight * 20;
+
+    document.getElementById("arrestMg").textContent = roundDose(arrestMg) + " mg";
+    document.getElementById("arrestMl").textContent = roundDose(arrestMl) + " mL";
+
+    document.getElementById("anaphylaxisMg").textContent =
+      roundDose(anaphylaxisMg) + " mg hesaplanan doz";
+
+    document.getElementById("anaphylaxisMl").textContent =
+      "Çocuk max: " + roundDose(anaphylaxisChildMaxMg) + " mL | Adolesan max: " + roundDose(anaphylaxisAdolescentMaxMg) + " mL";
+
+    document.getElementById("fluid10").textContent = roundDose(fluid10) + " mL";
+    document.getElementById("fluid20").textContent = roundDose(fluid20) + " mL";
+  }
+
+  function clearPediatricDoses() {
+    document.getElementById("weightInput").value = "";
+    document.getElementById("doseWarning").classList.add("hidden");
+    document.getElementById("doseResults").classList.add("hidden");
   }
 </script>
     
