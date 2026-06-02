@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZehirRehber - Acil Toksikoloji</title>
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#03045e">
+    <link rel="apple-touch-icon" href="../icons/icon-192.png">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts (Inter) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome İkonları -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        toxPrimary: '#10B981', /* Emerald 500 - Toksikoloji Yeşili */
+                        toxDark: '#064E3B', /* Emerald 900 */
+                        toxAlert: '#EF4444',
+                        toxBg: '#ECFDF5', /* Emerald 50 */
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #ECFDF5; color: #064E3B; }
+        .glass-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+        .fade-in { animation: fadeIn 0.25s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .uzem-pulse {
+            animation: pulse-uzem 2s infinite;
+        }
+        @keyframes pulse-uzem {
+            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5); }
+            70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+        /* Özel Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #6EE7B7; border-radius: 10px; }
+    
+
+        .global-app-home {
+            position: fixed;
+            right: 14px;
+            bottom: 86px;
+            z-index: 80;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 13px;
+            border-radius: 999px;
+            background: #03045e;
+            color: #ffffff !important;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 12px;
+            box-shadow: 0 12px 26px rgba(3,4,94,0.28);
+        }
+        .global-app-home:hover { background: #0077b6; }
+        .global-version-ribbon {
+            position: fixed;
+            left: 12px;
+            bottom: 88px;
+            z-index: 80;
+            padding: 8px 10px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.92);
+            color: #334155;
+            border: 1px solid #e2e8f0;
+            font-size: 10px;
+            font-weight: 700;
+            box-shadow: 0 10px 20px rgba(15,23,42,0.08);
+        }
+
+    </style>
+</head>
+<body class="antialiased font-sans pb-24 text-[15px]">
+
+    <!-- Üst Bar -->
+    <header class="fixed top-0 w-full z-50 glass-header">
+        <div class="max-w-lg mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-lg bg-toxPrimary flex items-center justify-center text-white shadow-sm">
+                    <i class="fa-solid fa-skull-crossbones"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight text-toxDark tracking-tight">Zehir<span class="text-toxPrimary">Rehber</span></h1>
+                    <p class="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Acil Toksikoloji</p>
+                </div>
+            </div>
+            <!-- UZEM Araması (Türkiye Zehir Danışma) -->
+            <a href="tel:114" class="bg-red-600 text-white px-3 py-1.5 rounded-md text-xs font-bold border border-red-700 uzem-pulse flex items-center gap-1.5 shadow-sm transition hover:bg-red-700">
+                <i class="fa-solid fa-phone-volume"></i> 114 UZEM
+            </a>
+        </div>
+    </header>
+
+    <main class="max-w-lg mx-auto pt-20 px-4">
+
+        <!-- GÖRÜNÜM 1: TANI VE TOKSİDROMLAR -->
+        <section id="tani-view" class="fade-in space-y-4">
+            
+            <div class="bg-red-50 border-l-4 border-red-500 p-3 rounded-r-lg shadow-sm">
+                <h3 class="text-red-800 font-bold text-sm mb-1">
+                    <i class="fa-solid fa-triangle-exclamation mr-1"></i> "Tek Dozu Öldürenler" (Deadly in a dose)
+                </h3>
+                <p class="text-red-700 text-xs font-medium">
+                    Küçük çocuklarda asemptomatik bile görünseler şu ajanların tek dozu/yudumu ölümcül olabilir: <strong>Opioidler, Kalsiyum kanal blokerleri, Etilen glikol (Antifriz), Metanol, Trisiklik antidepresanlar (TCA), Teofilin, Metil salisilat.</strong>
+                </p>
+            </div>
+
+            <h2 class="font-bold text-lg text-toxDark border-b border-gray-200 pb-2 mt-4">Klinik Toksidromlar</h2>
+            <p class="text-xs text-gray-500 mb-2">Madde bilinmiyorsa yaşamsal bulgular ve fizik muayene ile etkeni daraltın.</p>
+
+            <div class="space-y-3">
+                <!-- Opioid -->
+                <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-200 border-l-4 border-l-purple-500">
+                    <div class="flex items-center gap-2 mb-1">
+                        <i class="fa-solid fa-eye-dropper text-purple-500"></i>
+                        <h3 class="font-bold text-sm text-gray-800">Opioid Toksisitesi</h3>
+                    </div>
+                    <p class="text-[12px] text-gray-600 font-medium">
+                        <span class="text-purple-700 font-bold">Miyozis</span> (Pinpoint/iğne ucu pupiller), Koma, ve <strong>Solunum Depresyonu</strong> (Bradipne/Apne).
+                    </p>
+                </div>
+
+                <!-- Antikolinerjik -->
+                <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-200 border-l-4 border-l-orange-500">
+                    <div class="flex items-center gap-2 mb-1">
+                        <i class="fa-solid fa-face-dizzy text-orange-500"></i>
+                        <h3 class="font-bold text-sm text-gray-800">Antikolinerjik</h3>
+                    </div>
+                    <p class="text-[12px] text-gray-600 font-medium">
+                        Deliryum/Ajitasyon, midriyazis (geniş pupiller), azalmış bağırsak sesleri, sıcak/kuru ve kızarık cilt, taşikardi.
+                    </p>
+                </div>
+
+                <!-- Kolinerjik -->
+                <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-200 border-l-4 border-l-blue-500">
+                    <div class="flex items-center gap-2 mb-1">
+                        <i class="fa-solid fa-droplet text-blue-500"></i>
+                        <h3 class="font-bold text-sm text-gray-800">Kolinerjik (Organofosfat)</h3>
+                    </div>
+                    <p class="text-[12px] text-gray-600 font-medium">
+                        Artmış sekresyonlar (tükürük, gözyaşı), terleme, kusma/ishal, kas fasikülasyonları, <strong>miyozis</strong>, bradikardi, bronkospazm.
+                    </p>
+                </div>
+
+                <!-- Sempatomimetik -->
+                <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-200 border-l-4 border-l-red-500">
+                    <div class="flex items-center gap-2 mb-1">
+                        <i class="fa-solid fa-bolt text-red-500"></i>
+                        <h3 class="font-bold text-sm text-gray-800">Sempatomimetik</h3>
+                    </div>
+                    <p class="text-[12px] text-gray-600 font-medium">
+                        Taşikardi, hipertansiyon, <strong>hipertermi</strong>, psikomotor ajitasyon, midriyazis, aşırı terleme.
+                    </p>
+                </div>
+                
+                <!-- Serotonin Sendromu -->
+                <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-200 border-l-4 border-l-yellow-400">
+                    <div class="flex items-center gap-2 mb-1">
+                        <i class="fa-solid fa-brain text-yellow-500"></i>
+                        <h3 class="font-bold text-sm text-gray-800">Serotonin Sendromu</h3>
+                    </div>
+                    <p class="text-[12px] text-gray-600 font-medium">
+                        Ajite deliryum, hipertermi, terleme, <strong>hiperrefleksi</strong> ve oküler/alt ekstremite <strong>klonusu</strong> (SSRI, MDMA kaynaklı).
+                    </p>
+                </div>
+            </div>
+            
+            <button onclick="showView('tetkik-view')" class="w-full bg-toxDark text-white py-3.5 rounded-xl font-bold shadow-md hover:bg-green-900 transition flex items-center justify-center gap-2 mt-4">
+                İstenecek Rutin Tetkikler <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </section>
+
+        <!-- GÖRÜNÜM 2: TETKİK VE KANIT (Workup) -->
+        <section id="tetkik-view" class="fade-in hidden space-y-4">
+            <h2 class="font-bold text-lg text-toxDark border-b border-gray-200 pb-2">Acil İntoksikasyon Tetkikleri</h2>
+            
+            <div class="bg-yellow-50 border border-yellow-200 p-3 rounded-xl shadow-sm mb-4">
+                <p class="text-yellow-800 text-xs font-semibold flex items-start gap-2">
+                    <i class="fa-solid fa-lightbulb mt-0.5 text-yellow-600 text-sm"></i>
+                    <span><strong>Klinik İnci:</strong> İdrar "Drugs of Abuse" (Madde Tarama) testi acil klinik yönetimi <u>değiştirmez</u>. Sadece adli veya psikiyatrik yatış amaçlı kullanılır. Tedaviyi geciktirmeyin.</span>
+                </p>
+            </div>
+
+            <!-- Rutin Panel (Her Hastada) -->
+            <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+                <h3 class="font-bold text-sm text-toxDark mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-vial text-toxPrimary"></i> Şüpheli Her Vakada Rutin
+                </h3>
+                
+                <ul class="space-y-3 text-xs text-gray-700">
+                    <li class="flex items-start gap-2 border-b border-gray-100 pb-2">
+                        <i class="fa-solid fa-check text-green-500 mt-0.5"></i>
+                        <div>
+                            <span class="font-bold block text-gray-800">Bedside Glukoz (AKŞ)</span>
+                            <span class="text-gray-500">Bilinç değişikliği olan HER hastada anında bakılmalıdır.</span>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-2 border-b border-gray-100 pb-2">
+                        <i class="fa-solid fa-check text-green-500 mt-0.5"></i>
+                        <div>
+                            <span class="font-bold block text-gray-800">12 Derivasyonlu EKG</span>
+                            <span class="text-gray-500">Tüm kasıtlı (özkıyım) alımlarda ve kardiyotoksik ajanlarda şarttır (QRS ve QTc takibi).</span>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-2 border-b border-gray-100 pb-2">
+                        <i class="fa-solid fa-check text-green-500 mt-0.5"></i>
+                        <div>
+                            <span class="font-bold block text-gray-800">Parasetamol ve Salisilat Düzeyi</span>
+                            <span class="text-gray-500">Kasıtlı alımlarda (özkıyım), hasta bildirmese bile koingestiyon (birlikte alım) riski nedeniyle <u>kesinlikle</u> istenir.</span>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <i class="fa-solid fa-check text-green-500 mt-0.5"></i>
+                        <div>
+                            <span class="font-bold block text-gray-800">U-Preg (Gebelik Testi)</span>
+                            <span class="text-gray-500">Postmenarşal tüm kız çocuklarında bakılmalıdır.</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Spesifik Tetkikler -->
+            <div class="bg-gray-50 p-3 rounded-xl border border-gray-200 shadow-sm mt-3">
+                <h3 class="font-bold text-xs text-gray-600 uppercase tracking-wider mb-2">Duruma Özel İstenecekler</h3>
+                <div class="grid grid-cols-1 gap-2 text-[11px] text-gray-700">
+                    <div class="bg-white p-2 rounded border border-gray-100">
+                        <span class="font-bold text-toxDark">Kan Gazı (AKG/VKG):</span> Asit-baz bozuklukları, Methemoglobin ve Karboksihemoglobin (CO-oksimetri) taraması.
+                    </div>
+                    <div class="bg-white p-2 rounded border border-gray-100">
+                        <span class="font-bold text-toxDark">Serum Osmolalitesi:</span> Toksik alkol (Metanol/Etilen Glikol) şüphesinde BMP ve Etanol düzeyi ile <u>aynı anda</u> alınmalıdır.
+                    </div>
+                    <div class="bg-white p-2 rounded border border-gray-100">
+                        <span class="font-bold text-toxDark">CPK (Kreatin Kinaz):</span> Aşırı ajitasyon, rijidite veya status varlığında rabdomiyoliz taraması için.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GÖRÜNÜM 3: İLAÇ VE ANTİDOTLAR (Treatment) -->
+        <section id="ilac-view" class="fade-in hidden space-y-4">
+            <h2 class="font-bold text-lg text-toxDark border-b border-gray-200 pb-2">Acil Müdahale ve Antidotlar</h2>
+
+            <!-- Aktif Kömür -->
+            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 shadow-sm text-white">
+                <div class="flex justify-between items-start mb-2">
+                    <h3 class="font-bold text-sm flex items-center gap-2">
+                        <i class="fa-solid fa-pills text-gray-300"></i> Aktif Kömür (Dekontaminasyon)
+                    </h3>
+                    <span class="text-[10px] bg-red-500 px-1.5 py-0.5 rounded font-bold">KONTRENDİKASYONA DİKKAT</span>
+                </div>
+                
+                <p class="text-[11px] text-gray-300 mb-2">Sadece alımdan sonraki <strong>ilk 1 saat içinde</strong> ise ve hava yolu refleksleri (bilinç) tamsa düşünülür. Asla zorla yutturulmaz (Aspirasyon riski faydadan fazladır).</p>
+                
+                <div class="bg-slate-900 p-2 rounded border border-slate-600 flex justify-between items-center text-sm">
+                    <span class="font-semibold text-gray-300">Doz (PO/NG):</span>
+                    <span class="font-mono font-bold text-green-400">1 g/kg/doz</span>
+                </div>
+                <p class="text-[10px] text-gray-400 mt-1 text-right">Max Doz: Çocuk: 50g | Adölesan: 100g</p>
+            </div>
+
+            <!-- Birinci Basamak Antidotlar -->
+            <div class="space-y-3">
+                
+                <!-- Naloksan -->
+                <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm relative overflow-hidden border-l-4 border-l-purple-500">
+                    <h4 class="font-bold text-gray-800 text-sm mb-1">Naloksan (Naloxone)</h4>
+                    <p class="text-[11px] text-gray-500 mb-2">Opioid toksisitesinde solunum depresyonunu geri çevirmek için.</p>
+                    <div class="bg-gray-50 p-2 rounded border border-gray-100 mb-1">
+                        <span class="text-sm font-mono font-bold text-purple-700">0.2 - 0.4 mg IV/IO/IM</span>
+                        <span class="text-[10px] block text-gray-500 mt-0.5">2-3 dk'da bir tekrarla. (Yanıt yoksa Max 10mg'a kadar çık).</span>
+                    </div>
+                    <p class="text-[9px] text-red-500 font-bold">*Dikkat: Ani yoksunluk (withdrawal) sendromunu tetikleyebilir.</p>
+                </div>
+
+                <!-- Benzodiazepinler -->
+                <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm border-l-4 border-l-blue-500">
+                    <h4 class="font-bold text-gray-800 text-sm mb-1">Benzodiazepinler (Nöbet ve Ajitasyon)</h4>
+                    <p class="text-[11px] text-gray-500 mb-2">Toksin kaynaklı ajitasyon, hipertansiyon ve nöbetlerde İLK seçenektir.</p>
+                    
+                    <ul class="text-[11px] text-gray-700 space-y-2 font-mono">
+                        <li class="flex justify-between border-b border-gray-100 pb-1">
+                            <span class="font-bold">Diazepam (IV):</span> <span>0.1 - 0.2 mg/kg <span class="font-sans text-[9px] text-gray-400">(Max 5-10mg)</span></span>
+                        </li>
+                        <li class="flex justify-between border-b border-gray-100 pb-1">
+                            <span class="font-bold">Lorazepam (IV):</span> <span>0.05 - 0.1 mg/kg <span class="font-sans text-[9px] text-gray-400">(Ajitasyon Max 2mg, Nöbet Max 4mg)</span></span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span class="font-bold">Midazolam (IV):</span> <span>0.05 - 0.1 mg/kg <span class="font-sans text-[9px] text-gray-400">(Max 2mg)</span></span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Sodyum Bikarbonat -->
+                <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm border-l-4 border-l-orange-500">
+                    <h4 class="font-bold text-gray-800 text-sm mb-1">Sodyum Bikarbonat (NaHCO3)</h4>
+                    <p class="text-[11px] text-gray-500 mb-2">Sodyum kanal blokerleri (TCA vb.) nedeniyle EKG'de QRS uzaması (>100ms) veya salisilat zehirlenmesinde idrar alkalinizasyonu için.</p>
+                    <div class="bg-gray-50 p-2 rounded border border-gray-100 flex justify-between items-center">
+                        <span class="font-semibold text-xs text-gray-700">IV Bolus:</span>
+                        <span class="text-sm font-mono font-bold text-orange-600">1 mEq/kg/doz</span>
+                    </div>
+                    <p class="text-[9px] text-gray-400 mt-1 text-right">(Max 50 mEq) - Sonrası EKG tekrarı.</p>
+                </div>
+                
+                <!-- Atropin -->
+                <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm">
+                    <h4 class="font-bold text-gray-800 text-sm mb-1">Atropin</h4>
+                    <p class="text-[11px] text-gray-500 mb-1">Semptomatik bradikardi veya kolinerjik toksisitede (Organofosfat).</p>
+                    <p class="text-xs font-mono font-bold text-gray-800">0.02 mg/kg/doz IV/IO <span class="font-sans font-normal text-[10px] text-gray-400">(Max 0.5 mg/doz)</span></p>
+                </div>
+
+            </div>
+        </section>
+        
+        <!-- GÖRÜNÜM 4: KARAR (Disposition) -->
+        <section id="karar-view" class="fade-in hidden space-y-4">
+            <h2 class="font-bold text-lg text-toxDark border-b border-gray-200 pb-2">Karar ve Taburculuk</h2>
+
+            <!-- Psikiyatri Notu -->
+            <div class="bg-blue-50 border border-blue-200 p-4 rounded-xl shadow-sm mb-4">
+                <h3 class="text-blue-900 font-bold text-sm mb-1 flex items-center gap-2">
+                    <i class="fa-solid fa-user-doctor text-blue-600"></i> Niyet Değerlendirmesi
+                </h3>
+                <p class="text-xs text-blue-800">
+                    Özkıyım (İntihar) veya kasıtlı madde alımı riski saptanan her hasta tıbbi stabilizasyon sağlandıktan sonra mutlaka psikiyatri konsültasyonuna girmelidir.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 gap-3">
+                <div class="bg-white p-3 rounded-xl border-l-4 border-yellow-400 shadow-sm">
+                    <h3 class="font-bold text-sm text-toxDark mb-1">Servis Yatışı / Gözlem</h3>
+                    <p class="text-[11px] text-gray-600 mb-1">Geç toksisite gösteren ilaçların alımında veya asemptomatik olsa bile toksik doz alımlarında.</p>
+                    <p class="text-[10px] text-red-500 font-semibold italic">*Özellikle: Yavaş salınımlı (Sustained-release) kalsiyum kanal blokerleri veya Sülfonilüre grubu (oral antidiyabetikler).</p>
+                </div>
+                
+                <div class="bg-white p-3 rounded-xl border-l-4 border-red-500 shadow-sm">
+                    <h3 class="font-bold text-sm text-toxDark mb-1">Yoğun Bakım (PICU)</h3>
+                    <ul class="text-[11px] text-gray-600 space-y-1 list-disc pl-4">
+                        <li>Hemodinamik instabilite (Şok, ritim bozukluğu).</li>
+                        <li>Solunum desteği ihtiyacı (Entübasyon, NIV).</li>
+                        <li>CRRT (Diyaliz) ihtiyacı doğuran toksik ajan alımları.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="bg-green-50 p-3 rounded-xl border border-green-200 shadow-sm mt-3">
+                <h3 class="font-bold text-sm text-green-900 mb-1"><i class="fa-solid fa-house-medical mr-1"></i> Taburculuk Kriterleri</h3>
+                <p class="text-[11px] text-green-800">
+                    Maruziyetin türüne bağlı olarak, <strong>minimum 4 saatlik</strong> bir gözlem süresinin ardından; hastanın vital bulguları normalse, mental durumu açıksa ve uç organ hasarı yoksa tıbbi taburculuk planlanabilir.
+                </p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Alt Navigasyon (Bottom Navigation) -->
+    <nav class="fixed bottom-0 w-full glass-header z-50 pb-safe">
+        <div class="max-w-lg mx-auto px-2 sm:px-6 h-16 flex justify-between items-center text-[10px] font-bold text-gray-400 uppercase tracking-wide">
+            
+            <button onclick="showView('tani-view')" id="btn-tani-view" class="nav-btn flex flex-col items-center gap-1 w-[22%] text-toxPrimary transition-colors">
+                <i class="fa-solid fa-magnifying-glass-chart text-xl mb-0.5"></i>
+                <span class="truncate w-full text-center">Toksidrom</span>
+            </button>
+            
+            <button onclick="showView('tetkik-view')" id="btn-tetkik-view" class="nav-btn flex flex-col items-center gap-1 w-[22%] transition-colors hover:text-gray-600">
+                <i class="fa-solid fa-flask-vial text-xl mb-0.5"></i>
+                <span class="truncate w-full text-center">Tetkikler</span>
+            </button>
+            
+            <button onclick="showView('ilac-view')" id="btn-ilac-view" class="nav-btn flex flex-col items-center gap-1 w-[22%] transition-colors hover:text-gray-600">
+                <i class="fa-solid fa-syringe text-xl mb-0.5"></i>
+                <span class="truncate w-full text-center">Antidotlar</span>
+            </button>
+            
+            <button onclick="showView('karar-view')" id="btn-karar-view" class="nav-btn flex flex-col items-center gap-1 w-[22%] transition-colors hover:text-gray-600">
+                <i class="fa-solid fa-clipboard-check text-xl mb-0.5"></i>
+                <span class="truncate w-full text-center">Karar</span>
+            </button>
+
+        </div>
+    </nav>
+
+    <script>
+        // Görünümler arası geçiş sağlayan fonksiyon
+        function showView(viewId) {
+            const views = ['tani-view', 'tetkik-view', 'ilac-view', 'karar-view'];
+            views.forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+            
+            const selectedView = document.getElementById(viewId);
+            selectedView.classList.remove('hidden');
+            
+            // Animasyonu tetikle
+            void selectedView.offsetWidth; 
+            
+            updateNavColors(viewId);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Alt menü durumunu güncelleyen fonksiyon
+        function updateNavColors(activeViewId) {
+            const btns = document.querySelectorAll('.nav-btn');
+            btns.forEach(btn => {
+                btn.classList.remove('text-toxPrimary');
+                btn.classList.add('text-gray-400');
+            });
+            
+            const activeBtn = document.getElementById(`btn-${activeViewId}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('text-gray-400');
+                activeBtn.classList.add('text-toxPrimary');
+            }
+        }
+    </script>
+
+
+<a class="global-app-home" href="../index.html" aria-label="Ana menüye dön">⌂ Ana Menü</a>
+<div class="global-version-ribbon">PWA v3 · 02.06.2026</div>
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function () {
+      navigator.serviceWorker.register("../service-worker.js").catch(function(error){
+        console.log("Service Worker kayıt hatası:", error);
+      });
+    });
+  }
+</script>
+
+</body>
+</html>

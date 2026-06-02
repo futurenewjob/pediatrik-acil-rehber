@@ -1,7 +1,7 @@
 {
   "name": "Pediatrik Acil Klinik Rehberi",
   "short_name": "Çocuk Acil",
-  "description": "İntern hekimler için pediatrik acil klinik karar destek rehberi",
+  "description": "İntern hekimler ve çocuk acil ekibi için pediatrik acil klinik karar destek rehberleri.",
   "id": "/pediatrik-acil-rehber/",
   "start_url": "./",
   "scope": "./",

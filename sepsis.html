@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SepsisRehber - Pediatrik Sepsis Yönetimi</title>
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#03045e">
+    <link rel="apple-touch-icon" href="../icons/icon-192.png">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts (Inter) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome İkonları -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        sepsisPrimary: '#7C3AED', /* Mor - Enfeksiyon/Sepsis rengi */
+                        sepsisDark: '#1E1B4B',
+                        sepsisAlert: '#E11D48',
+                        sepsisBg: '#F5F3FF',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #F5F3FF; color: #1E1B4B; }
+        .glass-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(124, 58, 237, 0.2);
+        }
+        .fade-in { animation: fadeIn 0.25s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .golden-hour-pulse {
+            animation: pulse-gold 2s infinite;
+        }
+        @keyframes pulse-gold {
+            0% { box-shadow: 0 0 0 0 rgba(234, 179, 8, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(234, 179, 8, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(234, 179, 8, 0); }
+        }
+        /* Özel Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #C4B5FD; border-radius: 10px; }
+    
+
+        .global-app-home {
+            position: fixed;
+            right: 14px;
+            bottom: 86px;
+            z-index: 80;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 13px;
+            border-radius: 999px;
+            background: #03045e;
+            color: #ffffff !important;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 12px;
+            box-shadow: 0 12px 26px rgba(3,4,94,0.28);
+        }
+        .global-app-home:hover { background: #0077b6; }
+        .global-version-ribbon {
+            position: fixed;
+            left: 12px;
+            bottom: 88px;
+            z-index: 80;
+            padding: 8px 10px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.92);
+            color: #334155;
+            border: 1px solid #e2e8f0;
+            font-size: 10px;
+            font-weight: 700;
+            box-shadow: 0 10px 20px rgba(15,23,42,0.08);
+        }
+
+    </style>
+</head>
+<body class="antialiased font-sans pb-24 text-[15px]">
+
+    <!-- Üst Bar -->
+    <header class="fixed top-0 w-full z-50 glass-header">
+        <div class="max-w-lg mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-lg bg-sepsisPrimary flex items-center justify-center text-white shadow-sm">
+                    <i class="fa-solid fa-bacteria"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight text-sepsisDark tracking-tight">Sepsis<span class="text-sepsisPrimary">Rehber</span></h1>
+                    <p class="text-[10px] text-gray-500 font-bold uppercase tracking-wider">SSC 2020 & JAMA 2024</p>
+                </div>
+            </div>
+            <div class="bg-yellow-100 text-yellow-700 px-3 py-1.5 rounded-md text-xs font-bold border border-yellow-300 golden-hour-pulse flex items-center gap-1">
+                <i class="fa-solid fa-hourglass-half"></i> İlk 1 Saat
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-lg mx-auto pt-20 px-4">
+
+        <!-- GÖRÜNÜM 1: TANI (Diagnosis & Organ Dysfunction) -->
+        <section id="tani-view" class="fade-in space-y-4">
+            
+            <!-- Yeni Sepsis Tanımı Uyarı -->
+            <div class="bg-indigo-50 border-l-4 border-sepsisPrimary p-3 rounded-r-lg shadow-sm">
+                <p class="text-indigo-900 text-sm">
+                    <i class="fa-solid fa-circle-info mr-1 text-sepsisPrimary"></i>
+                    <strong>Yeni Kriter (JAMA 2024):</strong> Pediatrik Sepsis = Şüpheli/Kanıtlanmış Enfeksiyon + <strong>Organ Disfonksiyonu</strong>
+                </p>
+            </div>
+
+            <h2 class="font-bold text-lg text-sepsisDark border-b border-gray-200 pb-2 mt-4">Organ Disfonksiyonu Kriterleri</h2>
+            <p class="text-xs text-gray-500 mb-3">SIRS kriterleri yerine aşağıdaki disfonksiyon bulgularını arayın (Mortalite ile ilişkili):</p>
+
+            <div class="space-y-3">
+                <!-- Kardiyovasküler -->
+                <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-200 border-l-4 border-l-red-500">
+                    <div class="flex items-center gap-2 mb-1">
+                        <i class="fa-solid fa-heart-pulse text-red-500"></i>
+                        <h3 class="font-bold text-sm text-sepsisDark">Kardiyovasküler (Septik Şok)</h3>
+                    </div>
+                    <ul class="list-disc pl-5 text-xs text-gray-600 space-y-1">
+                        <li>Yaşa göre hipotansiyon.</li>
+                        <li>Bozulmuş perfüzyon (Gecikmiş veya "flash" kapiller dolum).</li>
+                        <li>Laktat yüksekliği.</li>
+                        <li>Vazoaktif ilaç gereksinimi.</li>
+                    </ul>
+                </div>
+
+                <!-- Solunum -->
+                <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-200 border-l-4 border-l-blue-500">
+                    <div class="flex items-center gap-2 mb-1">
+                        <i class="fa-solid fa-lungs text-blue-500"></i>
+                        <h3 class="font-bold text-sm text-sepsisDark">Solunumsal</h3>
+                    </div>
+                    <ul class="list-disc pl-5 text-xs text-gray-600 space-y-1">
+                        <li>Oksijen desteği gereksinimi (Non-invaziv veya İnvaziv ventilasyon dahil).</li>
+                    </ul>
+                </div>
+
+                <!-- Hematolojik & Nörolojik -->
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-200">
+                        <div class="flex items-center gap-1.5 mb-1">
+                            <i class="fa-solid fa-droplet text-purple-500"></i>
+                            <h3 class="font-bold text-xs text-sepsisDark">Hematolojik</h3>
+                        </div>
+                        <p class="text-[11px] text-gray-600">Trombositopeni, uzamış INR, yüksek D-dimer, düşük fibrinojen (Koagülopati).</p>
+                    </div>
+                    
+                    <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-200">
+                        <div class="flex items-center gap-1.5 mb-1">
+                            <i class="fa-solid fa-brain text-orange-500"></i>
+                            <h3 class="font-bold text-xs text-sepsisDark">Nörolojik</h3>
+                        </div>
+                        <p class="text-[11px] text-gray-600">Anormal GKS (Glasgow), konfüzyon, ajitasyon, anormal pupilla reaksiyonu.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Etkileşimli Başlangıç -->
+            <button onclick="showView('resusitasyon-view')" class="w-full bg-sepsisPrimary text-white py-3.5 rounded-xl font-bold shadow-md hover:bg-purple-700 transition flex items-center justify-center gap-2 mt-4">
+                İlk 1 Saat (Golden Hour) Yönetimi <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </section>
+
+
+        <!-- GÖRÜNÜM 2: RESÜSİTASYON (Fluid & Vasoactives) -->
+        <section id="resusitasyon-view" class="fade-in hidden space-y-5">
+            <div class="flex justify-between items-end border-b border-gray-200 pb-2">
+                <h2 class="font-bold text-lg text-sepsisDark">Sıvı ve Şok Yönetimi</h2>
+                <span class="text-[10px] font-bold bg-gray-100 px-2 py-1 rounded text-gray-600">IV/IO Erişim Şart</span>
+            </div>
+
+            <!-- SIVI YÖNETİMİ -->
+            <div class="bg-blue-50 rounded-xl border border-blue-200 overflow-hidden shadow-sm">
+                <div class="bg-blue-100 px-3 py-2 flex items-center justify-between">
+                    <h3 class="font-bold text-blue-900 text-sm"><i class="fa-solid fa-syringe mr-1"></i> Sıvı Resüsitasyonu (İlk 1 Saat)</h3>
+                </div>
+                <div class="p-3 space-y-3">
+                    <div class="flex justify-between items-center bg-white p-2 rounded border border-blue-100">
+                        <span class="text-sm font-semibold text-gray-700">Kristalloid Bolus:</span>
+                        <span class="text-lg font-bold text-blue-700">10-20 mL/kg</span>
+                    </div>
+                    <ul class="text-xs text-gray-600 list-disc pl-4 space-y-1">
+                        <li><strong>Uygulama Süresi:</strong> Hızlı, 5-10 dakika içinde "Push" yöntemiyle.</li>
+                        <li><strong>Hedef:</strong> İlk 1 saat içinde toplam <span class="font-bold text-blue-700">60 mL/kg'a</span> kadar çıkılabilir.</li>
+                        <li class="text-red-600 font-semibold">DUR UYARISI: Akciğerlerde raller (krepitasyon) veya hepatomegali gelişirse sıvıyı derhal KES.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- VAZOAKTİF İLAÇLAR -->
+            <div class="space-y-3">
+                <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wider flex items-center gap-1">
+                    <i class="fa-solid fa-heart-pulse"></i> Vazoaktif Ajanlar
+                </h3>
+                <p class="text-xs text-gray-500 -mt-2">Sıvıya dirençli şokta veya sıvı yüklenmesi bulgusunda BAŞLA.</p>
+                
+                <!-- Epinefrin -->
+                <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm relative overflow-hidden border-l-4 border-l-sepsisPrimary">
+                    <h4 class="font-bold text-sepsisDark text-sm mb-1">1. Seçenek: Epinefrin (Adrenalin)</h4>
+                    <p class="text-[11px] text-gray-500 mb-2">Düşük kardiyak output ve miyokardiyal disfonksiyonda (Soğuk Şok).</p>
+                    <div class="bg-gray-50 p-2 rounded flex justify-between items-center border border-gray-100">
+                        <span class="text-xs font-semibold text-gray-600">IV Sürekli İnfüzyon:</span>
+                        <span class="text-sm font-mono font-bold text-sepsisPrimary">0.05 - 0.1 mcg/kg/dk</span>
+                    </div>
+                </div>
+
+                <!-- Norepinefrin -->
+                <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm relative overflow-hidden border-l-4 border-l-orange-500">
+                    <h4 class="font-bold text-sepsisDark text-sm mb-1">1. Seçenek: Norepinefrin (Noradrenalin)</h4>
+                    <p class="text-[11px] text-gray-500 mb-2">Sistemik vasküler rezistansı artırmak için (Sıcak Şok / Vazodilatasyon).</p>
+                    <div class="bg-gray-50 p-2 rounded flex justify-between items-center border border-gray-100">
+                        <span class="text-xs font-semibold text-gray-600">IV Sürekli İnfüzyon:</span>
+                        <span class="text-sm font-mono font-bold text-orange-600">0.05 - 0.1 mcg/kg/dk</span>
+                    </div>
+                </div>
+
+                <div class="bg-red-50 p-2 rounded text-[11px] text-red-800 border border-red-100">
+                    <i class="fa-solid fa-triangle-exclamation"></i> <strong>Klinik İnci:</strong> Dopamin, Epi/Norepi bulunmayan durumlar dışında <u>artık önerilmemektedir.</u>
+                </div>
+            </div>
+            
+            <!-- Steroid -->
+            <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm border-l-4 border-l-gray-500 mt-2">
+                 <h4 class="font-bold text-sepsisDark text-sm mb-1">Kortikosteroid (Hidrokortizon)</h4>
+                 <p class="text-[11px] text-gray-600 mb-1">Sıvıya ve erken vazopressörlere dirençli şokta (Adrenal yetmezlik şüphesi).</p>
+                 <p class="text-xs font-mono font-bold text-gray-800">1 - 2 mg/kg/doz IV <span class="text-[10px] font-sans text-gray-400 font-normal">(Max: 100 mg/doz)</span></p>
+            </div>
+        </section>
+
+        <!-- GÖRÜNÜM 3: ANTİBİYOTİK (Empiric Therapy) -->
+        <section id="antibiyotik-view" class="fade-in hidden space-y-4">
+            <h2 class="font-bold text-lg text-sepsisDark border-b border-gray-200 pb-2">Ampirik Antibiyotik (İlk 1 Saat)</h2>
+            <p class="text-xs text-gray-500">Kültürleri al, ancak antibiyotiği ASLA geciktirme.</p>
+            
+            <!-- Genel Kapsam -->
+            <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+                <h3 class="text-sm font-bold text-sepsisDark mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-shield-virus text-green-500"></i> Toplum Kökenli / Genel Sepsis
+                </h3>
+                
+                <div class="space-y-3">
+                    <div class="border-b border-gray-100 pb-2">
+                        <div class="flex justify-between items-baseline mb-1">
+                            <h4 class="font-bold text-sm text-gray-800">Seftriakson (IV)</h4>
+                            <span class="text-[10px] bg-gray-100 px-1.5 py-0.5 rounded text-gray-500">Gram (-)</span>
+                        </div>
+                        <p class="text-sm font-mono text-sepsisPrimary font-bold">50 mg/kg/doz q12h</p>
+                        <p class="text-[10px] text-gray-400">Maksimum: 2000 mg/doz</p>
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between items-baseline mb-1">
+                            <h4 class="font-bold text-sm text-gray-800 flex items-center gap-1">Vankomisin (IV) <span class="text-red-500">*</span></h4>
+                            <span class="text-[10px] bg-gray-100 px-1.5 py-0.5 rounded text-gray-500">MRSA / Gram (+)</span>
+                        </div>
+                        <p class="text-sm font-mono text-sepsisPrimary font-bold">15 mg/kg/doz q6h</p>
+                        <p class="text-[10px] text-gray-400">Olağan Maksimum: 900 mg/doz</p>
+                        <p class="text-[10px] text-red-500 mt-1 italic">* İnfüzyon süresi nedeniyle önce Seftriakson, sonra Vankomisin başlanması pratiktir.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Özellikli Durumlar -->
+            <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider mt-4">Ek Kapsam / Özellikli Durumlar</h3>
+            
+            <div class="space-y-2">
+                <!-- İmmünosüprese -->
+                <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm">
+                    <h4 class="font-bold text-xs text-sepsisDark mb-1">İmmünsüprese Hasta (Pseudomonas Kapsamı)</h4>
+                    <p class="text-[11px] text-gray-600">Seftriakson YERİNE Antipseudomonal ajan seçin:</p>
+                    <ul class="text-[11px] text-gray-800 mt-1 list-disc pl-4 font-mono font-semibold">
+                        <li>Seftazidim: 50 mg/kg/doz q8h <span class="font-sans font-normal text-gray-500">VEYA</span></li>
+                        <li>Sefepim: 50 mg/kg/doz q8h</li>
+                    </ul>
+                </div>
+
+                <!-- Batın İçi -->
+                <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm">
+                    <h4 class="font-bold text-xs text-sepsisDark mb-1">Şüpheli İntra-abdominal Kaynak (Anaerob)</h4>
+                    <p class="text-[11px] text-gray-600">Genel tedaviye EKLEYİN:</p>
+                    <p class="text-[11px] text-gray-800 mt-1 font-mono font-semibold">Metronidazol: 10 - 13.3 mg/kg/doz q8h</p>
+                </div>
+
+                <!-- TSS -->
+                <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm">
+                    <h4 class="font-bold text-xs text-sepsisDark mb-1">Toksik Şok Sendromu Şüphesi (Toksin inhibisyonu)</h4>
+                    <p class="text-[11px] text-gray-600">Genel tedaviye EKLEYİN:</p>
+                    <p class="text-[11px] text-gray-800 mt-1 font-mono font-semibold">Klindamisin: 13.3 mg/kg/doz q8h</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- GÖRÜNÜM 4: ENTÜBASYON & YATIŞ -->
+        <section id="karar-view" class="fade-in hidden space-y-4">
+            <h2 class="font-bold text-lg text-sepsisDark border-b border-gray-200 pb-2">İleri Yönetim ve Karar</h2>
+
+            <!-- Entübasyon İnci -->
+            <div class="bg-rose-50 border border-rose-200 p-4 rounded-xl shadow-sm">
+                <h3 class="text-rose-900 font-bold text-sm mb-2 flex items-center gap-2">
+                    <i class="fa-solid fa-lungs-virus"></i> Entübasyon (RSI) Kararı
+                </h3>
+                <p class="text-xs text-rose-800 mb-2">
+                    Sıvıya ve katekolamine (vazopressör) dirençli şokta, oksijenasyon/ventilasyonu koruyamayan hastada entübasyon düşünülmelidir.
+                </p>
+                <div class="bg-white p-2 rounded border border-rose-100 text-[11px] text-gray-700">
+                    <strong>Kritik İlaç Seçimi:</strong>
+                    <ul class="list-none space-y-1 mt-1">
+                        <li><i class="fa-solid fa-check text-green-500"></i> <strong>Ketamin:</strong> Sepsis/Septik şokta sedasyon ve entübasyon için tercih edilen ajandır (Hemodinamiyi korur).</li>
+                        <li><i class="fa-solid fa-xmark text-red-500"></i> <strong>Etomidat:</strong> Adrenal süpresyon riski nedeniyle sepsiste KULLANILMAMALIDIR.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Yatış Kriterleri -->
+            <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider mt-4">Yatış Kriterleri (Disposition)</h3>
+            <div class="grid grid-cols-1 gap-3">
+                <div class="bg-white p-3 rounded-xl border-l-4 border-yellow-400 shadow-sm">
+                    <h3 class="font-bold text-sm text-sepsisDark mb-1">Servise Yatış (Ward)</h3>
+                    <p class="text-xs text-gray-600">Şok bulguları (persistan kardiyovasküler disfonksiyon) <strong>olmayan</strong> sepsis hastaları.</p>
+                </div>
+                
+                <div class="bg-white p-3 rounded-xl border-l-4 border-red-500 shadow-sm">
+                    <h3 class="font-bold text-sm text-sepsisDark mb-1">Çocuk Yoğun Bakım (PICU)</h3>
+                    <ul class="text-xs text-gray-600 space-y-1 list-disc pl-4">
+                        <li>Devam eden şok bulguları.</li>
+                        <li>Sürekli inotrop/vazoaktif infüzyon alanlar.</li>
+                        <li>Pozitif basınçlı ventilasyon (invaziv/non-invaziv) gereksinimi.</li>
+                        <li>2 saatten kısa sürede <span class="font-bold">≥60 mL/kg</span> sıvı resüsitasyonu alan tüm hastalar.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Alt Navigasyon (Bottom Navigation) -->
+    <nav class="fixed bottom-0 w-full glass-header z-50 pb-safe">
+        <div class="max-w-lg mx-auto px-2 sm:px-6 h-16 flex justify-between items-center text-[10px] font-bold text-gray-400 uppercase tracking-wide">
+            
+            <button onclick="showView('tani-view')" id="btn-tani-view" class="nav-btn flex flex-col items-center gap-1 w-[22%] text-sepsisPrimary transition-colors">
+                <i class="fa-solid fa-microscope text-xl mb-0.5"></i>
+                <span class="truncate w-full text-center">Tanı</span>
+            </button>
+            
+            <button onclick="showView('resusitasyon-view')" id="btn-resusitasyon-view" class="nav-btn flex flex-col items-center gap-1 w-[22%] transition-colors hover:text-gray-600">
+                <i class="fa-solid fa-droplet text-xl mb-0.5"></i>
+                <span class="truncate w-full text-center">Sıvı/Şok</span>
+            </button>
+            
+            <button onclick="showView('antibiyotik-view')" id="btn-antibiyotik-view" class="nav-btn flex flex-col items-center gap-1 w-[22%] transition-colors hover:text-gray-600">
+                <i class="fa-solid fa-syringe text-xl mb-0.5"></i>
+                <span class="truncate w-full text-center">Anti-B</span>
+            </button>
+            
+            <button onclick="showView('karar-view')" id="btn-karar-view" class="nav-btn flex flex-col items-center gap-1 w-[22%] transition-colors hover:text-gray-600">
+                <i class="fa-solid fa-bed-pulse text-xl mb-0.5"></i>
+                <span class="truncate w-full text-center">Karar</span>
+            </button>
+
+        </div>
+    </nav>
+
+    <script>
+        // Görünümler arası geçiş sağlayan fonksiyon
+        function showView(viewId) {
+            const views = ['tani-view', 'resusitasyon-view', 'antibiyotik-view', 'karar-view'];
+            views.forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+            
+            const selectedView = document.getElementById(viewId);
+            selectedView.classList.remove('hidden');
+            
+            // Animasyonu tetikle
+            void selectedView.offsetWidth; 
+            
+            updateNavColors(viewId);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Alt menü durumunu güncelleyen fonksiyon
+        function updateNavColors(activeViewId) {
+            const btns = document.querySelectorAll('.nav-btn');
+            btns.forEach(btn => {
+                btn.classList.remove('text-sepsisPrimary');
+                btn.classList.add('text-gray-400');
+            });
+            
+            const activeBtn = document.getElementById(`btn-${activeViewId}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('text-gray-400');
+                activeBtn.classList.add('text-sepsisPrimary');
+            }
+        }
+    </script>
+
+
+<a class="global-app-home" href="../index.html" aria-label="Ana menüye dön">⌂ Ana Menü</a>
+<div class="global-version-ribbon">PWA v3 · 02.06.2026</div>
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function () {
+      navigator.serviceWorker.register("../service-worker.js").catch(function(error){
+        console.log("Service Worker kayıt hatası:", error);
+      });
+    });
+  }
+</script>
+
+</body>
+</html>
