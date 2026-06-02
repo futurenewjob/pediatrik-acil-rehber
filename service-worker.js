@@ -1,5 +1,4 @@
-const CACHE_NAME = "pediatrik-acil-rehber-v2";
-
+const CACHE_NAME = "pediatrik-acil-rehber-v3";
 const APP_ASSETS = [
   "./",
   "./index.html",
