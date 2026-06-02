@@ -162,20 +162,20 @@
         </section>
 
 
-        <!-- GÖRÜNÜM: TEDAVİ (Treatment & Dosages) -->
+        <!-- GÖRÜNÜM: Tacil servisAVİ (Treatment & Dosages) -->
         <section id="tedavi-view" class="fade-in hidden space-y-5">
             <h2 class="font-bold text-lg text-clinicalDark border-b border-gray-200 pb-2">Acil Stabilizasyon & İlaçlar</h2>
 
             <!-- BİRİNCİ BASAMAK -->
             <div class="space-y-3">
                 <h3 class="text-sm font-bold text-clinicalRed uppercase tracking-wider flex items-center gap-1">
-                    <i class="fa-solid fa-syringe"></i> BİRİNCİ BASAMAK TEDAVİ
+                    <i class="fa-solid fa-syringe"></i> BİRİNCİ BASAMAK Tacil servisAVİ
                 </h3>
                 
-                <!-- Epinefrin -->
+                <!-- Adrenalin -->
                 <div class="bg-red-50 p-4 rounded-xl border border-red-200 shadow-sm relative overflow-hidden">
                     <div class="absolute right-0 top-0 w-16 h-16 bg-red-100 rounded-bl-full -z-10"></div>
-                    <h4 class="font-bold text-red-900 text-lg mb-1">Epinefrin (İntramüsküler)</h4>
+                    <h4 class="font-bold text-red-900 text-lg mb-1">Adrenalin (İntramüsküler)</h4>
                     <p class="text-xs text-red-700 font-medium mb-3">Uyluk anterolateraline (IM). Gerekirse 5-15 dk'da bir tekrarla.</p>
                     
                     <div class="bg-white p-3 rounded-lg border border-red-100">
@@ -184,11 +184,11 @@
                             <span class="text-lg font-bold text-clinicalDark">0.01 mg/kg</span>
                         </div>
                         <div class="flex justify-between text-sm">
-                            <span class="text-gray-500">Prepubertal Max Doz:</span>
+                            <span class="text-gray-500">Prepubertal En yüksek doz Doz:</span>
                             <span class="font-bold text-red-600">0.3 mg (0.3 mL)</span>
                         </div>
                         <div class="flex justify-between text-sm mt-1">
-                            <span class="text-gray-500">Adölesan Max Doz:</span>
+                            <span class="text-gray-500">Adölesan En yüksek doz Doz:</span>
                             <span class="font-bold text-red-600">0.5 mg (0.5 mL)</span>
                         </div>
                     </div>
@@ -210,14 +210,14 @@
             <!-- İKİNCİ BASAMAK / YARDIMCI -->
             <div class="space-y-3 pt-2 border-t border-gray-200">
                 <h3 class="text-sm font-bold text-gray-600 uppercase tracking-wider">İKİNCİ BASAMAK (Yardımcı)</h3>
-                <p class="text-[11px] text-gray-500 -mt-2 leading-tight">Bu ilaçlar asla Epinefrin'in yerine veya öncesinde kullanılmamalıdır.</p>
+                <p class="text-[11px] text-gray-500 -mt-2 leading-tight">Bu ilaçlar asla Adrenalin'in yerine veya öncesinde kullanılmamalıdır.</p>
                 
                 <!-- Steroidler -->
                 <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm">
                     <h4 class="font-bold text-sm text-clinicalDark mb-2">Kortikosteroidler</h4>
                     <ul class="text-sm text-gray-700 space-y-2">
-                        <li class="flex justify-between"><span class="font-medium">Metilprednizolon (IV)</span> <span>1-2 mg/kg <span class="text-xs text-gray-400">(Max: 60mg)</span></span></li>
-                        <li class="flex justify-between"><span class="font-medium">Deksametazon (PO/IV)</span> <span>0.6 mg/kg <span class="text-xs text-gray-400">(Max: 16mg)</span></span></li>
+                        <li class="flex justify-between"><span class="font-medium">Metilprednizolon (IV)</span> <span>1-2 mg/kg <span class="text-xs text-gray-400">(En yüksek doz: 60mg)</span></span></li>
+                        <li class="flex justify-between"><span class="font-medium">Deksametazon (PO/IV)</span> <span>0.6 mg/kg <span class="text-xs text-gray-400">(En yüksek doz: 16mg)</span></span></li>
                     </ul>
                 </div>
 
@@ -234,11 +234,11 @@
                         </li>
                         <li class="flex flex-col border-b border-gray-100 pb-2">
                             <span class="font-medium">H1: Difenhidramin (IV/IM)</span> 
-                            <span class="text-xs text-gray-500 mt-0.5">1 mg/kg (Max: 50mg)</span>
+                            <span class="text-xs text-gray-500 mt-0.5">1 mg/kg (En yüksek doz: 50mg)</span>
                         </li>
                         <li class="flex flex-col">
                             <span class="font-medium">H2: Famotidin (IV)</span> 
-                            <span class="text-xs text-gray-500 mt-0.5">0.25 mg/kg (Max: 20mg)</span>
+                            <span class="text-xs text-gray-500 mt-0.5">0.25 mg/kg (En yüksek doz: 20mg)</span>
                         </li>
                     </ul>
                 </div>
@@ -246,16 +246,16 @@
                 <!-- Refrakter Şok -->
                 <div class="bg-gray-800 p-3 rounded-xl border border-gray-700 text-white shadow-sm">
                     <h4 class="font-bold text-sm mb-1 text-red-400">Refrakter Şok / İnfüzyon</h4>
-                    <p class="text-xs text-gray-300">Sıvı resüsitasyonu ve IM Epinefrine dirençli hipotansiyon:</p>
+                    <p class="text-xs text-gray-300">Sıvı resüsitasyonu ve kas içi adrenaline dirençli hipotansiyon:</p>
                     <ul class="text-sm space-y-1 mt-2">
-                        <li class="flex justify-between"><span class="font-medium">Epinefrin İnfüzyonu</span> <span class="font-mono text-xs">0.05-0.1 mcg/kg/dk</span></li>
-                        <li class="flex justify-between"><span class="font-medium">Norepinefrin İnfüzyonu</span> <span class="font-mono text-xs">0.05-0.1 mcg/kg/dk</span></li>
+                        <li class="flex justify-between"><span class="font-medium">Adrenalin İnfüzyonu</span> <span class="font-mono text-xs">0.05-0.1 mcg/kg/dk</span></li>
+                        <li class="flex justify-between"><span class="font-medium">Noradrenalin İnfüzyonu</span> <span class="font-mono text-xs">0.05-0.1 mcg/kg/dk</span></li>
                     </ul>
                 </div>
             </div>
         </section>
 
-        <!-- GÖRÜNÜM: YATIŞ & İZLEM (Disposition) -->
+        <!-- GÖRÜNÜM: YATIŞ & İZLEM (Yatış / taburculuk kararı) -->
         <section id="yatis-view" class="fade-in hidden space-y-4">
             <h2 class="font-bold text-lg text-clinicalDark border-b border-gray-200 pb-2">Sonlandırma & Taburculuk</h2>
             
@@ -273,7 +273,7 @@
                     <li>Bilinmeyen tetikleyici</li>
                     <li>Kardiyovasküler tutulum (Hipotansiyon)</li>
                     <li>Persistan wheezing (hışıltı)</li>
-                    <li><strong>≥2 doz</strong> IM epinefrin gereksinimi</li>
+                    <li><strong>≥2 doz</strong> kas içi adrenalin gereksinimi</li>
                 </ul>
                 <p class="text-xs text-orange-600 mt-2 font-medium">Bu hastalarda yatış veya uzatılmış gözlem (örn. 24 saat) planlanmalıdır.</p>
             </div>
@@ -283,14 +283,14 @@
                 <div class="bg-white p-3 rounded-xl border-l-4 border-yellow-400 shadow-sm">
                     <h3 class="font-bold text-sm text-clinicalDark mb-1">Servise Yatış</h3>
                     <ul class="text-xs text-gray-600 space-y-1 list-disc pl-4">
-                        <li>Epinefrin/Albuterol ile açıklanamayan anormal vital bulgular.</li>
+                        <li>Adrenalin/Albuterol ile açıklanamayan anormal vital bulgular.</li>
                         <li>Persistan hışıltı / Çoklu albuterol dozu.</li>
                         <li>Öyküde ağır anafilaksi veya ciddi komorbidite.</li>
                     </ul>
                 </div>
                 
                 <div class="bg-white p-3 rounded-xl border-l-4 border-red-500 shadow-sm">
-                    <h3 class="font-bold text-sm text-clinicalDark mb-1">Yoğun Bakım (YBÜ) Yatış</h3>
+                    <h3 class="font-bold text-sm text-clinicalDark mb-1">Yoğun bakım (YBÜ) Yatış</h3>
                     <ul class="text-xs text-gray-600 space-y-1 list-disc pl-4">
                         <li>Entübasyon veya NIV (HFNC, BPAP) gereksinimi.</li>
                         <li>Sürekli veya >2 saatte bir albuterol gereksinimi.</li>
@@ -305,7 +305,7 @@
                 <ul class="text-sm text-green-800 space-y-2">
                     <li class="flex items-start gap-2">
                         <i class="fa-solid fa-check-circle mt-0.5"></i>
-                        <span>Hastaya mutlaka <strong>Epinefrin Oto-Enjektörü (Epipen vb.)</strong> reçete edilmeli ve eğitimi verilmelidir.</span>
+                        <span>Hastaya mutlaka <strong>Adrenalin Oto-Enjektörü (Epipen vb.)</strong> reçete edilmeli ve eğitimi verilmelidir.</span>
                     </li>
                     <li class="flex items-start gap-2">
                         <i class="fa-solid fa-check-circle mt-0.5"></i>

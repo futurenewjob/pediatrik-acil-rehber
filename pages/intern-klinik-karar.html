@@ -66,7 +66,7 @@
     NARRATIVE & STRUCTURE PLAN:
     1. Introduction: Contextualizing the guide for clinical safety.
     2. Airway: Upper airway obstruction management (Epiglotitis focus with KBB/Anesthesia call).
-    3. Resuscitation: Epinephrine doses (Cardiac Arrest vs. Anaphylaxis distinction).
+    3. Resüsitasyon: Epinephrine doses (Cardiac Arrest vs. Anaphylaxis distinction).
     4. GI Emergencies: Intussusception (Focus on early diagnosis and USG, debunking the late triad).
     5. Shock: Fluid bolus algorithm with continuous reassessment (SCCM/RCH protocols).
     6. Fever/Triage: Age-based risk (NICE/AAP 8-60 days guidelines).
@@ -76,7 +76,7 @@
     VISUALIZATION JUSTIFICATION:
     - Epinephrine (Chart.js Bar): Visualizing weight-based arrest doses while text clarifies anaphylaxis limits. (NO SVG)
     - Intussusception Triad (Chart.js Doughnut): Explicitly showing the <15% occurrence to emphasize diagnostic vigilance. (NO SVG)
-    - Fluid Resuscitation (CSS Flowchart): Step-by-step logic emphasizing REASSESSMENT. (NO SVG/MERMAID)
+    - Fluid Resüsitasyon (CSS Flowchart): Step-by-step logic emphasizing YENİDEN DEĞERLENDİRME. (NO SVG/Macil servisMAID)
     - Triage (Plotly Radar): Visualizing risk factors (labeled as educational representation). (Canvas mode, NO SVG)
 -->
 
@@ -97,7 +97,7 @@
             </h2>
             <p class="text-lg text-slate-600">Epiglotit veya ağır üst hava yolu obstrüksiyonu şüphesinde (Tripod pozisyonu, drooling, stridor) intern hekimin önceliği hastayı stabilize etmek ve kıdemli desteği çağırmaktır.</p>
             <div class="p-6 bg-red-50 rounded-xl warning-border">
-                <h3 class="font-bold text-red-700 mb-2">KRİTİK MÜDAHALE İLKELERİ:</h3>
+                <h3 class="font-bold text-red-700 mb-2">KRİTİK MÜDAHALE İLKELacil servisİ:</h3>
                 <ul class="space-y-3 text-red-900">
                     <li class="flex items-start">👉 Çocuğu ajite etmeyin; ebeveyn kucağında, en rahat ettiği pozisyonda bırakın.</li>
                     <li class="flex items-start">👉 Ağız içi travmatik muayene (abeslang) ve yatırarak muayene ASLA YAPILMAMALIDIR.</li>
@@ -121,7 +121,7 @@
 
     <section class="space-y-8">
         <div class="text-center md:text-left info-border pl-6">
-            <h2 class="text-3xl font-bold text-[#03045e]">Epinefrin (Adrenalin): Endikasyon Bazlı Dozlama</h2>
+            <h2 class="text-3xl font-bold text-[#03045e]">Adrenalin (Adrenalin): Endikasyon Bazlı Dozlama</h2>
             <p class="mt-2 text-lg text-slate-600">Kardiyak arrest (IV/IO) ve anafilaksi (IM) dozları asla karıştırılmamalıdır.</p>
         </div>
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -131,7 +131,7 @@
                 </div>
                 <div class="mt-6 grid grid-cols-2 gap-4 text-center">
                     <div class="p-3 bg-blue-50 rounded-lg">
-                        <span class="block text-xs uppercase font-bold text-blue-600">Tek Sefer Max</span>
+                        <span class="block text-xs uppercase font-bold text-blue-600">Tek Sefer En yüksek doz</span>
                         <span class="text-2xl font-black text-[#03045e]">1 mg</span>
                     </div>
                     <div class="p-3 bg-blue-50 rounded-lg">
@@ -151,7 +151,7 @@
                     <h4 class="font-bold text-[#0077b6] border-b pb-2 mb-3">ANAFİLAKSİ (IM)</h4>
                     <p class="text-sm text-slate-700 mb-2">Uyluk Anterolateral (IM): 0.01 mg/kg</p>
                     <p class="font-mono text-xs bg-slate-100 p-2 rounded text-[#03045e]">1:1.000 (1 mg/mL) solüsyondan 0.01 mL/kg</p>
-                    <p class="text-[10px] mt-2 font-bold text-red-600">Max Doz: Çocuk 0.3 mg / Adolesan 0.5 mg</p>
+                    <p class="text-[10px] mt-2 font-bold text-red-600">En yüksek doz Doz: Çocuk 0.3 mg / Adolesan 0.5 mg</p>
                 </div>
             </div>
         </div>
@@ -200,7 +200,7 @@
             </div>
             <div class="flow-line !bg-[#ffb703]"></div>
             <div class="w-full p-6 bg-white text-[#03045e] rounded-xl text-center font-bold shadow-inner">
-                <span class="text-xs uppercase block text-blue-600 mb-2">DÖNGÜ: YENİDEN DEĞERLENDİRME</span>
+                <span class="text-xs uppercase block text-blue-600 mb-2">DÖNGÜ: YENİDEN DEĞacil servisLENDİRME</span>
                 KTA, KB, Kapiller Dolum, Bilinç, Solunum İş yükü, Hepatomegali ve Raller
             </div>
             <div class="flow-line !bg-[#ffb703]"></div>
@@ -225,7 +225,7 @@
                     <span class="font-bold text-red-800">YÜKSEK RİSK (Kırmızı Bayrak):</span> < 3 Ay ve ≥ 38°C ateş, toksik görünüm, peteşiyal döküntü, meningeal bulgular, inilti.
                 </div>
                 <div class="p-4 bg-blue-100 rounded-lg text-sm border-l-4 border-blue-600">
-                    <span class="font-bold text-blue-800">AAP 8-60 GÜN REHBERİ:</span> İyi görünen term bebeklerde; 8-21 gün, 22-28 gün ve 29-60 gün algoritmaları izlenmelidir.
+                    <span class="font-bold text-blue-800">AAP 8-60 GÜN REHBacil servisİ:</span> İyi görünen term bebeklerde; 8-21 gün, 22-28 gün ve 29-60 gün algoritmaları izlenmelidir.
                 </div>
             </div>
             <p class="text-xs text-slate-400 italic">Kaynak: NICE Fever Under 5 (NG143) & AAP Febrile Infant Guidelines</p>
@@ -257,13 +257,13 @@
         let currentLine = '';
         words.forEach(word => {
             if ((currentLine + word).length > 16) {
-                lines.push(currentLine.trim());
+                lines.yavaş/kontrollü uygulama(currentLine.trim());
                 currentLine = word + ' ';
             } else {
                 currentLine += word + ' ';
             }
         });
-        lines.push(currentLine.trim());
+        lines.yavaş/kontrollü uygulama(currentLine.trim());
         return lines;
     }
 
@@ -281,7 +281,7 @@
     new Chart(arrestCtx, {
         type: 'bar',
         data: {
-            labels: ['5 kg', '10 kg', '20 kg', '30 kg', '50 kg+ (Max)'].map(wrapLabel),
+            labels: ['5 kg', '10 kg', '20 kg', '30 kg', '50 kg+ (En yüksek doz)'].map(wrapLabel),
             datasets: [{
                 label: 'Arrest Dozu (mL - 1:10.000)',
                 data: [0.5, 1.0, 2.0, 3.0, 10.0],
@@ -295,7 +295,7 @@
             plugins: {
                 legend: { display: false },
                 tooltip: tooltipConfig,
-                title: { display: true, text: 'Kardiyak Arrest IV/IO Epinefrin Dozu', color: '#03045e' }
+                title: { display: true, text: 'Kardiyak Arrest IV/IO Adrenalin Dozu', color: '#03045e' }
             },
             scales: {
                 y: { beginAtZero: true, title: { display: true, text: 'mL (0.1 mg/mL solüsyon)' } }

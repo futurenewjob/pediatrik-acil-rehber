@@ -5,18 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pediatrik Acil Klinik Rehberi</title>
   <link rel="manifest" href="./manifest.json">
-  <meta name="theme-color" content="#03045e">
+  <meta name="theme-color" content="#002F65">
   <link rel="apple-touch-icon" href="./icons/icon-192.png">
   <style>
     :root {
-      --navy:#03045e; --blue:#0077b6; --cyan:#00b4d8; --gold:#ffb703;
+      --navy:#002F65; --blue:#005A9C; --cyan:#0077b6; --gold:#FFD700; --red:#A91101;
       --bg:#f8fafc; --ink:#0f172a; --muted:#64748b; --line:#e2e8f0;
     }
     * { box-sizing:border-box; }
     html { scroll-behavior:smooth; }
     body { margin:0; font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Arial, sans-serif; background:var(--bg); color:var(--ink); }
-    .hero { background: radial-gradient(circle at top right, rgba(255,183,3,.22), transparent 34%), linear-gradient(135deg, #03045e 0%, #0077b6 100%); color:white; padding:32px 18px 24px; border-bottom-left-radius:28px; border-bottom-right-radius:28px; box-shadow:0 20px 50px rgba(3,4,94,.22); }
+    .hero { background: radial-gradient(circle at top right, rgba(255,183,3,.22), transparent 34%), linear-gradient(135deg, #002F65 0%, #005A9C 100%); color:white; padding:32px 18px 24px; border-bottom-left-radius:28px; border-bottom-right-radius:28px; box-shadow:0 20px 50px rgba(3,4,94,.22); }
     .wrap { max-width:1100px; margin:0 auto; }
+
+    .brand-line { display:flex; align-items:center; gap:13px; margin-bottom:12px; }
+    .brand-line img { width:64px; height:64px; object-fit:contain; background:white; border-radius:18px; padding:7px; box-shadow:0 12px 28px rgba(0,0,0,.15); }
+    .brand-line .brand-text { color:rgba(255,255,255,.9); font-weight:900; letter-spacing:.02em; }
     .badge { display:inline-flex; gap:8px; align-items:center; background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.22); color:white; padding:8px 11px; border-radius:999px; font-size:12px; font-weight:800; }
     h1 { font-size:clamp(31px, 5vw, 58px); line-height:1.02; margin:18px 0 12px; letter-spacing:-.045em; }
     .lead { max-width:760px; font-size:clamp(16px, 2vw, 21px); color:rgba(255,255,255,.88); line-height:1.55; }
@@ -72,7 +76,11 @@
 <body>
   <header class="hero">
     <div class="wrap">
-      <span class="badge">PWA v4 · 02.06.2026 · Çoklu Rehber Paneli</span>
+      <div class="brand-line">
+        <img src="./assets/trakya-cocuk-acil-logo.png" alt="Trakya Çocuk Acil logosu">
+        <div class="brand-text">Trakya Çocuk Acil · Klinik Eğitim Platformu</div>
+      </div>
+      <span class="badge">PWA v5 · 03.06.2026 · Klinik Rehber + Soru Modülü</span>
       <h1>Pediatrik Acil Klinik Karar Destek Rehberi</h1>
       <p class="lead">İntern hekimler ve çocuk acil ekibi için hızlı erişimli, mobil uyumlu, ana ekrana eklenebilir klinik rehber paketi.</p>
       <div class="hero-actions">
@@ -84,15 +92,16 @@
 
   <div class="toolbar">
     <div class="toolbar-inner">
-      <input id="searchBox" class="search" placeholder="Rehber ara: anafilaksi, sepsis, DKA, status, travma..." aria-label="Rehber ara">
+      <input id="searchBox" class="search" placeholder="Rehber ara: anafilaksi, sepsis, DKA, status, travma, soru, TUS, YDUS..." aria-label="Rehber ara">
       <div class="filters">
 <button class="filter active" data-filter="all">Tümü</button>
-<button class="filter" data-filter="resusitasyon">Resüsitasyon</button>
+<button class="filter" data-filter="resüsitasyon">Resüsitasyon</button>
 <button class="filter" data-filter="solunum">Solunum</button>
 <button class="filter" data-filter="noroloji">Nöroloji</button>
 <button class="filter" data-filter="metabolik">Metabolik</button>
 <button class="filter" data-filter="toksikoloji">Toksikoloji</button>
 <button class="filter" data-filter="travma">Travma</button>
+<button class="filter" data-filter="egitim">Eğitim</button>
 <button class="filter" data-filter="genel">Genel</button>
 </div>
     </div>
@@ -101,7 +110,7 @@
   <main>
     <section id="hesaplayici">
       <div class="section-title">
-        <div><h2>Kilo Bazlı Hızlı Hesaplayıcı</h2><p>Epinefrin/adrenalin ve sıvı bolusu için hızlı kontrol alanı.</p></div>
+        <div><h2>Kilo Bazlı Hızlı Hesaplayıcı</h2><p>Adrenalin/adrenalin ve sıvı bolusu için hızlı kontrol alanı.</p></div>
       </div>
       <div class="calculator">
         <div class="calc-grid">
@@ -111,7 +120,7 @@
         </div>
         <div id="doseWarning" class="warning">Lütfen 1–100 kg arası geçerli bir kilo giriniz.</div>
         <div id="doseResults" class="results">
-          <div class="result"><h3>Kardiyak arrest epinefrin IV/IO</h3><p>0.01 mg/kg · 1:10.000</p><div class="big" id="arrestMg">-</div><p id="arrestMl">-</p><p>Maksimum tek doz: 1 mg = 10 mL.</p></div>
+          <div class="result"><h3>Kardiyak arrest adrenalin IV/IO</h3><p>0.01 mg/kg · 1:10.000</p><div class="big" id="arrestMg">-</div><p id="arrestMl">-</p><p>Maksimum tek doz: 1 mg = 10 mL.</p></div>
           <div class="result"><h3>Anafilaksi adrenalin IM</h3><p>0.01 mg/kg · 1:1.000</p><div class="big" id="anaphylaxisMg">-</div><p id="anaphylaxisMl">-</p><p>Çocuk max 0.3 mg, adolesan max 0.5 mg.</p></div>
           <div class="result"><h3>Sıvı bolus 10 mL/kg</h3><p>İzotonik kristaloid</p><div class="big" id="fluid10">-</div><p>Bolus sonrası tekrar değerlendir.</p></div>
           <div class="result"><h3>Sıvı bolus 20 mL/kg</h3><p>İzotonik kristaloid</p><div class="big" id="fluid20">-</div><p>DKA, kardiyojenik şok ve ağır malnütrisyonda dikkat.</p></div>
@@ -126,7 +135,7 @@
       </div>
       <div id="cards" class="cards">
         
-      <article class="guide-card" data-title="İntern Klinik Karar Destek Hava yolu, epinefrin/adrenalin ayrımı, invajinasyon, şok ve ateşli çocuk risk yaklaşımı. Üst hava yolu obstrüksiyonu Adrenalin doz ayrımı Ateşli çocuk kırmızı bayrakları" data-category="genel" style="--accent:#03045e">
+      <article class="guide-card" data-title="İntern Klinik Karar Destek Hava yolu, adrenalin/adrenalin ayrımı, invajinasyon, şok ve ateşli çocuk risk yaklaşımı. Üst hava yolu obstrüksiyonu Adrenalin doz ayrımı Ateşli çocuk kırmızı bayrakları" data-category="genel" style="--accent:#002F65">
         <div class="card-top">
           <div class="card-icon">🩺</div>
           <div>
@@ -134,33 +143,33 @@
             <h3>İntern Klinik Karar Destek</h3>
           </div>
         </div>
-        <p class="card-summary">Hava yolu, epinefrin/adrenalin ayrımı, invajinasyon, şok ve ateşli çocuk risk yaklaşımı.</p>
+        <p class="card-summary">Hava yolu, adrenalin/adrenalin ayrımı, invajinasyon, şok ve ateşli çocuk risk yaklaşımı.</p>
         <div class="tag-row"><span>Üst hava yolu obstrüksiyonu</span><span>Adrenalin doz ayrımı</span><span>Ateşli çocuk kırmızı bayrakları</span></div>
         <a class="open-link" href="./pages/intern-klinik-karar.html">Rehberi aç <span>→</span></a>
       </article>
 
-      <article class="guide-card" data-title="Anafilaksi Yönetimi Anafilaksinin tanı kriterleri, IM epinefrin ve akut stabilizasyon akışı. Klinik tanı IM epinefrin Tekrarlayan doz ve gözlem" data-category="resusitasyon" style="--accent:#dc2626">
+      <article class="guide-card" data-title="Anafilaksi Yönetimi Anafilaksinin tanı kriterleri, kas içi adrenalin ve akut stabilizasyon akışı. Klinik tanı kas içi adrenalin Tekrarlayan doz ve gözlem" data-category="resüsitasyon" style="--accent:#dc2626">
         <div class="card-top">
           <div class="card-icon">💉</div>
           <div>
-            <p class="card-kicker">Resusitasyon</p>
+            <p class="card-kicker">Resüsitasyon</p>
             <h3>Anafilaksi Yönetimi</h3>
           </div>
         </div>
-        <p class="card-summary">Anafilaksinin tanı kriterleri, IM epinefrin ve akut stabilizasyon akışı.</p>
-        <div class="tag-row"><span>Klinik tanı</span><span>IM epinefrin</span><span>Tekrarlayan doz ve gözlem</span></div>
+        <p class="card-summary">Anafilaksinin tanı kriterleri, kas içi adrenalin ve akut stabilizasyon akışı.</p>
+        <div class="tag-row"><span>Klinik tanı</span><span>kas içi adrenalin</span><span>Tekrarlayan doz ve gözlem</span></div>
         <a class="open-link" href="./pages/anafilaksi.html">Rehberi aç <span>→</span></a>
       </article>
 
-      <article class="guide-card" data-title="Pediatrik Sepsis Yönetimi Organ disfonksiyonu, golden hour, sıvı, vazopressör ve antibiyotik yaklaşımı. İlk 1 saat 10–20 mL/kg bolus Vazoaktif destek" data-category="resusitasyon" style="--accent:#7c3aed">
+      <article class="guide-card" data-title="Pediatrik Sepsis Yönetimi Organ disfonksiyonu, ilk 1 saat, sıvı, vazopressör ve antibiyotik yaklaşımı. İlk 1 saat 10–20 mL/kg bolus Vazoaktif destek" data-category="resüsitasyon" style="--accent:#7c3aed">
         <div class="card-top">
           <div class="card-icon">🦠</div>
           <div>
-            <p class="card-kicker">Resusitasyon</p>
+            <p class="card-kicker">Resüsitasyon</p>
             <h3>Pediatrik Sepsis Yönetimi</h3>
           </div>
         </div>
-        <p class="card-summary">Organ disfonksiyonu, golden hour, sıvı, vazopressör ve antibiyotik yaklaşımı.</p>
+        <p class="card-summary">Organ disfonksiyonu, ilk 1 saat, sıvı, vazopressör ve antibiyotik yaklaşımı.</p>
         <div class="tag-row"><span>İlk 1 saat</span><span>10–20 mL/kg bolus</span><span>Vazoaktif destek</span></div>
         <a class="open-link" href="./pages/sepsis.html">Rehberi aç <span>→</span></a>
       </article>
@@ -169,7 +178,7 @@
         <div class="card-top">
           <div class="card-icon">🧠</div>
           <div>
-            <p class="card-kicker">Noroloji</p>
+            <p class="card-kicker">Nöroloji</p>
             <h3>Nöbet ve Status Epileptikus</h3>
           </div>
         </div>
@@ -229,6 +238,20 @@
         <div class="tag-row"><span>GKS sınıflaması</span><span>PECARN BT kararı</span><span>İstismar uyarısı</span></div>
         <a class="open-link" href="./pages/kafa-travmasi.html">Rehberi aç <span>→</span></a>
       </article>
+
+
+      <article class="guide-card" data-title="Sınav ve Öğrenme Modülü TUS YDUS özgün soru bankası vaka temelli açıklamalı aktif hatırlama soru çözümü" data-category="egitim" style="--accent:#A91101">
+        <div class="card-top">
+          <div class="card-icon">📝</div>
+          <div>
+            <p class="card-kicker">Eğitim</p>
+            <h3>Sınav ve Öğrenme Modülü</h3>
+          </div>
+        </div>
+        <p class="card-summary">TUS/YDUS tarzına benzer, birebir kopya olmayan özgün pediatrik acil soruları; anında açıklama, sınav tuzağı ve aktif hatırlama görevi.</p>
+        <div class="tag-row"><span>TUS tarzı</span><span>YDUS tarzı</span><span>Açıklamalı çözüm</span></div>
+        <a class="open-link" href="./pages/soru-bankasi.html">Soruları aç <span>→</span></a>
+      </article>
       </div>
     </section>
 
@@ -278,12 +301,12 @@
     let arrestMg = Math.min(weight * 0.01, 1);
     let arrestMl = arrestMg / 0.1;
     let anaphylaxisMg = weight * 0.01;
-    let childMax = Math.min(anaphylaxisMg, 0.3);
-    let adolescentMax = Math.min(anaphylaxisMg, 0.5);
+    let childEn yüksek doz = Math.min(anaphylaxisMg, 0.3);
+    let adolescentEn yüksek doz = Math.min(anaphylaxisMg, 0.5);
     document.getElementById('arrestMg').textContent = roundDose(arrestMg) + ' mg';
     document.getElementById('arrestMl').textContent = roundDose(arrestMl) + ' mL';
     document.getElementById('anaphylaxisMg').textContent = roundDose(anaphylaxisMg) + ' mg';
-    document.getElementById('anaphylaxisMl').textContent = 'Çocuk: ' + roundDose(childMax) + ' mL · Adolesan: ' + roundDose(adolescentMax) + ' mL';
+    document.getElementById('anaphylaxisMl').textContent = 'Çocuk: ' + roundDose(childEn yüksek doz) + ' mL · Adolesan: ' + roundDose(adolescentEn yüksek doz) + ' mL';
     document.getElementById('fluid10').textContent = roundDose(weight*10) + ' mL';
     document.getElementById('fluid20').textContent = roundDose(weight*20) + ' mL';
   }

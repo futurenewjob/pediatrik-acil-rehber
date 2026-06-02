@@ -1,4 +1,4 @@
-const CACHE_NAME = "pediatrik-acil-rehber-v4";
+const CACHE_NAME = "pediatrik-acil-rehber-v5";
 const APP_ASSETS = [
   "./",
   "./index.html",
@@ -14,7 +14,9 @@ const APP_ASSETS = [
   "./pages/solunum-yetmezligi.html",
   "./pages/dka.html",
   "./pages/zehirlenme.html",
-  "./pages/kafa-travmasi.html"
+  "./pages/kafa-travmasi.html",
+  "./pages/soru-bankasi.html",
+  "./assets/trakya-cocuk-acil-logo.png"
 ];
 
 self.addEventListener("install", event => {

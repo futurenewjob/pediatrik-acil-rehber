@@ -22,7 +22,7 @@
                         sans: ['Inter', 'sans-serif'],
                     },
                     colors: {
-                        sepsisPrimary: '#7C3AED', /* Mor - Enfeksiyon/Sepsis rengi */
+                        sepsisPrimary: '#7C3Aacil servis', /* Mor - Enfeksiyon/Sepsis rengi */
                         sepsisDark: '#1E1B4B',
                         sepsisAlert: '#E11D48',
                         sepsisBg: '#F5F3FF',
@@ -172,14 +172,14 @@
             </div>
 
             <!-- Etkileşimli Başlangıç -->
-            <button onclick="showView('resusitasyon-view')" class="w-full bg-sepsisPrimary text-white py-3.5 rounded-xl font-bold shadow-md hover:bg-purple-700 transition flex items-center justify-center gap-2 mt-4">
-                İlk 1 Saat (Golden Hour) Yönetimi <i class="fa-solid fa-arrow-right"></i>
+            <button onclick="showView('resüsitasyon-view')" class="w-full bg-sepsisPrimary text-white py-3.5 rounded-xl font-bold shadow-md hover:bg-purple-700 transition flex items-center justify-center gap-2 mt-4">
+                İlk 1 Saat (İlk 1 Saat) Yönetimi <i class="fa-solid fa-arrow-right"></i>
             </button>
         </section>
 
 
         <!-- GÖRÜNÜM 2: RESÜSİTASYON (Fluid & Vasoactives) -->
-        <section id="resusitasyon-view" class="fade-in hidden space-y-5">
+        <section id="resüsitasyon-view" class="fade-in hidden space-y-5">
             <div class="flex justify-between items-end border-b border-gray-200 pb-2">
                 <h2 class="font-bold text-lg text-sepsisDark">Sıvı ve Şok Yönetimi</h2>
                 <span class="text-[10px] font-bold bg-gray-100 px-2 py-1 rounded text-gray-600">IV/IO Erişim Şart</span>
@@ -196,7 +196,7 @@
                         <span class="text-lg font-bold text-blue-700">10-20 mL/kg</span>
                     </div>
                     <ul class="text-xs text-gray-600 list-disc pl-4 space-y-1">
-                        <li><strong>Uygulama Süresi:</strong> Hızlı, 5-10 dakika içinde "Push" yöntemiyle.</li>
+                        <li><strong>Uygulama Süresi:</strong> Hızlı, 5-10 dakika içinde "Yavaş/kontrollü uygulama" yöntemiyle.</li>
                         <li><strong>Hedef:</strong> İlk 1 saat içinde toplam <span class="font-bold text-blue-700">60 mL/kg'a</span> kadar çıkılabilir.</li>
                         <li class="text-red-600 font-semibold">DUR UYARISI: Akciğerlerde raller (krepitasyon) veya hepatomegali gelişirse sıvıyı derhal KES.</li>
                     </ul>
@@ -210,9 +210,9 @@
                 </h3>
                 <p class="text-xs text-gray-500 -mt-2">Sıvıya dirençli şokta veya sıvı yüklenmesi bulgusunda BAŞLA.</p>
                 
-                <!-- Epinefrin -->
+                <!-- Adrenalin -->
                 <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm relative overflow-hidden border-l-4 border-l-sepsisPrimary">
-                    <h4 class="font-bold text-sepsisDark text-sm mb-1">1. Seçenek: Epinefrin (Adrenalin)</h4>
+                    <h4 class="font-bold text-sepsisDark text-sm mb-1">1. Seçenek: Adrenalin (Adrenalin)</h4>
                     <p class="text-[11px] text-gray-500 mb-2">Düşük kardiyak output ve miyokardiyal disfonksiyonda (Soğuk Şok).</p>
                     <div class="bg-gray-50 p-2 rounded flex justify-between items-center border border-gray-100">
                         <span class="text-xs font-semibold text-gray-600">IV Sürekli İnfüzyon:</span>
@@ -220,9 +220,9 @@
                     </div>
                 </div>
 
-                <!-- Norepinefrin -->
+                <!-- Noradrenalin -->
                 <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm relative overflow-hidden border-l-4 border-l-orange-500">
-                    <h4 class="font-bold text-sepsisDark text-sm mb-1">1. Seçenek: Norepinefrin (Noradrenalin)</h4>
+                    <h4 class="font-bold text-sepsisDark text-sm mb-1">1. Seçenek: Noradrenalin (Noradrenalin)</h4>
                     <p class="text-[11px] text-gray-500 mb-2">Sistemik vasküler rezistansı artırmak için (Sıcak Şok / Vazodilatasyon).</p>
                     <div class="bg-gray-50 p-2 rounded flex justify-between items-center border border-gray-100">
                         <span class="text-xs font-semibold text-gray-600">IV Sürekli İnfüzyon:</span>
@@ -239,7 +239,7 @@
             <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm border-l-4 border-l-gray-500 mt-2">
                  <h4 class="font-bold text-sepsisDark text-sm mb-1">Kortikosteroid (Hidrokortizon)</h4>
                  <p class="text-[11px] text-gray-600 mb-1">Sıvıya ve erken vazopressörlere dirençli şokta (Adrenal yetmezlik şüphesi).</p>
-                 <p class="text-xs font-mono font-bold text-gray-800">1 - 2 mg/kg/doz IV <span class="text-[10px] font-sans text-gray-400 font-normal">(Max: 100 mg/doz)</span></p>
+                 <p class="text-xs font-mono font-bold text-gray-800">1 - 2 mg/kg/doz IV <span class="text-[10px] font-sans text-gray-400 font-normal">(En yüksek doz: 100 mg/doz)</span></p>
             </div>
         </section>
 
@@ -283,7 +283,7 @@
                 <!-- İmmünosüprese -->
                 <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm">
                     <h4 class="font-bold text-xs text-sepsisDark mb-1">İmmünsüprese Hasta (Pseudomonas Kapsamı)</h4>
-                    <p class="text-[11px] text-gray-600">Seftriakson YERİNE Antipseudomonal ajan seçin:</p>
+                    <p class="text-[11px] text-gray-600">Seftriakson Yacil servisİNE Antipseudomonal ajan seçin:</p>
                     <ul class="text-[11px] text-gray-800 mt-1 list-disc pl-4 font-mono font-semibold">
                         <li>Seftazidim: 50 mg/kg/doz q8h <span class="font-sans font-normal text-gray-500">VEYA</span></li>
                         <li>Sefepim: 50 mg/kg/doz q8h</li>
@@ -328,15 +328,15 @@
             </div>
 
             <!-- Yatış Kriterleri -->
-            <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider mt-4">Yatış Kriterleri (Disposition)</h3>
+            <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider mt-4">Yatış Kriterleri (Yatış / taburculuk kararı)</h3>
             <div class="grid grid-cols-1 gap-3">
                 <div class="bg-white p-3 rounded-xl border-l-4 border-yellow-400 shadow-sm">
-                    <h3 class="font-bold text-sm text-sepsisDark mb-1">Servise Yatış (Ward)</h3>
+                    <h3 class="font-bold text-sm text-sepsisDark mb-1">Servise yatış</h3>
                     <p class="text-xs text-gray-600">Şok bulguları (persistan kardiyovasküler disfonksiyon) <strong>olmayan</strong> sepsis hastaları.</p>
                 </div>
                 
                 <div class="bg-white p-3 rounded-xl border-l-4 border-red-500 shadow-sm">
-                    <h3 class="font-bold text-sm text-sepsisDark mb-1">Çocuk Yoğun Bakım (PICU)</h3>
+                    <h3 class="font-bold text-sm text-sepsisDark mb-1">çocuk yoğun bakım</h3>
                     <ul class="text-xs text-gray-600 space-y-1 list-disc pl-4">
                         <li>Devam eden şok bulguları.</li>
                         <li>Sürekli inotrop/vazoaktif infüzyon alanlar.</li>
@@ -358,7 +358,7 @@
                 <span class="truncate w-full text-center">Tanı</span>
             </button>
             
-            <button onclick="showView('resusitasyon-view')" id="btn-resusitasyon-view" class="nav-btn flex flex-col items-center gap-1 w-[22%] transition-colors hover:text-gray-600">
+            <button onclick="showView('resüsitasyon-view')" id="btn-resüsitasyon-view" class="nav-btn flex flex-col items-center gap-1 w-[22%] transition-colors hover:text-gray-600">
                 <i class="fa-solid fa-droplet text-xl mb-0.5"></i>
                 <span class="truncate w-full text-center">Sıvı/Şok</span>
             </button>
@@ -379,7 +379,7 @@
     <script>
         // Görünümler arası geçiş sağlayan fonksiyon
         function showView(viewId) {
-            const views = ['tani-view', 'resusitasyon-view', 'antibiyotik-view', 'karar-view'];
+            const views = ['tani-view', 'resüsitasyon-view', 'antibiyotik-view', 'karar-view'];
             views.forEach(id => {
                 document.getElementById(id).classList.add('hidden');
             });

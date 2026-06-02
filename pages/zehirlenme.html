@@ -213,7 +213,7 @@
                         <i class="fa-solid fa-check text-green-500 mt-0.5"></i>
                         <div>
                             <span class="font-bold block text-gray-800">Bedside Glukoz (AKŞ)</span>
-                            <span class="text-gray-500">Bilinç değişikliği olan HER hastada anında bakılmalıdır.</span>
+                            <span class="text-gray-500">Bilinç değişikliği olan Hacil servis hastada anında bakılmalıdır.</span>
                         </div>
                     </li>
                     <li class="flex items-start gap-2 border-b border-gray-100 pb-2">
@@ -276,7 +276,7 @@
                     <span class="font-semibold text-gray-300">Doz (PO/NG):</span>
                     <span class="font-mono font-bold text-green-400">1 g/kg/doz</span>
                 </div>
-                <p class="text-[10px] text-gray-400 mt-1 text-right">Max Doz: Çocuk: 50g | Adölesan: 100g</p>
+                <p class="text-[10px] text-gray-400 mt-1 text-right">En yüksek doz Doz: Çocuk: 50g | Adölesan: 100g</p>
             </div>
 
             <!-- Birinci Basamak Antidotlar -->
@@ -288,7 +288,7 @@
                     <p class="text-[11px] text-gray-500 mb-2">Opioid toksisitesinde solunum depresyonunu geri çevirmek için.</p>
                     <div class="bg-gray-50 p-2 rounded border border-gray-100 mb-1">
                         <span class="text-sm font-mono font-bold text-purple-700">0.2 - 0.4 mg IV/IO/IM</span>
-                        <span class="text-[10px] block text-gray-500 mt-0.5">2-3 dk'da bir tekrarla. (Yanıt yoksa Max 10mg'a kadar çık).</span>
+                        <span class="text-[10px] block text-gray-500 mt-0.5">2-3 dk'da bir tekrarla. (Yanıt yoksa En yüksek doz 10mg'a kadar çık).</span>
                     </div>
                     <p class="text-[9px] text-red-500 font-bold">*Dikkat: Ani yoksunluk (withdrawal) sendromunu tetikleyebilir.</p>
                 </div>
@@ -300,13 +300,13 @@
                     
                     <ul class="text-[11px] text-gray-700 space-y-2 font-mono">
                         <li class="flex justify-between border-b border-gray-100 pb-1">
-                            <span class="font-bold">Diazepam (IV):</span> <span>0.1 - 0.2 mg/kg <span class="font-sans text-[9px] text-gray-400">(Max 5-10mg)</span></span>
+                            <span class="font-bold">Diazepam (IV):</span> <span>0.1 - 0.2 mg/kg <span class="font-sans text-[9px] text-gray-400">(En yüksek doz 5-10mg)</span></span>
                         </li>
                         <li class="flex justify-between border-b border-gray-100 pb-1">
-                            <span class="font-bold">Lorazepam (IV):</span> <span>0.05 - 0.1 mg/kg <span class="font-sans text-[9px] text-gray-400">(Ajitasyon Max 2mg, Nöbet Max 4mg)</span></span>
+                            <span class="font-bold">Midazolam veya diazepam:</span> <span>nöbet/ajitasyon yönetiminde kurum protokolüne göre; solunum depresyonu açısından yakın izlem</span>
                         </li>
                         <li class="flex justify-between">
-                            <span class="font-bold">Midazolam (IV):</span> <span>0.05 - 0.1 mg/kg <span class="font-sans text-[9px] text-gray-400">(Max 2mg)</span></span>
+                            <span class="font-bold">Midazolam (IV):</span> <span>0.05 - 0.1 mg/kg <span class="font-sans text-[9px] text-gray-400">(En yüksek doz 2mg)</span></span>
                         </li>
                     </ul>
                 </div>
@@ -319,20 +319,20 @@
                         <span class="font-semibold text-xs text-gray-700">IV Bolus:</span>
                         <span class="text-sm font-mono font-bold text-orange-600">1 mEq/kg/doz</span>
                     </div>
-                    <p class="text-[9px] text-gray-400 mt-1 text-right">(Max 50 mEq) - Sonrası EKG tekrarı.</p>
+                    <p class="text-[9px] text-gray-400 mt-1 text-right">(En yüksek doz 50 mEq) - Sonrası EKG tekrarı.</p>
                 </div>
                 
                 <!-- Atropin -->
                 <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm">
                     <h4 class="font-bold text-gray-800 text-sm mb-1">Atropin</h4>
                     <p class="text-[11px] text-gray-500 mb-1">Semptomatik bradikardi veya kolinerjik toksisitede (Organofosfat).</p>
-                    <p class="text-xs font-mono font-bold text-gray-800">0.02 mg/kg/doz IV/IO <span class="font-sans font-normal text-[10px] text-gray-400">(Max 0.5 mg/doz)</span></p>
+                    <p class="text-xs font-mono font-bold text-gray-800">0.02 mg/kg/doz IV/IO <span class="font-sans font-normal text-[10px] text-gray-400">(En yüksek doz 0.5 mg/doz)</span></p>
                 </div>
 
             </div>
         </section>
         
-        <!-- GÖRÜNÜM 4: KARAR (Disposition) -->
+        <!-- GÖRÜNÜM 4: KARAR (Yatış / taburculuk kararı) -->
         <section id="karar-view" class="fade-in hidden space-y-4">
             <h2 class="font-bold text-lg text-toxDark border-b border-gray-200 pb-2">Karar ve Taburculuk</h2>
 
@@ -354,7 +354,7 @@
                 </div>
                 
                 <div class="bg-white p-3 rounded-xl border-l-4 border-red-500 shadow-sm">
-                    <h3 class="font-bold text-sm text-toxDark mb-1">Yoğun Bakım (PICU)</h3>
+                    <h3 class="font-bold text-sm text-toxDark mb-1">yoğun bakım</h3>
                     <ul class="text-[11px] text-gray-600 space-y-1 list-disc pl-4">
                         <li>Hemodinamik instabilite (Şok, ritim bozukluğu).</li>
                         <li>Solunum desteği ihtiyacı (Entübasyon, NIV).</li>

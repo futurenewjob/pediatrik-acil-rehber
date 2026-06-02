@@ -1,28 +1,31 @@
-# Pediatrik Acil PWA v4
+# Pediatrik Acil PWA v5
 
 Bu paket, GitHub Pages üzerinde çalışan Pediatrik Acil Klinik Rehberi için hazırlanmıştır.
 
-## İçerik
-- `index.html`: yeni ana menü + arama + kategori filtreleri + kilo bazlı hesaplayıcı
-- `pages/`: yüklenen HTML rehber modülleri
-- `manifest.json`: PWA tanımı
-- `service-worker.js`: önbellekleme / PWA altyapısı
-- `icons/`: 192 ve 512 piksel ikonlar
-- `offline.html`: çevrimdışı yedek sayfa
+## v5 ile gelenler
+- Sınav ve Öğrenme Modülü: TUS/YDUS tarzına benzer, özgün, açıklamalı soru bankası
+- Ana menüye “Sınav ve Öğrenme Modülü” kartı eklendi
+- Kurumsal renkler güncellendi: Edirne Kırmızısı `#A91101`, Kurumsal Lacivert `#002F65`, Altın/Sarı `#FFD700`
+- Trakya Çocuk Acil logosu ana sayfa ve soru modülüne eklendi
+- İngilizce klinik yer adları Türkçeleştirildi
+- Türkiye’de pratikte bulunmayan benzodiazepin ifadeleri kaldırıldı; midazolam/diazepam yaklaşımı kullanıldı
+- Service worker sürümü `v5` yapıldı
 
-## GitHub'a yükleme
-1. ZIP dosyasını açın.
-2. İçindeki dosya ve klasörleri repository kök dizinine yükleyin.
-3. Mevcut `index.html`, `manifest.json`, `service-worker.js`, `icons/` dosyalarının üzerine yazın.
-4. `pages/` klasörü yeni eklenecektir.
-5. Commit changes deyin.
-6. Actions yeşil tik olduktan sonra siteyi açıp Command + Shift + R ile sert yenileyin.
+## Kök dizinde kalması gereken yapı
+- `index.html`
+- `manifest.json`
+- `service-worker.js`
+- `offline.html`
+- `README.md`
+- `assets/`
+- `icons/`
+- `pages/`
 
 ## Test
-- Ana sayfada arama ve kategori filtreleri çalışmalı.
-- Hesaplayıcıda 10 kg için arrest epinefrin 0.1 mg / 1 mL, anafilaksi 0.1 mg / 0.1 mL, sıvı 100/200 mL görünmeli.
-- Her rehber kartı ayrı sayfayı açmalı.
+- Ana sayfada arama, filtre ve hesaplayıcı çalışmalı.
+- “Sınav ve Öğrenme Modülü” kartı `pages/soru-bankasi.html` sayfasını açmalı.
+- Hesaplayıcıda 10 kg için arrest adrenalin 0.1 mg / 1 mL, anafilaksi 0.1 mg / 0.1 mL, sıvı 100/200 mL görünmeli.
 - Mobilde Safari/Chrome ile Ana Ekrana Ekle yapılabilir.
 
-## Not
-Sayfa içerikleri eğitim ve hızlı başvuru amaçlıdır. Klinik uygulamada kurum protokolü, güncel rehberler ve kıdemli hekim değerlendirmesi esas alınmalıdır.
+## Klinik güvenlik
+Bu materyal eğitim ve hızlı başvuru amaçlıdır. Klinik uygulamada kurum protokolü, güncel rehberler, ilaç konsantrasyonu ve kıdemli hekim değerlendirmesi esas alınmalıdır.
