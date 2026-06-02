@@ -29,3 +29,11 @@ Bu paket, GitHub Pages üzerinde çalışan Pediatrik Acil Klinik Rehberi için 
 
 ## Klinik güvenlik
 Bu materyal eğitim ve hızlı başvuru amaçlıdır. Klinik uygulamada kurum protokolü, güncel rehberler, ilaç konsantrasyonu, hasta özel durumu ve kıdemli hekim değerlendirmesi esas alınmalıdır.
+
+
+## v11 güncellemesi
+- Hemşirelik Prosedürleri modülü ayrıntılandırıldı.
+- Alt sabit butonlar JavaScript scroll işleviyle düzeltildi.
+- İlaç sulandırma, geçimlilik/uyumsuzluk, infüzyon ve pompa güvenliği tabloları eklendi.
+- Damar yolu, kemik içi erişim, balon-valf-maske, aspirasyon, nebülizasyon, kan kültürü ve mesane kateteri işlem adımları genişletildi.
+- Hızlı hazırlama hesaplayıcısına levetirasetam, fenitoin, valproat, insülin infüzyonu, %3 NaCl ve mannitol ayrıntıları eklendi.
