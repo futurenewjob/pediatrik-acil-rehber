@@ -1,4 +1,4 @@
-const CACHE_NAME = "pediatrik-acil-rehber-v12";
+const CACHE_NAME = "pediatrik-acil-rehber-v13";
 const APP_ASSETS = [
   "./",
   "./index.html",
@@ -7,6 +7,9 @@ const APP_ASSETS = [
   "./offline.html",
   "./icons/icon-192.png",
   "./icons/icon-512.png",
+  "./icons/favicon-16.png",
+  "./icons/favicon-32.png",
+  "./icons/apple-touch-icon.png",
   "./pages/intern-klinik-karar.html",
   "./pages/anafilaksi.html",
   "./pages/sepsis.html",

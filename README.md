@@ -38,15 +38,8 @@ Bu materyal eğitim ve hızlı başvuru amaçlıdır. Klinik uygulamada kurum pr
 - Damar yolu, kemik içi erişim, balon-valf-maske, aspirasyon, nebülizasyon, kan kültürü ve mesane kateteri işlem adımları genişletildi.
 - Hızlı hazırlama hesaplayıcısına levetirasetam, fenitoin, valproat, insülin infüzyonu, %3 NaCl ve mannitol ayrıntıları eklendi.
 
-## v12 güncellemesi
-- Yeni modül eklendi: `pages/hastane-oncesi.html`
-- Ana menüye “Hastane Öncesi Çocuk Hasta Yönetimi” kartı eklendi.
-- Modül hedef kitlesi: intern hekimler, genç hekimler, yeni uzmanlar, pratisyen hekimler, paramedikler ve hemşireler.
-- İçerik başlıkları: çağrı öncesi hazırlık, olay yeri güvenliği, çocuk değerlendirme üçgeni, ABCDE, saha triyajı, yaşam kurtarıcı girişimler, nakil kararı, acil servise teslim, malzeme kontrol listesi, hızlı hesaplayıcı ve simülasyon senaryoları.
-- Service worker sürümü `v12` yapıldı.
 
-## v12 test
-- Ana sayfada “Hastane Öncesi Çocuk Hasta Yönetimi” kartı görünmeli.
-- Kart `pages/hastane-oncesi.html` sayfasını açmalı.
-- Sayfadaki alt butonlar: Ana Menü, Saha, ABCDE, Nakil, Hesapla çalışmalı.
-- Hesaplayıcıda 10 kg için 100/200 mL sıvı, 0.1 mL IM adrenalin, 1 mL IV/IO adrenalin, 50 mL %10 dekstroz sonucu görünmeli.
+## v13 logo güncellemesi
+- Mobil uygulama/PWA ikonu Trakya Çocuk Acil logosu ile değiştirildi.
+- 192x192, 512x512 ve iPhone apple-touch-icon dosyaları güncellendi.
+- Service worker önbellek sürümü v13 yapıldı.

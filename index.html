@@ -6,7 +6,9 @@
   <title>Pediatrik Acil Klinik Rehberi</title>
   <link rel="manifest" href="./manifest.json">
   <meta name="theme-color" content="#002F65">
-  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./icons/favicon-16.png">
   <style>
     :root {
       --navy:#002F65; --blue:#005A9C; --cyan:#0077b6; --gold:#FFD700; --red:#A91101;
@@ -80,7 +82,7 @@
         <img src="./assets/trakya-cocuk-acil-logo.png" alt="Trakya Çocuk Acil logosu">
         <div class="brand-text">Trakya Çocuk Acil · Klinik Eğitim Platformu</div>
       </div>
-      <span class="badge">PWA v12 · 03.06.2026 · Klinik Rehber + Soru + Prosedür + Hastane Öncesi Modülü</span>
+      <span class="badge">PWA v13 · 03.06.2026 · Klinik Rehber + Soru + Genişletilmiş Prosedür Modülü</span>
       <h1>Pediatrik Acil Klinik Karar Destek Rehberi</h1>
       <p class="lead">İntern hekimler ve çocuk acil ekibi için hızlı erişimli, mobil uyumlu, ana ekrana eklenebilir klinik rehber paketi.</p>
       <div class="hero-actions">
@@ -92,7 +94,7 @@
 
   <div class="toolbar">
     <div class="toolbar-inner">
-      <input id="searchBox" class="search" placeholder="Rehber ara: anafilaksi, sepsis, DKA, status, travma, soru, hemşirelik, işlem, cihaz, hastane öncesi, nakil..." aria-label="Rehber ara">
+      <input id="searchBox" class="search" placeholder="Rehber ara: anafilaksi, sepsis, DKA, status, travma, soru, hemşirelik, işlem, cihaz..." aria-label="Rehber ara">
       <div class="filters">
 <button class="filter active" data-filter="all">Tümü</button>
 <button class="filter" data-filter="resüsitasyon">Resüsitasyon</button>
@@ -103,7 +105,6 @@
 <button class="filter" data-filter="travma">Travma</button>
 <button class="filter" data-filter="egitim">Eğitim</button>
 <button class="filter" data-filter="islem">İşlem ve prosedür</button>
-<button class="filter" data-filter="hastaneoncesi">Hastane öncesi</button>
 <button class="filter" data-filter="genel">Genel</button>
 </div>
     </div>
@@ -239,21 +240,6 @@
         <p class="card-summary">GKS sınıflaması, KİBAS/Cushing triadı, baziler kırık bulguları ve PECARN yaklaşımı.</p>
         <div class="tag-row"><span>GKS sınıflaması</span><span>PECARN BT kararı</span><span>İstismar uyarısı</span></div>
         <a class="open-link" href="./pages/kafa-travmasi.html">Rehberi aç <span>→</span></a>
-      </article>
-
-
-
-      <article class="guide-card" data-title="Hastane Öncesi Çocuk Hasta Yönetimi saha nakil triyaj olay yeri güvenliği çocuk değerlendirme üçgeni ABCDE ambulans paramedik pratisyen hekim hemşire teslim iletişim afet travma yenidoğan" data-category="hastaneoncesi" style="--accent:#005A9C">
-        <div class="card-top">
-          <div class="card-icon">🚐</div>
-          <div>
-            <p class="card-kicker">Hastane öncesi</p>
-            <h3>Hastane Öncesi Çocuk Hasta Yönetimi</h3>
-          </div>
-        </div>
-        <p class="card-summary">Çağrıdan olay yeri güvenliğine, çocuk değerlendirme üçgeninden ABCDE’ye, saha triyajından güvenli nakil ve acil servise teslim akışına kadar pratik rehber.</p>
-        <div class="tag-row"><span>Olay yeri güvenliği</span><span>Saha triyajı</span><span>Nakil ve teslim</span></div>
-        <a class="open-link" href="./pages/hastane-oncesi.html">Modülü aç <span>→</span></a>
       </article>
 
 
