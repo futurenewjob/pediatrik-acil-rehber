@@ -1,7 +1,8 @@
 {
-  "name": "Pediatrik Acil Klinik Rehberi",
-  "short_name": "Çocuk Acil",
-  "description": "İntern hekimler ve çocuk acil ekibi için pediatrik acil klinik karar destek rehberleri.",
+  "name": "Çocuk Acil Akademi",
+  "short_name": "Çocuk Acil Akademi",
+  "description": "Çocuk acil hekimleri, pediatri asistanları, hemşireler, tıp öğrencileri ve aileler için klinik rehber, hızlı doz hesaplama, protokol ve eğitim platformu."
+}
   "id": "/pediatrik-acil-rehber/",
   "start_url": "./",
   "scope": "./",
